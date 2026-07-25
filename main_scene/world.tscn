@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://cu6afc3584gyi"]
+
+[ext_resource type="Script" uid="uid://dkubym74lod4y" path="res://scripts/main.gd" id="1_xf8b4"]
+[ext_resource type="PackedScene" uid="uid://oekl4vj0qxpv" path="res://scenes/player.tscn" id="2_jiai4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gyb6n"]
+size = Vector3(20.615967, 0.5020752, 19.522278)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lg2wt"]
+albedo_color = Color(0, 0.5371746, 0.17457029, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_05igt"]
+material = SubResource("StandardMaterial3D_lg2wt")
+
+[sub_resource type="BoxMesh" id="BoxMesh_gyb6n"]
+size = Vector3(2.4434814, 3.0375977, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jiai4"]
+size = Vector3(2.4434814, 3.0375977, 1)
+
+[node name="Main" type="Node3D" unique_id=375063096]
+script = ExtResource("1_xf8b4")
+player_scene = ExtResource("2_jiai4")
+
+[node name="World" type="Node3D" parent="." unique_id=2125469171]
+
+[node name="Players" type="Node3D" parent="World" unique_id=272761271]
+
+[node name="Ground" type="StaticBody3D" parent="World" unique_id=1198978357]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Ground" unique_id=727630143]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24597168, -0.2489624, 0.3088684)
+shape = SubResource("BoxShape3D_gyb6n")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Ground" unique_id=1746812100]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("PlaneMesh_05igt")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="World/Ground" unique_id=1112090466]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0889378, 1.4097464, 2.3841858e-07)
+mesh = SubResource("BoxMesh_gyb6n")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="World/Ground" unique_id=1135354403]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0889378, 1.4097464, 2.3841858e-07)
+shape = SubResource("BoxShape3D_jiai4")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=2117382879]
+_spawnable_scenes = PackedStringArray("uid://oekl4vj0qxpv")
+spawn_path = NodePath("../World/Players")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1115062734]
+transform = Transform3D(1, 0, 0, 0, 0.71595985, 0.69814146, 0, -0.69814146, 0.71595985, 0, 0.37335813, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1971614241]
+
+[node name="HostButton" type="Button" parent="CanvasLayer" unique_id=1358158420]
+offset_left = 142.0
+offset_top = 62.0
+offset_right = 391.0
+offset_bottom = 141.0
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="CanvasLayer" unique_id=1094277457]
+offset_left = 143.0
+offset_top = 188.0
+offset_right = 392.0
+offset_bottom = 267.0
+text = "Join"
+
+[node name="IPLineEdit" type="TextEdit" parent="CanvasLayer" unique_id=108713384]
+offset_left = 113.0
+offset_top = 300.0
+offset_right = 388.0
+offset_bottom = 377.0
+text = "130.94.106.209"
+placeholder_text = "IP..."
+editable = false
+
+[connection signal="pressed" from="CanvasLayer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/JoinButton" to="." method="_on_join_button_pressed"]
