@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://7e5l8agops7g"]
+
+[ext_resource type="Shader" uid="uid://b7kiicrgc7ipw" path="res://Shaders/Shader_Bala.tres" id="1_1pi62"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lsw1g"]
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_ygdto"]
+emission_enabled = true
+emission = Color(1.5754864, 1.5754864, 0.4081578, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7rck4"]
+render_priority = 0
+shader = ExtResource("1_1pi62")
+
+[node name="Node3D" type="Node3D" unique_id=157811826]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=357173216]
+transform = Transform3D(-4.371139e-08, 1.067, 0, -1, -4.6640057e-08, 0, 0, 0, 1.062, -0.1934588, 0, 0)
+mesh = SubResource("CapsuleMesh_lsw1g")
+surface_material_override/0 = SubResource("ORMMaterial3D_ygdto")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=481869189]
+transform = Transform3D(-4.3711385e-08, 2.0910625, 0, -0.99999994, -9.140326e-08, 0, 0, 0, 1.062, 0.5936021, 0, 0)
+mesh = SubResource("CapsuleMesh_lsw1g")
+surface_material_override/0 = SubResource("ShaderMaterial_7rck4")
