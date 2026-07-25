@@ -1,7 +1,5 @@
 [gd_resource type="VisualShader" format=3 uid="uid://b7kiicrgc7ipw"]
 
-[ext_resource type="FastNoiseLite" path="res://noise/noise.tres" id="1_uw7wn"]
-
 [sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_yiyd8"]
 output_port_for_preview = 1
 expanded_output_ports = [0]
@@ -33,7 +31,6 @@ default_input_values = [1, Vector2(3, 0.3), 2, Vector2(0, 0)]
 function = 1
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_c22aj"]
-noise = ExtResource("1_uw7wn")
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_431to"]
 output_port_for_preview = 0

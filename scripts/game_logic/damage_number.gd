@@ -17,7 +17,7 @@ func setup(value: int) -> void:
 func _ready() -> void:
 	label.text = str(damage)
 	
-	if(damage > 20):
+	if(damage > 1):
 		label.modulate = Color.RED
 	
 	if multiplayer.is_server():

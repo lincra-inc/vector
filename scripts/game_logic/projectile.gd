@@ -1,7 +1,7 @@
 extends Node3D
 class_name Projectile
 
-@export var speed: float = 40.0
+@export var speed: float = 80.0
 @export var lifetime: float = 3.0
 
 var owner_peer_id: int
@@ -71,7 +71,7 @@ func _on_hit(hit: Dictionary) -> void:
 		if collider.has_meta("damage_multiplier"):
 			multiplier = collider.get_meta("damage_multiplier")
 		
-		var damage := int(20 * multiplier)
+		var damage := int(1 * multiplier)
 		Network.spawn_damage_number(
 			hit["position"],
 			damage,

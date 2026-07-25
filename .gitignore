@@ -13,3 +13,7 @@ $RECYCLE.BIN/
 
 .godot/
 /android/ 
+.editorconfig
+.gitattributes
+export_presets.cfg
+exports/
