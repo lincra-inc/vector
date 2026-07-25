@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cmn0huj8lismy"]
+
+[ext_resource type="Script" uid="uid://coa1r3hdsbaxm" path="res://scripts/game_logic/loot_modifier.gd" id="1_6ovk1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_05igt"]
+albedo_color = Color(0.2717122, 0.74001205, 7.70092e-07, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gyb6n"]
+material = SubResource("StandardMaterial3D_05igt")
+size = Vector3(0.5432129, 0.5349121, 0.5576172)
+
+[node name="LootModifier" type="Node3D" unique_id=338254868]
+script = ExtResource("1_6ovk1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=879806762]
+mesh = SubResource("BoxMesh_gyb6n")

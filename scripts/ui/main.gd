@@ -3,22 +3,30 @@ extends Node3D
 @export var player_scene: PackedScene
 @export var projectile_scene: PackedScene
 @export var damage_number_scene: PackedScene
+@export var loot_modifier_scene: PackedScene
 
 @onready var players: Node3D = $World/Players
+@onready var loots: Node3D = $World/Loots
+@onready var loots_pool: Node3D = $World/LootsPools
 @onready var ip = $CanvasLayer/IPLineEdit
 @onready var canvas: CanvasLayer = $CanvasLayer
+
 @onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
+@onready var spawner_loots: MultiplayerSpawner = $MultiplayerSpawnerLoots
 
 var entity_scenes: Dictionary = {}
 
 func _ready() -> void:
 	spawner.spawn_function = _spawn_entity
+	spawner_loots.spawn_function = _spawn_entity
 	Network._spawner = spawner
+	Network._spawner_loots = spawner_loots
 	
 	entity_scenes = {
 		"player": player_scene,
 		"projectile": projectile_scene,
 		"damage_number": damage_number_scene,
+		"loot_modifier": loot_modifier_scene,
 	}
 	
 	Network.peer_connected.connect(_peer_connected)
@@ -82,7 +90,14 @@ func _peer_disconnected(id: int) -> void:
 		player.queue_free()
 
 func _physics_process(_delta):
-	Network.process_player_actions(players)
+	if Network.is_server():
+		Network.process_loot_spawn(
+			_delta,
+			loots_pool,
+			loots
+		)
+	
+	Network.process_player_actions(players, loots)
 	
 func _spawn_entity(data: Dictionary) -> Node:
 	var scene: PackedScene = entity_scenes.get(data["type"])
@@ -100,8 +115,17 @@ func _spawn_entity(data: Dictionary) -> Node:
 			entity.setup(data["id"])
 		"projectile":
 			entity.position = data["position"]
-			entity.setup(data["direction"], data["id"])
+			entity.setup(data["direction"], data["id"]
+			, data["damage"], data["speed"], data["lifetime"])
 		"damage_number":
 			entity.position = data["position"]
 			entity.setup(data["damage"])
+		"loot_modifier":
+			entity.position = data["position"]
+			entity.setup(data["modifier"])
 	return entity
+
+
+func _move_to_loots(node: Node) -> void:
+	if is_instance_valid(node):
+		node.reparent(loots, true) # true = conserva la transformación global

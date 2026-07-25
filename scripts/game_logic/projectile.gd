@@ -1,8 +1,11 @@
 extends Node3D
 class_name Projectile
 
-@export var speed: float = 80.0
-@export var lifetime: float = 3.0
+var weapon: WeaponData
+
+var speed: float = 80.0
+var lifetime: float = 3.0
+var damage: float = 1.0
 
 var owner_peer_id: int
 var direction: Vector3
@@ -10,9 +13,13 @@ var waiting_remove: bool = false
 
 @export var audio_stream_list: Array[AudioStream]
 
-func setup(start_direction: Vector3, shooter: int) -> void:
+func setup(start_direction: Vector3, shooter: int, damage: float, projectile_speed: float, projectile_lifetime: float) -> void:
 	direction = start_direction.normalized()
 	owner_peer_id = shooter
+	
+	self.damage   = damage
+	self.speed    = projectile_speed
+	self.lifetime = projectile_lifetime
 	
 	if audio_stream_list.size() > 0:
 		var index := randi_range(0, audio_stream_list.size() - 1)
@@ -71,7 +78,9 @@ func _on_hit(hit: Dictionary) -> void:
 		if collider.has_meta("damage_multiplier"):
 			multiplier = collider.get_meta("damage_multiplier")
 		
-		var damage := int(1 * multiplier)
+		var damage := int(damage * multiplier)
+		player.health -= damage
+		
 		Network.spawn_damage_number(
 			hit["position"],
 			damage,
@@ -82,6 +91,7 @@ func _on_hit(hit: Dictionary) -> void:
 
 func destroy_after_sound() -> void:
 	waiting_remove = true;
+	$Node3D.visible = false
 	var audio := $AudioStreamPlayer3D
 	
 	if audio.playing:

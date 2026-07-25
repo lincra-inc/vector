@@ -1,10 +1,15 @@
 extends Node
 
+@export var loot_spawn_interval := 5.0
+@export var loot_min_distance := 1.0
+
+var loot_spawn_timer := 0.0
+
 const DEDICATED_SERVER:    String = "--server"
 const DEFAULT_PORT:        int = 7777
 const DEFAULT_MAX_CLIENTS: int = 32
 
-const DEBUG_IN_LOCAL: bool = false
+const DEBUG_IN_LOCAL: bool = true
 
 signal server_started(port: int)
 signal server_stopped()
@@ -18,6 +23,7 @@ signal peer_disconnected(peer_id: int)
 
 var _peer: ENetMultiplayerPeer
 var _spawner: MultiplayerSpawner
+var _spawner_loots: MultiplayerSpawner
 
 var last_processed_shot: Dictionary = {}
 
@@ -63,7 +69,6 @@ func start_server(port: int = DEFAULT_PORT, ax_clients: int = DEFAULT_MAX_CLIENT
 	return OK
 
 func join_server(ip: String, port: int = DEFAULT_PORT) -> Error:
-	
 	if multiplayer.multiplayer_peer != null:
 		disconnect_server()
 	
@@ -126,7 +131,32 @@ func _on_peer_disconnected(id: int) -> void:
 	
 	peer_disconnected.emit(id)
 
-func spawn_projectile(position: Vector3, direction: Vector3, shooter: int) -> void:
+func spawn_damage_number(position: Vector3, damage: int, id: int) -> void:
+	if !is_server():
+		return
+	
+	_spawner.spawn({
+		"type": "damage_number",
+		"position": position,
+		"damage": damage,
+		"id": id
+	})
+
+func spawn_loot_box(position: Vector3, modifier: int) -> void:
+	if !is_server():
+		return
+	
+	if _spawner_loots == null:
+		push_error("MultiplayerSpawner no registrado.")
+		return
+	
+	_spawner_loots.spawn({
+		"type": "loot_modifier",
+		"position": position,
+		"modifier": modifier
+	})
+
+func spawn_projectile(position: Vector3, direction: Vector3, shooter: int, weapon: WeaponData) -> void:
 	
 	if !is_server():
 		return
@@ -137,14 +167,25 @@ func spawn_projectile(position: Vector3, direction: Vector3, shooter: int) -> vo
 	
 	_spawner.spawn({
 		"type": "projectile",
-		"id": shooter,
 		"position": position,
-		"direction": direction.normalized()
+		"direction": direction.normalized(),
+		"id": shooter,
+		"damage": weapon.damage,
+		"speed": weapon.projectile_speed,
+		"lifetime": weapon.projectile_lifetime
 	})
 
-func process_player_actions(players: Node) -> void:
+func process_player_actions(players: Node, loots: Node) -> void:
 	if !is_server():
 		return
+	
+	for loot in loots.get_children():
+		for player in players.get_children():
+			if loot.global_position.distance_to(player.global_position) > 2.0:
+				continue
+			
+			#player.weapon_data.apply_modifier(loot.modifier)
+			loot.queue_free()
 	
 	for node: Node in players.get_children():
 		var player := node as Player
@@ -167,16 +208,61 @@ func process_player_actions(players: Node) -> void:
 		spawn_projectile(
 			input.shoot_position,
 			input.shoot_direction,
-			player.peer_id
+			player.peer_id,
+			player.weapon_data
 		)
 
-func spawn_damage_number(position: Vector3, damage: int, id: int) -> void:
+func process_loot_spawn(delta: float, loot_spawn_area: Area3D, loots: Node) -> void:
 	if !is_server():
 		return
 	
-	_spawner.spawn({
-		"type": "damage_number",
-		"position": position,
-		"damage": damage,
-		"id": id
-	})
+	loot_spawn_timer -= delta
+	
+	if loot_spawn_timer > 0.0:
+		return
+	
+	loot_spawn_timer = loot_spawn_interval
+	
+	var position := _find_loot_spawn_position(
+		loot_spawn_area,
+		loots
+	)
+	
+	if position == Vector3.INF:
+		return
+	
+	spawn_loot_box(
+		position,
+		randi() % 8 # modifier aleatorio
+	)
+
+func _find_loot_spawn_position(area_pool: Area3D, loots: Node) -> Vector3:
+	var index := randi_range(0, area_pool.get_child_count() - 1)
+	var shape : CollisionShape3D = area_pool.get_child(index) as CollisionShape3D
+	
+	if shape == null:
+		return Vector3.INF
+	
+	var box := shape.shape as BoxShape3D
+	
+	if box == null:
+		return Vector3.INF
+	
+	for i in 20:
+		var local := Vector3(
+			randf_range(-box.size.x * 0.5, box.size.x * 0.5),
+			randf_range(-box.size.y * 0.5, box.size.y * 0.5),
+			randf_range(-box.size.z * 0.5, box.size.z * 0.5)
+		)
+		var world_pos := shape.global_transform * local
+		var valid := true
+		
+		for loot in loots.get_children():
+			if loot.global_position.distance_to(world_pos) < loot_min_distance:
+				valid = false
+				break
+		
+		if valid:
+			return world_pos
+	
+	return Vector3.INF
