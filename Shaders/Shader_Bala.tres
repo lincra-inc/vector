@@ -32,15 +32,13 @@ output_port_for_preview = 0
 default_input_values = [1, Vector2(3, 0.3), 2, Vector2(0, 0)]
 function = 1
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_hswux"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_c22aj"]
 noise = ExtResource("1_uw7wn")
-seamless = true
-seamless_blend_skirt = 0.316
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_431to"]
 output_port_for_preview = 0
 expanded_output_ports = [0]
-texture = SubResource("NoiseTexture2D_hswux")
+texture = SubResource("NoiseTexture2D_c22aj")
 
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_2iv50"]
 parameter_name = "Texture2DParameter"
