@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://cqhdp484ikd8u"]
+
+[ext_resource type="Script" uid="uid://b5wu6x7u7rk3w" path="res://scripts/player.gd" id="1_8b1co"]
+[ext_resource type="Script" uid="uid://c1ae4cus4gfla" path="res://scripts/protocol/PlayerInputState.gd" id="2_6nmcj"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8b1co"]
+properties/0/path = NodePath(".:shoot_position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:shoot_direction")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:shoot_sequence")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_05igt"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_gyb6n"]
+height = 1.7260742
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_05igt"]
+albedo_color = Color(8.663535e-07, 0.8045874, 0.6835958, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_gyb6n"]
+material = SubResource("StandardMaterial3D_05igt")
+top_radius = 0.3310547
+bottom_radius = 0.3310547
+height = 0.45640564
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lg2wt"]
+albedo_color = Color(0.27752772, 0.27752772, 0.27752772, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gyb6n"]
+material = SubResource("StandardMaterial3D_lg2wt")
+size = Vector3(0.3076172, 0.32250977, 1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3vyb7"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:scale")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="Player" type="CharacterBody3D" unique_id=986923867]
+script = ExtResource("1_8b1co")
+
+[node name="InputState" type="Node" parent="." unique_id=1720547633]
+script = ExtResource("2_6nmcj")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="InputState" unique_id=1911571021]
+replication_config = SubResource("SceneReplicationConfig_8b1co")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=956154688]
+shape = SubResource("CapsuleShape3D_05igt")
+
+[node name="Body" type="Node3D" parent="." unique_id=17374724]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body" unique_id=892340238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.13696289, 0)
+mesh = SubResource("CapsuleMesh_gyb6n")
+
+[node name="Head" type="Node3D" parent="." unique_id=1378837766]
+
+[node name="Camera3D" type="Camera3D" parent="Head" unique_id=1754445817]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.61788917, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head" unique_id=601492962]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7524643, 0)
+mesh = SubResource("CylinderMesh_gyb6n")
+
+[node name="RayCast3D" type="RayCast3D" parent="Head" unique_id=1198656493]
+
+[node name="WeaponPivot" type="Node3D" parent="Head" unique_id=915028558]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.42955256, 0.1576451, -0.77218467)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/WeaponPivot" unique_id=921250963]
+mesh = SubResource("BoxMesh_gyb6n")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1282376305]
+replication_config = SubResource("SceneReplicationConfig_3vyb7")
