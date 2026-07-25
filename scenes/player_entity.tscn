@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://b5wu6x7u7rk3w" path="res://scripts/player.gd" id="1_8b1co"]
 [ext_resource type="Script" uid="uid://c1ae4cus4gfla" path="res://scripts/protocol/PlayerInputState.gd" id="2_6nmcj"]
+[ext_resource type="Script" uid="uid://4apytbitlx8x" path="res://scripts/game_logic/camera_shake.gd" id="3_pywmm"]
+[ext_resource type="Script" uid="uid://dox2qumu85jbb" path="res://scripts/game_logic/camera_recoil.gd" id="4_iv4wl"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8b1co"]
 properties/0/path = NodePath(".:shoot_position")
@@ -14,10 +16,14 @@ properties/2/path = NodePath(".:shoot_sequence")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_05igt"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gyb6n"]
+height = 1.793457
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_gyb6n"]
-height = 1.7260742
+height = 1.7510986
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iv4wl"]
+size = Vector3(1, 1.6124878, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_05igt"]
 albedo_color = Color(8.663535e-07, 0.8045874, 0.6835958, 1)
@@ -26,7 +32,10 @@ albedo_color = Color(8.663535e-07, 0.8045874, 0.6835958, 1)
 material = SubResource("StandardMaterial3D_05igt")
 top_radius = 0.3310547
 bottom_radius = 0.3310547
-height = 0.45640564
+height = 0.5875778
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hl74m"]
+size = Vector3(0.66210943, 0.55046844, 0.66210943)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lg2wt"]
 albedo_color = Color(0.27752772, 0.27752772, 0.27752772, 1)
@@ -47,6 +56,7 @@ properties/2/spawn = true
 properties/2/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" unique_id=986923867]
+collision_layer = 2
 script = ExtResource("1_8b1co")
 
 [node name="InputState" type="Node" parent="." unique_id=1720547633]
@@ -56,27 +66,47 @@ script = ExtResource("2_6nmcj")
 replication_config = SubResource("SceneReplicationConfig_8b1co")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=956154688]
-shape = SubResource("CapsuleShape3D_05igt")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.23925781, 0)
+shape = SubResource("CapsuleShape3D_gyb6n")
 
-[node name="Body" type="Node3D" parent="." unique_id=17374724]
+[node name="Body" type="Area3D" parent="." unique_id=1013340622]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Body" unique_id=892340238]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.13696289, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.26483154, 0)
 mesh = SubResource("CapsuleMesh_gyb6n")
 
-[node name="Head" type="Node3D" parent="." unique_id=1378837766]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body" unique_id=213768472]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.33413696, 0)
+shape = SubResource("BoxShape3D_iv4wl")
+metadata/damage_multiplier = 1.0
 
-[node name="Camera3D" type="Camera3D" parent="Head" unique_id=1754445817]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.61788917, 0)
+[node name="Head" type="Area3D" parent="." unique_id=2002889739]
+metadata/damage_multiplier = 2.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Head" unique_id=601492962]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7524643, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6868782, 0)
 mesh = SubResource("CylinderMesh_gyb6n")
 
+[node name="Camera3D" type="Camera3D" parent="Head" unique_id=1754445817]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.800488, 0)
+
+[node name="CameraShake" type="Node" parent="Head" unique_id=309191043 node_paths=PackedStringArray("camera")]
+script = ExtResource("3_pywmm")
+camera = NodePath("../Camera3D")
+
+[node name="CameraRecoil" type="Node3D" parent="Head" unique_id=1346393807]
+script = ExtResource("4_iv4wl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Head" unique_id=1383175747]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9802322e-08, 0.7054329, 2.9802322e-08)
+shape = SubResource("BoxShape3D_hl74m")
+
 [node name="RayCast3D" type="RayCast3D" parent="Head" unique_id=1198656493]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.800488, 0)
+target_position = Vector3(0, 0, -1000)
 
 [node name="WeaponPivot" type="Node3D" parent="Head" unique_id=915028558]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.42955256, 0.1576451, -0.77218467)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.42955256, 0.34024394, -0.77218467)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Head/WeaponPivot" unique_id=921250963]
 mesh = SubResource("BoxMesh_gyb6n")

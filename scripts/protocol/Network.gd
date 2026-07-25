@@ -4,6 +4,8 @@ const DEDICATED_SERVER:    String = "--server"
 const DEFAULT_PORT:        int = 7777
 const DEFAULT_MAX_CLIENTS: int = 32
 
+const DEBUG_IN_LOCAL: bool = true
+
 signal server_started(port: int)
 signal server_stopped()
 
@@ -16,6 +18,8 @@ signal peer_disconnected(peer_id: int)
 
 var _peer: ENetMultiplayerPeer
 var _spawner: MultiplayerSpawner
+
+var last_processed_shot: Dictionary = {}
 
 func _ready() -> void:
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -93,21 +97,16 @@ func get_peer_id() -> int:
 
 
 func get_player_count() -> int:
-
 	if multiplayer.multiplayer_peer == null:
 		return 0
-
-	return multiplayer.get_peers().size() + 1
+	return multiplayer.get_peers().size()
 
 
 func get_ip() -> String:
-
 	if multiplayer.multiplayer_peer == null:
 		return ""
-
 	if _peer == null:
 		return ""
-
 	return _peer.get_host().get_local_address()
 
 
@@ -115,39 +114,34 @@ func is_dedicated_server() -> bool:
 	return DEDICATED_SERVER in OS.get_cmdline_args()
 
 func _on_peer_connected(id: int) -> void:
-
 	print("Jugador conectado: ", id)
 	print("Jugadores: ", get_player_count())
-
+	
 	peer_connected.emit(id)
 
 
 func _on_peer_disconnected(id: int) -> void:
-
 	print("Jugador desconectado: ", id)
 	print("Jugadores: ", get_player_count())
-
+	
 	peer_disconnected.emit(id)
 
-func spawn_projectile(
-	position: Vector3,
-	direction: Vector3
-) -> void:
-
+func spawn_projectile(position: Vector3, direction: Vector3, shooter: int) -> void:
+	
 	if !is_server():
 		return
-
+	
 	if _spawner == null:
 		push_error("MultiplayerSpawner no registrado.")
 		return
-
+	
 	_spawner.spawn({
 		"type": "projectile",
+		"id": shooter,
 		"position": position,
 		"direction": direction.normalized()
 	})
-	
-var last_processed_shot: Dictionary = {}
+
 func process_player_actions(players: Node) -> void:
 	if !is_server():
 		return
@@ -172,5 +166,17 @@ func process_player_actions(players: Node) -> void:
 		
 		spawn_projectile(
 			input.shoot_position,
-			input.shoot_direction
+			input.shoot_direction,
+			player.peer_id
 		)
+
+func spawn_damage_number(position: Vector3, damage: int, id: int) -> void:
+	if !is_server():
+		return
+	
+	_spawner.spawn({
+		"type": "damage_number",
+		"position": position,
+		"damage": damage,
+		"id": id
+	})
