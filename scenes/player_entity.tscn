@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://c1ae4cus4gfla" path="res://scripts/protocol/PlayerInputState.gd" id="2_6nmcj"]
 [ext_resource type="Script" uid="uid://4apytbitlx8x" path="res://scripts/game_logic/camera_shake.gd" id="3_pywmm"]
 [ext_resource type="Script" uid="uid://dox2qumu85jbb" path="res://scripts/game_logic/camera_recoil.gd" id="4_iv4wl"]
+[ext_resource type="PackedScene" uid="uid://cnquubxh0w0ni" path="res://Models/ArmaPlaceholder.glb" id="5_hl74m"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8b1co"]
 properties/0/path = NodePath(".:shoot_position")
@@ -108,7 +109,11 @@ target_position = Vector3(0, 0, -1000)
 [node name="WeaponPivot" type="Node3D" parent="Head" unique_id=915028558]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.42955256, 0.34024394, -0.77218467)
 
+[node name="ArmaPlaceholder" parent="Head/WeaponPivot" unique_id=1579602992 instance=ExtResource("5_hl74m")]
+transform = Transform3D(0.06828954, 0, -1.4233627, 0, 1.425, 0, 1.4233627, 0, 0.06828954, 0, 0, 0)
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Head/WeaponPivot" unique_id=921250963]
+visible = false
 mesh = SubResource("BoxMesh_gyb6n")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1282376305]
