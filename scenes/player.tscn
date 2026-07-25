@@ -31,3 +31,16 @@ replication_config = SubResource("SceneReplicationConfig_3vyb7")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1754445817]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.61788917, 0)
+
+[node name="HUD" type="CanvasLayer" parent="Camera3D" unique_id=704751427]
+
+[node name="ProgressBar" type="ProgressBar" parent="Camera3D/HUD" unique_id=1335607664]
+modulate = Color(1, 0, 0, 1)
+self_modulate = Color(1, 0, 0, 1)
+light_mask = 2
+offset_left = 9.0
+offset_top = 621.0
+offset_right = 370.0
+offset_bottom = 648.0
+value = 34.75
+show_percentage = false
