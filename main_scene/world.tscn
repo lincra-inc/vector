@@ -48,6 +48,8 @@ mesh = SubResource("BoxMesh_gyb6n")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0889378, 1.4097464, 2.3841858e-07)
 shape = SubResource("BoxShape3D_jiai4")
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World" unique_id=590081081]
+
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=2117382879]
 _spawnable_scenes = PackedStringArray("uid://cqhdp484ikd8u", "uid://7e5l8agops7g")
 spawn_path = NodePath("../World/Players")
