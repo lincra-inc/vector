@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://cavwoealti7e0"]
+
+[ext_resource type="Shader" uid="uid://0ukq5l2q34fe" path="res://scenes/Power_Up/PowerUpShader.tres" id="1_hdd7a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s6sty"]
+render_priority = 0
+shader = ExtResource("1_hdd7a")
+shader_parameter/ColorParameter = Color(3.2944162, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_wfv3s"]
+material = SubResource("ShaderMaterial_s6sty")
+radial_segments = 8
+rings = 4
+
+[node name="PowerUp" type="Node3D" unique_id=1221827739]
+
+[node name="Label3D" type="Label3D" parent="." unique_id=215054137]
+billboard = 2
+modulate = Color(1, 0, 0.015686275, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "G"
+font_size = 80
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1570539048]
+mesh = SubResource("SphereMesh_wfv3s")
