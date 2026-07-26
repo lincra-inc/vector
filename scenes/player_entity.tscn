@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://4apytbitlx8x" path="res://scripts/game_logic/camera_shake.gd" id="3_pywmm"]
 [ext_resource type="Script" uid="uid://bda43xgmf6jhx" path="res://scripts/protocol/PlayerState.gd" id="3_vo0qd"]
 [ext_resource type="Script" uid="uid://dox2qumu85jbb" path="res://scripts/game_logic/camera_recoil.gd" id="4_iv4wl"]
+[ext_resource type="PackedScene" uid="uid://cmxlcqb3qdeft" path="res://Models/Character/Character.fbx" id="4_ynwjb"]
 [ext_resource type="PackedScene" uid="uid://cxnbwi6d6dutb" path="res://Models/Arma/ArmaPlaceholder.glb" id="5_hl74m"]
 [ext_resource type="Script" uid="uid://drfvkcge8x62v" path="res://scripts/game_logic/weapon_data.gd" id="5_nk4n4"]
 [ext_resource type="Script" uid="uid://0u00gogxu2nv" path="res://scripts/game_logic/camera_bob.gd" id="6_sy4aq"]
@@ -42,7 +43,7 @@ height = 2.1226807
 height = 1.7510986
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_iv4wl"]
-size = Vector3(1, 1.6124878, 1)
+size = Vector3(1, 1.9732361, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_05igt"]
 albedo_color = Color(8.663535e-07, 0.8045874, 0.6835958, 1)
@@ -105,18 +106,23 @@ shape = SubResource("CapsuleShape3D_gyb6n")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Body" unique_id=892340238]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.26483154, 0)
+visible = false
 mesh = SubResource("CapsuleMesh_gyb6n")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Body" unique_id=213768472]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.33413696, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15376282, 0)
 shape = SubResource("BoxShape3D_iv4wl")
 metadata/damage_multiplier = 1.0
+
+[node name="Character" parent="Body" unique_id=1380242239 instance=ExtResource("4_ynwjb")]
+transform = Transform3D(-7.583926e-08, 0, 1.735, 0, 1.735, 0, -1.735, 0, -7.583926e-08, 0.039193332, -1.6785909, 0.007957846)
 
 [node name="Head" type="Area3D" parent="." unique_id=2002889739]
 metadata/damage_multiplier = 2.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Head" unique_id=601492962]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6868782, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1446886, 0)
+visible = false
 mesh = SubResource("CylinderMesh_gyb6n")
 
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=1754445817]
