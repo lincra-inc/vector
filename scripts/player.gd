@@ -9,6 +9,12 @@ class_name Player
 @export var run_multiplier: float = 1.8
 @export var run_lerp_speed: float = 8.0
 
+@export var step_distance := 0.85
+@export var step_height: float = 0.4
+@export var step_forward_distance: float = 0.35
+@export var step_check_distance: float = 0.5
+@export var step_speed: float = 12.0
+
 const MAX_SPEED    := 10.0
 const ACCEL        := 70.0
 const AIR_ACCEL    := 35.0
@@ -16,6 +22,9 @@ const FRICTION     := 10.0
 const JUMP_FORCE   := 9.0
 const GRAVITY      := 18.0
 const FALL_GRAVITY := 45.0
+
+@onready var step_ray_low: RayCast3D = $StepRayLow
+@onready var step_ray_high: RayCast3D = $StepRayHigh
 
 @onready var camera:       Camera3D = $Head/Camera3D
 @onready var input_state:  PlayerInputState = $InputState
@@ -58,6 +67,10 @@ func setup(id: int) -> void:
 	peer_id = id;
 
 func _ready():
+	floor_snap_length = 0.5
+	floor_max_angle = deg_to_rad(50)
+	wall_min_slide_angle = deg_to_rad(88)
+	
 	if multiplayer.is_server():
 		$PlayerState.set_multiplayer_authority(1)
 		player_state.health = player_state.max_health
@@ -192,6 +205,7 @@ func move_player(delta):
 		is_on_floor()
 	)
 	
+	try_step_up(dir)
 	move_and_slide()
 
 func update_shoot_input():
@@ -237,3 +251,38 @@ func take_damage(amount: float) -> void:
 	
 	if player_state.health <= 0.0:
 		die()
+
+func try_step_up(dir: Vector3):
+	if not is_on_floor():
+		return
+	
+	var forward := dir.normalized()
+	
+	# Convertir dirección global a local del RayCast
+	var local_dir := global_transform.basis.inverse() * forward
+	
+	step_ray_low.target_position = local_dir * step_distance
+	step_ray_high.target_position = local_dir * step_distance
+	
+	step_ray_low.force_raycast_update()
+	step_ray_high.force_raycast_update()
+	
+	# No hay obstáculo delante
+	if !step_ray_low.is_colliding():
+		return
+	
+	# Hay techo/obstáculo arriba
+	if step_ray_high.is_colliding():
+		return
+	
+	var normal := step_ray_low.get_collision_normal()
+	
+	# Evitar subir paredes verticales
+	if abs(normal.y) > 0.2:
+		return
+	
+	var motion := Vector3.UP * step_height
+	
+	# Verificar que podemos movernos arriba
+	if !test_move(global_transform, motion):
+		global_position += motion
