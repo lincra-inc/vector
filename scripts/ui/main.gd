@@ -124,8 +124,3 @@ func _spawn_entity(data: Dictionary) -> Node:
 			entity.position = data["position"]
 			entity.setup(data["modifier"])
 	return entity
-
-
-func _move_to_loots(node: Node) -> void:
-	if is_instance_valid(node):
-		node.reparent(loots, true) # true = conserva la transformación global

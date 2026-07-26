@@ -1,0 +1,167 @@
+[gd_scene format=3 uid="uid://cu6afc3584gyi"]
+
+[ext_resource type="Script" uid="uid://dkubym74lod4y" path="res://scripts/ui/main.gd" id="1_xf8b4"]
+[ext_resource type="PackedScene" uid="uid://cqhdp484ikd8u" path="res://scenes/player_entity.tscn" id="2_jiai4"]
+[ext_resource type="PackedScene" uid="uid://e7tkrxwldqof" path="res://scenes/projectile.tscn" id="3_qmmbi"]
+[ext_resource type="PackedScene" uid="uid://b17iblkw03s4f" path="res://scenes/DamageNumber.tscn" id="4_spt58"]
+[ext_resource type="PackedScene" uid="uid://cmn0huj8lismy" path="res://scenes/loot_modifier.tscn" id="5_4cd4q"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_05igt"]
+size = Vector3(6.5058594, 0.001, 7.605255)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gyb6n"]
+size = Vector3(20.615967, 0.5020752, 19.522278)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lg2wt"]
+albedo_color = Color(0, 0.5371746, 0.17457029, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_05igt"]
+material = SubResource("StandardMaterial3D_lg2wt")
+
+[sub_resource type="BoxMesh" id="BoxMesh_gyb6n"]
+size = Vector3(2.4434814, 3.0375977, 1)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_prmo1"]
+data = PackedVector3Array(-1.2217, 1.5188, 0.5, 1.2217, 1.5188, 0.5, -1.2217, -1.5188, 0.5, 1.2217, 1.5188, 0.5, 1.2217, -1.5188, 0.5, -1.2217, -1.5188, 0.5, 1.2217, 1.5188, -0.5, -1.2217, 1.5188, -0.5, 1.2217, -1.5188, -0.5, -1.2217, 1.5188, -0.5, -1.2217, -1.5188, -0.5, 1.2217, -1.5188, -0.5, 1.2217, 1.5188, 0.5, 1.2217, 1.5188, -0.5, 1.2217, -1.5188, 0.5, 1.2217, 1.5188, -0.5, 1.2217, -1.5188, -0.5, 1.2217, -1.5188, 0.5, -1.2217, 1.5188, -0.5, -1.2217, 1.5188, 0.5, -1.2217, -1.5188, -0.5, -1.2217, 1.5188, 0.5, -1.2217, -1.5188, 0.5, -1.2217, -1.5188, -0.5, 1.2217, 1.5188, 0.5, -1.2217, 1.5188, 0.5, 1.2217, 1.5188, -0.5, -1.2217, 1.5188, 0.5, -1.2217, 1.5188, -0.5, 1.2217, 1.5188, -0.5, -1.2217, -1.5188, 0.5, 1.2217, -1.5188, 0.5, -1.2217, -1.5188, -0.5, 1.2217, -1.5188, 0.5, 1.2217, -1.5188, -0.5, -1.2217, -1.5188, -0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jiai4"]
+size = Vector3(2.4434814, 3.0375977, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_05igt"]
+size = Vector3(1, 1, 2.1279297)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_spt58"]
+data = PackedVector3Array(-0.5, 0.5, 1.064, 0.5, 0.5, 1.064, -0.5, -0.5, 1.064, 0.5, 0.5, 1.064, 0.5, -0.5, 1.064, -0.5, -0.5, 1.064, 0.5, 0.5, -1.064, -0.5, 0.5, -1.064, 0.5, -0.5, -1.064, -0.5, 0.5, -1.064, -0.5, -0.5, -1.064, 0.5, -0.5, -1.064, 0.5, 0.5, 1.064, 0.5, 0.5, -1.064, 0.5, -0.5, 1.064, 0.5, 0.5, -1.064, 0.5, -0.5, -1.064, 0.5, -0.5, 1.064, -0.5, 0.5, -1.064, -0.5, 0.5, 1.064, -0.5, -0.5, -1.064, -0.5, 0.5, 1.064, -0.5, -0.5, 1.064, -0.5, -0.5, -1.064, 0.5, 0.5, 1.064, -0.5, 0.5, 1.064, 0.5, 0.5, -1.064, -0.5, 0.5, 1.064, -0.5, 0.5, -1.064, 0.5, 0.5, -1.064, -0.5, -0.5, 1.064, 0.5, -0.5, 1.064, -0.5, -0.5, -1.064, 0.5, -0.5, 1.064, 0.5, -0.5, -1.064, -0.5, -0.5, -1.064)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_4cd4q"]
+data = PackedVector3Array(-0.5, 0.5, 1.064, 0.5, 0.5, 1.064, -0.5, -0.5, 1.064, 0.5, 0.5, 1.064, 0.5, -0.5, 1.064, -0.5, -0.5, 1.064, 0.5, 0.5, -1.064, -0.5, 0.5, -1.064, 0.5, -0.5, -1.064, -0.5, 0.5, -1.064, -0.5, -0.5, -1.064, 0.5, -0.5, -1.064, 0.5, 0.5, 1.064, 0.5, 0.5, -1.064, 0.5, -0.5, 1.064, 0.5, 0.5, -1.064, 0.5, -0.5, -1.064, 0.5, -0.5, 1.064, -0.5, 0.5, -1.064, -0.5, 0.5, 1.064, -0.5, -0.5, -1.064, -0.5, 0.5, 1.064, -0.5, -0.5, 1.064, -0.5, -0.5, -1.064, 0.5, 0.5, 1.064, -0.5, 0.5, 1.064, 0.5, 0.5, -1.064, -0.5, 0.5, 1.064, -0.5, 0.5, -1.064, 0.5, 0.5, -1.064, -0.5, -0.5, 1.064, 0.5, -0.5, 1.064, -0.5, -0.5, -1.064, 0.5, -0.5, 1.064, 0.5, -0.5, -1.064, -0.5, -0.5, -1.064)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_3382a"]
+data = PackedVector3Array(-0.5, 0.5, 1.064, 0.5, 0.5, 1.064, -0.5, -0.5, 1.064, 0.5, 0.5, 1.064, 0.5, -0.5, 1.064, -0.5, -0.5, 1.064, 0.5, 0.5, -1.064, -0.5, 0.5, -1.064, 0.5, -0.5, -1.064, -0.5, 0.5, -1.064, -0.5, -0.5, -1.064, 0.5, -0.5, -1.064, 0.5, 0.5, 1.064, 0.5, 0.5, -1.064, 0.5, -0.5, 1.064, 0.5, 0.5, -1.064, 0.5, -0.5, -1.064, 0.5, -0.5, 1.064, -0.5, 0.5, -1.064, -0.5, 0.5, 1.064, -0.5, -0.5, -1.064, -0.5, 0.5, 1.064, -0.5, -0.5, 1.064, -0.5, -0.5, -1.064, 0.5, 0.5, 1.064, -0.5, 0.5, 1.064, 0.5, 0.5, -1.064, -0.5, 0.5, 1.064, -0.5, 0.5, -1.064, 0.5, 0.5, -1.064, -0.5, -0.5, 1.064, 0.5, -0.5, 1.064, -0.5, -0.5, -1.064, 0.5, -0.5, 1.064, 0.5, -0.5, -1.064, -0.5, -0.5, -1.064)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_yhyg3"]
+data = PackedVector3Array(-0.5, 0.5, 1.064, 0.5, 0.5, 1.064, -0.5, -0.5, 1.064, 0.5, 0.5, 1.064, 0.5, -0.5, 1.064, -0.5, -0.5, 1.064, 0.5, 0.5, -1.064, -0.5, 0.5, -1.064, 0.5, -0.5, -1.064, -0.5, 0.5, -1.064, -0.5, -0.5, -1.064, 0.5, -0.5, -1.064, 0.5, 0.5, 1.064, 0.5, 0.5, -1.064, 0.5, -0.5, 1.064, 0.5, 0.5, -1.064, 0.5, -0.5, -1.064, 0.5, -0.5, 1.064, -0.5, 0.5, -1.064, -0.5, 0.5, 1.064, -0.5, -0.5, -1.064, -0.5, 0.5, 1.064, -0.5, -0.5, 1.064, -0.5, -0.5, -1.064, 0.5, 0.5, 1.064, -0.5, 0.5, 1.064, 0.5, 0.5, -1.064, -0.5, 0.5, 1.064, -0.5, 0.5, -1.064, 0.5, 0.5, -1.064, -0.5, -0.5, 1.064, 0.5, -0.5, 1.064, -0.5, -0.5, -1.064, 0.5, -0.5, 1.064, 0.5, -0.5, -1.064, -0.5, -0.5, -1.064)
+
+[node name="Main" type="Node3D" unique_id=375063096]
+script = ExtResource("1_xf8b4")
+player_scene = ExtResource("2_jiai4")
+projectile_scene = ExtResource("3_qmmbi")
+damage_number_scene = ExtResource("4_spt58")
+loot_modifier_scene = ExtResource("5_4cd4q")
+
+[node name="World" type="Node3D" parent="." unique_id=2125469171]
+
+[node name="LootsPools" type="Area3D" parent="World" unique_id=981086638]
+
+[node name="loot0" type="CollisionShape3D" parent="World/LootsPools" unique_id=2037213755]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2488966, 1.2018011, 5.3098097)
+shape = SubResource("BoxShape3D_05igt")
+
+[node name="loot1" type="CollisionShape3D" parent="World/LootsPools" unique_id=910019543]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5764585, 1.030426, -5.01532)
+shape = SubResource("BoxShape3D_05igt")
+
+[node name="Loots" type="Node3D" parent="World" unique_id=1454262654]
+
+[node name="Players" type="Node3D" parent="World" unique_id=272761271]
+
+[node name="Ground" type="StaticBody3D" parent="World" unique_id=1198978357]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Ground" unique_id=727630143]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24597168, -0.2489624, 0.3088684)
+shape = SubResource("BoxShape3D_gyb6n")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Ground" unique_id=1746812100]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("PlaneMesh_05igt")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="World/Ground" unique_id=1112090466]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0889378, 1.4097464, 2.3841858e-07)
+mesh = SubResource("BoxMesh_gyb6n")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="World/Ground" unique_id=1481603644]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.7249165, 1.4097464, 3.5921772)
+mesh = SubResource("BoxMesh_gyb6n")
+
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="World/Ground" unique_id=1794717766]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.7249165, 1.4097464, 3.5921772)
+shape = SubResource("ConcavePolygonShape3D_prmo1")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="World/Ground" unique_id=1135354403]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0889378, 1.4097464, 2.3841858e-07)
+shape = SubResource("BoxShape3D_jiai4")
+
+<<<<<<< HEAD
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="World/Ground" unique_id=366599154]
+transform = Transform3D(5.235819, 0, 0, 0, 2.9764528, 1.3918536, 0, -3.486237, 1.1883264, 6.3254128, -0.78495646, -4.393912)
+mesh = SubResource("BoxMesh_05igt")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="World/Ground" unique_id=1512253478]
+transform = Transform3D(5.235819, 0, 0, 0, 2.9764528, 1.3918536, 0, -3.486237, 1.1883264, 6.3254128, -0.78495646, -4.393912)
+shape = SubResource("ConcavePolygonShape3D_spt58")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="World/Ground" unique_id=1039784689]
+transform = Transform3D(5.235819, 0, 0, 0, 4.5833225, -0.0316146, 0, 0.07918596, 1.8298568, 6.325413, -0.09699869, -6.8808947)
+mesh = SubResource("BoxMesh_05igt")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="World/Ground" unique_id=1911891466]
+transform = Transform3D(5.235819, 0, 0, 0, 4.5833225, -0.0316146, 0, 0.07918596, 1.8298568, 6.325413, -0.09699869, -6.8808947)
+shape = SubResource("ConcavePolygonShape3D_4cd4q")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="World/Ground" unique_id=685943951]
+transform = Transform3D(5.235819, 0, 0, 0, 4.5833225, -0.0316146, 0, 0.07918596, 1.8298568, 1.9003978, -0.09699869, -6.8808947)
+mesh = SubResource("BoxMesh_05igt")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="World/Ground" unique_id=137599717]
+transform = Transform3D(5.235819, 0, 0, 0, 4.5833225, -0.0316146, 0, 0.07918596, 1.8298568, 1.9003978, -0.09699869, -6.8808947)
+shape = SubResource("ConcavePolygonShape3D_3382a")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="World/Ground" unique_id=1574049949]
+transform = Transform3D(5.235819, 0, 0, 0, 4.5833225, -0.0316146, 0, 0.07918596, 1.8298568, 1.9003978, -0.09699869, 8.128794)
+mesh = SubResource("BoxMesh_05igt")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="World/Ground" unique_id=1847033149]
+transform = Transform3D(5.235819, 0, 0, 0, 4.5833225, -0.0316146, 0, 0.07918596, 1.8298568, 1.9003978, -0.09699869, 8.128794)
+shape = SubResource("ConcavePolygonShape3D_yhyg3")
+=======
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World" unique_id=590081081]
+>>>>>>> 7976aec2242438eece1fb75a8b82c24485f8ce62
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=2117382879]
+_spawnable_scenes = PackedStringArray("uid://cqhdp484ikd8u", "uid://7e5l8agops7g")
+spawn_path = NodePath("../World/Players")
+
+[node name="MultiplayerSpawnerLoots" type="MultiplayerSpawner" parent="." unique_id=1592784884]
+_spawnable_scenes = PackedStringArray("uid://cmn0huj8lismy")
+spawn_path = NodePath("../World/Loots")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1115062734]
+transform = Transform3D(1, 0, 0, 0, 0.71595985, 0.69814146, 0, -0.69814146, 0.71595985, 0, 0.37335813, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1971614241]
+
+[node name="HostButton" type="Button" parent="CanvasLayer" unique_id=1358158420]
+offset_left = 142.0
+offset_top = 62.0
+offset_right = 391.0
+offset_bottom = 141.0
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="CanvasLayer" unique_id=1094277457]
+offset_left = 143.0
+offset_top = 188.0
+offset_right = 392.0
+offset_bottom = 267.0
+text = "Join"
+
+[node name="IPLineEdit" type="TextEdit" parent="CanvasLayer" unique_id=108713384]
+offset_left = 113.0
+offset_top = 300.0
+offset_right = 388.0
+offset_bottom = 377.0
+text = "130.94.106.209"
+placeholder_text = "IP..."
+editable = false
+
+[connection signal="pressed" from="CanvasLayer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/JoinButton" to="." method="_on_join_button_pressed"]

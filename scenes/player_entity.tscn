@@ -3,24 +3,22 @@
 [ext_resource type="Script" uid="uid://b5wu6x7u7rk3w" path="res://scripts/player.gd" id="1_8b1co"]
 [ext_resource type="Script" uid="uid://c1ae4cus4gfla" path="res://scripts/protocol/PlayerInputState.gd" id="2_6nmcj"]
 [ext_resource type="Script" uid="uid://4apytbitlx8x" path="res://scripts/game_logic/camera_shake.gd" id="3_pywmm"]
+[ext_resource type="Script" uid="uid://bda43xgmf6jhx" path="res://scripts/protocol/PlayerState.gd" id="3_vo0qd"]
 [ext_resource type="Script" uid="uid://dox2qumu85jbb" path="res://scripts/game_logic/camera_recoil.gd" id="4_iv4wl"]
 [ext_resource type="PackedScene" uid="uid://cnquubxh0w0ni" path="res://Models/ArmaPlaceholder.glb" id="5_hl74m"]
 [ext_resource type="Script" uid="uid://drfvkcge8x62v" path="res://scripts/game_logic/weapon_data.gd" id="5_nk4n4"]
 [ext_resource type="Script" uid="uid://0u00gogxu2nv" path="res://scripts/game_logic/camera_bob.gd" id="6_sy4aq"]
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8b1co"]
-properties/0/path = NodePath(".:shoot_position")
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ynwjb"]
+properties/0/path = NodePath(".:shoot_sequence")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath(".:shoot_direction")
+properties/1/path = NodePath(".:shoot_position")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath(".:shoot_sequence")
+properties/2/path = NodePath(".:shoot_direction")
 properties/2/spawn = true
 properties/2/replication_mode = 1
-properties/3/path = NodePath(".:health")
-properties/3/spawn = true
-properties/3/replication_mode = 1
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gyb6n"]
 height = 1.793457
@@ -61,8 +59,11 @@ script = ExtResource("1_8b1co")
 [node name="InputState" type="Node" parent="." unique_id=1720547633]
 script = ExtResource("2_6nmcj")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="InputState" unique_id=1911571021]
-replication_config = SubResource("SceneReplicationConfig_8b1co")
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="InputState" unique_id=1937519003]
+replication_config = SubResource("SceneReplicationConfig_ynwjb")
+
+[node name="PlayerState" type="Node" parent="." unique_id=1535844564]
+script = ExtResource("3_vo0qd")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=956154688]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.23925781, 0)
@@ -122,7 +123,7 @@ transform = Transform3D(0.06828948, 0, -1.4233627, 0, 1.425, 0, 1.4233627, 0, 0.
 [node name="ShootPivot" type="Node3D" parent="Head/WeaponPivot/Weapon" unique_id=733549340]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.024199992, 0.074374676, -0.5134875)
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1282376305]
+[node name="TransformSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1282376305]
 replication_config = SubResource("SceneReplicationConfig_3vyb7")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1927998647]

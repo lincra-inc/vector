@@ -195,7 +195,7 @@ func process_player_actions(players: Node, loots: Node) -> void:
 		
 		if player.input_state == null:
 			continue
-			
+		
 		var input := player.input_state
 		
 		var last: int = last_processed_shot.get(player.name, 0)
@@ -233,7 +233,7 @@ func process_loot_spawn(delta: float, loot_spawn_area: Area3D, loots: Node) -> v
 	
 	spawn_loot_box(
 		position,
-		randi() % 8 # modifier aleatorio
+		randi() % 8 
 	)
 
 func _find_loot_spawn_position(area_pool: Area3D, loots: Node) -> Vector3:
@@ -254,6 +254,7 @@ func _find_loot_spawn_position(area_pool: Area3D, loots: Node) -> Vector3:
 			randf_range(-box.size.y * 0.5, box.size.y * 0.5),
 			randf_range(-box.size.z * 0.5, box.size.z * 0.5)
 		)
+		
 		var world_pos := shape.global_transform * local
 		var valid := true
 		

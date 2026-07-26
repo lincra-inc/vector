@@ -29,7 +29,6 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	position.y += move_speed * delta
-	
 	timer += delta
 	
 	var alpha := 1.0 - (timer / lifetime)
@@ -37,4 +36,5 @@ func _process(delta: float) -> void:
 	label.outline_modulate.a = alpha
 	
 	if timer >= lifetime:
-		queue_free()
+		pass
+		#queue_free()

@@ -2,30 +2,37 @@ extends CharacterBody3D
 class_name Player
 
 @export var gamepad_look_sensitivity := 3.0
-@export var gamepad_deadzone := 0.15
-@export var mouse_look_sensitivity := 0.003
+@export var gamepad_deadzone         := 0.15
+@export var mouse_look_sensitivity   := 0.003
 
-@export var move_speed: float = 6.0
+@export var move_speed:    float = 6.0
 @export var run_multiplier: float = 1.8
 @export var run_lerp_speed: float = 8.0
 
-const GRAVITY: float = 20.0
+const MAX_SPEED    := 10.0
+const ACCEL        := 70.0
+const AIR_ACCEL    := 35.0
+const FRICTION     := 10.0
+const JUMP_FORCE   := 9.0
+const GRAVITY      := 18.0
+const FALL_GRAVITY := 45.0
 
-@onready var camera: Camera3D = $Head/Camera3D
-@onready var input_state: PlayerInputState = $InputState
+@onready var camera:       Camera3D = $Head/Camera3D
+@onready var input_state:  PlayerInputState = $InputState
+@onready var player_state: PlayerState = $PlayerState
 
-@onready var camera_shake: CameraShake = $Head/CameraShake
-@onready var camera_bob: CameraBob = $Head/CameraBob
-@onready var recoil: CameraRecoil = $Head/CameraRecoil
+@onready var camera_shake: CameraShake  = $Head/CameraShake
+@onready var camera_bob:   CameraBob    = $Head/CameraBob
+@onready var recoil:       CameraRecoil = $Head/CameraRecoil
 
 @onready var head: Node3D = $Head
 @onready var head_mesh: Node3D = $Head/MeshInstance3D
 
-@onready var aim_pivot: Node3D = $Head/Camera3D/AimPivot
+@onready var aim_pivot:    Node3D = $Head/Camera3D/AimPivot
 @onready var weapon_pivot: Node3D = $Head/WeaponPivot
 @onready var weapon_model: Node3D = $Head/WeaponPivot/Weapon
-@onready var shoot_pivot: Node3D = $Head/WeaponPivot/Weapon/ShootPivot
-@onready var raycast: RayCast3D = $Head/RayCast3D
+@onready var shoot_pivot:  Node3D = $Head/WeaponPivot/Weapon/ShootPivot
+@onready var raycast:   RayCast3D = $Head/RayCast3D
 
 @onready var weapon_data: WeaponData = $Head/WeaponPivot
 
@@ -40,7 +47,8 @@ var current_speed_multiplier: float = 1.0
 var pitch := 0.0
 var yaw   := 0.0
 
-@export var health: float = 100.0
+var spawn_position: Vector3
+
 @onready var ui_health: ProgressBar = $CanvasLayer/Health
 
 func _enter_tree():
@@ -48,8 +56,12 @@ func _enter_tree():
 
 func setup(id: int) -> void:
 	peer_id = id;
-	
+
 func _ready():
+	if multiplayer.is_server():
+		$PlayerState.set_multiplayer_authority(1)
+		player_state.health = player_state.max_health
+	
 	if is_multiplayer_authority():
 		origin_weapon_position = weapon_pivot.global_position
 		
@@ -57,6 +69,7 @@ func _ready():
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	else:
 		$CanvasLayer.hide()
+	spawn_position = global_position
 
 func _process(delta):
 	if multiplayer.get_unique_id() != int(name):
@@ -73,23 +86,18 @@ func _process(delta):
 	if look != Vector2.ZERO:
 		yaw   -= look.x * gamepad_look_sensitivity * delta
 		pitch -= look.y * gamepad_look_sensitivity * delta
-		pitch = clamp(
-			pitch,
-			deg_to_rad(-89),
-			deg_to_rad(89)
-		)
+		pitch = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
 	
-	input_state.movement = Input.get_vector(
-		"ui_left",
-		"ui_right",
-		"ui_up",
-		"ui_down"
-	)
+	#input_state.movement = Input.get_vector(
+		#"ui_left",
+		#"ui_right",
+		#"ui_up",
+		#"ui_down"
+	#)
 	
 	update_shoot_input()
 	
-	input_state.health = health
-	ui_health.value = health
+	ui_health.value = player_state.health
 	
 	rotation.y = yaw + recoil.rotation_offset.y + camera_bob.position_offset.x
 	head.rotation.x = pitch + recoil.rotation_offset.x  + camera_bob.position_offset.y
@@ -104,7 +112,7 @@ func _unhandled_input(event):
 		yaw -= event.relative.x * mouse_look_sensitivity
 		
 		pitch -= event.relative.y * mouse_look_sensitivity
-		pitch = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
+		pitch  = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
 	
 	if Input.is_action_pressed("ui_cancel"):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -118,6 +126,13 @@ func move_player(delta):
 	if !is_multiplayer_authority():
 		return
 	
+	if Input.is_action_pressed("ui_cancel"):
+		get_tree().quit()
+	
+	if Input.is_action_just_pressed("restart"):
+		global_position = spawn_position
+		velocity = Vector3.ZERO
+	
 	var input := Input.get_vector(
 		"ui_left",
 		"ui_right",
@@ -125,10 +140,14 @@ func move_player(delta):
 		"ui_down"
 	)
 	
+	if is_on_floor():
+		if Input.is_action_just_pressed("jump"):
+			velocity.y = JUMP_FORCE
+	
 	var dir := (transform.basis.x * input.x - -transform.basis.z * input.y).normalized()
 	
 	var target_multiplier := 1.0
-	if Input.is_action_pressed("run"):	
+	if Input.is_action_pressed("run"):
 		target_multiplier = run_multiplier
 	
 	current_speed_multiplier = lerpf(
@@ -199,3 +218,22 @@ func update_shoot_input():
 		camera_shake.add_shake(weapon_data.camera_shake)
 		#recoil.add_recoil(deg_to_rad(randf_range(11.6, 12.3)), deg_to_rad(10.7))
 		recoil.add_recoil(deg_to_rad(randf_range(weapon_data.recoil_pitch, weapon_data.recoil_pitch+1)), deg_to_rad(weapon_data.recoil_yaw))
+
+func die() -> void:
+	if !multiplayer.is_server():
+		return
+	
+	player_state.health = 0.0
+	player_state.deaths += 1
+	
+	print("Murió: ", peer_id)
+
+func take_damage(amount: float) -> void:
+	if !multiplayer.is_server():
+		return
+	
+	player_state.health = max(player_state.health - amount, 0.0)
+	player_state.set_health.rpc(player_state.health)
+	
+	if player_state.health <= 0.0:
+		die()
