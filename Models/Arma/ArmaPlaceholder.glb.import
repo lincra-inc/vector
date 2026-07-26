@@ -48,8 +48,8 @@ _subresources={
 },
 "Material.002": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://Models/Character/CharacterMaterial.tres",
-"use_external/path": "uid://mqbs6b1mlbhi"
+"use_external/fallback_path": "res://Shaders/ShaderMaterial_Character.tres",
+"use_external/path": "uid://bdv25ty3mqddg"
 }
 }
 }

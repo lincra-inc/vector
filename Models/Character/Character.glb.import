@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cmxlcqb3qdeft"
-path="res://.godot/imported/Character.fbx-dff3ecd97df9b00476267f8bd98aa2f5.scn"
+uid="uid://k6nd0f0hsmm0"
+path="res://.godot/imported/Character.glb-267b0ba7f1f1505b73a22fd1f4c21b01.scn"
 
 [deps]
 
-source_file="res://Models/Character/Character.fbx"
-dest_files=["res://.godot/imported/Character.fbx-dff3ecd97df9b00476267f8bd98aa2f5.scn"]
+source_file="res://Models/Character/Character.glb"
+dest_files=["res://.godot/imported/Character.glb-267b0ba7f1f1505b73a22fd1f4c21b01.scn"]
 
 [params]
 
@@ -32,15 +32,22 @@ meshes/force_disable_compression=false
 skins/use_named_skins=true
 animation/import=true
 animation/fps=30
-animation/trimming=true
+animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
 materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
-_subresources={}
-fbx/importer=0
-fbx/allow_geometry_helper_nodes=false
-fbx/embedded_image_handling=1
-fbx/naming_version=2
+_subresources={
+"materials": {
+"Material.007": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Shaders/ShaderMaterial_Character.tres",
+"use_external/path": "uid://bdv25ty3mqddg"
+}
+}
+}
+gltf/naming_version=2
+gltf/embedded_image_handling=1
+gltf/texture_map_mode=1

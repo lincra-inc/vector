@@ -2,17 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1f0co5ywqjfl"
-path.s3tc="res://.godot/imported/RunnerGuy_Emissive_256.png-35406f9bee743394dcf42dcf986d7283.s3tc.ctex"
+uid="uid://dl5ntbh0404i3"
+path.s3tc="res://.godot/imported/Character_RunnerGuy_BaseColor_256.png-128a6b1237b20e74be1bfdb1aa30758e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "a7aee8c3f2b9c3f06f9c96d562471e56"
+}
 
 [deps]
 
-source_file="res://Models/Character/RunnerGuy_Emissive_256.png"
-dest_files=["res://.godot/imported/RunnerGuy_Emissive_256.png-35406f9bee743394dcf42dcf986d7283.s3tc.ctex"]
+source_file="res://Models/Character/Character_RunnerGuy_BaseColor_256.png"
+dest_files=["res://.godot/imported/Character_RunnerGuy_BaseColor_256.png-128a6b1237b20e74be1bfdb1aa30758e.s3tc.ctex"]
 
 [params]
 

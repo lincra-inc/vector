@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://4apytbitlx8x" path="res://scripts/game_logic/camera_shake.gd" id="3_pywmm"]
 [ext_resource type="Script" uid="uid://bda43xgmf6jhx" path="res://scripts/protocol/PlayerState.gd" id="3_vo0qd"]
 [ext_resource type="Script" uid="uid://dox2qumu85jbb" path="res://scripts/game_logic/camera_recoil.gd" id="4_iv4wl"]
-[ext_resource type="PackedScene" uid="uid://cmxlcqb3qdeft" path="res://Models/Character/Character.fbx" id="4_ynwjb"]
+[ext_resource type="PackedScene" uid="uid://k6nd0f0hsmm0" path="res://Models/Character/Character.glb" id="4_ynwjb"]
 [ext_resource type="PackedScene" uid="uid://cxnbwi6d6dutb" path="res://Models/Arma/ArmaPlaceholder.glb" id="5_hl74m"]
 [ext_resource type="Script" uid="uid://drfvkcge8x62v" path="res://scripts/game_logic/weapon_data.gd" id="5_nk4n4"]
 [ext_resource type="Script" uid="uid://0u00gogxu2nv" path="res://scripts/game_logic/camera_bob.gd" id="6_sy4aq"]
@@ -114,8 +114,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15376282, 0)
 shape = SubResource("BoxShape3D_iv4wl")
 metadata/damage_multiplier = 1.0
 
-[node name="Character" parent="Body" unique_id=1380242239 instance=ExtResource("4_ynwjb")]
-transform = Transform3D(-7.583926e-08, 0, 1.735, 0, 1.735, 0, -1.735, 0, -7.583926e-08, 0.039193332, -1.6785909, 0.007957846)
+[node name="Character2" parent="Body" unique_id=2115257124 instance=ExtResource("4_ynwjb")]
+transform = Transform3D(-7.583926e-08, 0, 1.735, 0, 1.735, 0, -1.735, 0, -7.583926e-08, 0.050717413, -1.6758556, 0.011147857)
 
 [node name="Head" type="Area3D" parent="." unique_id=2002889739]
 metadata/damage_multiplier = 2.0

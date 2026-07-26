@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bcpapc5mawy83"]
+
+[ext_resource type="PackedScene" uid="uid://k6nd0f0hsmm0" path="res://Models/Character/Character.glb" id="1_my7n2"]
+[ext_resource type="Shader" uid="uid://bkv4g1s6bqpju" path="res://Shaders/Character_Color.tres" id="2_dp8ca"]
+[ext_resource type="Texture2D" uid="uid://hp2574tr4ngf" path="res://Models/Character/Character_RunnerGuy_Emissive_256.png" id="3_0lw5n"]
+[ext_resource type="Texture2D" uid="uid://dl5ntbh0404i3" path="res://Models/Character/Character_RunnerGuy_BaseColor_256.png" id="4_2cgup"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a5ia6"]
+render_priority = 0
+shader = ExtResource("2_dp8ca")
+shader_parameter/ColorParameter = Color(0.120000005, 0.6040002, 1, 1)
+shader_parameter/Texture2DParameter = ExtResource("4_2cgup")
+shader_parameter/EMISSIONtEXTURE = ExtResource("3_0lw5n")
+
+[node name="Character" unique_id=431201129 instance=ExtResource("1_my7n2")]
+
+[node name="QuakeGuy_002" parent="Armature_003/Skeleton3D" parent_id_path=PackedInt32Array(2090635273) index="0" unique_id=534955428]
+surface_material_override/0 = SubResource("ShaderMaterial_a5ia6")
