@@ -9,7 +9,7 @@ const DEDICATED_SERVER:    String = "--server"
 const DEFAULT_PORT:        int = 7777
 const DEFAULT_MAX_CLIENTS: int = 32
 
-const DEBUG_IN_LOCAL: bool = true
+const DEBUG_IN_LOCAL: bool = false
 
 signal server_started(port: int)
 signal server_stopped()
@@ -164,7 +164,7 @@ func spawn_play_at(position: Vector3, path: String) -> void:
 		"path": path
 	})
 
-func spawn_loot_box(position: Vector3, modifier: int) -> void:
+func spawn_loot_box(position: Vector3, modifier_type: int) -> void:
 	if !is_server():
 		return
 	
@@ -175,7 +175,7 @@ func spawn_loot_box(position: Vector3, modifier: int) -> void:
 	_spawner_loots.spawn({
 		"type": "loot_modifier",
 		"position": position,
-		"modifier": modifier
+		"modifier_type": modifier_type
 	})
 
 func spawn_projectile(position: Vector3, direction: Vector3, shooter: int, weapon: WeaponData) -> void:

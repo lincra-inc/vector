@@ -131,5 +131,5 @@ func _spawn_entity(data: Dictionary) -> Node:
 			entity.setup(data["path"])
 		"loot_modifier":
 			entity.position = data["position"]
-			entity.setup(data["modifier"])
+			entity.setup(data["modifier_type"])
 	return entity

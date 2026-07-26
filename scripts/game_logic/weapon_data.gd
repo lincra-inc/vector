@@ -17,6 +17,7 @@ class_name WeaponData
 @export var energy:         float = 100.0
 @export var energy_cost:    float = 10.0
 @export var recharge_speed: float = 50.0
+@export var recharge_shooting_multiplier: float = 0.5
 
 @export_group("Recoil")
 @export var recoil_pitch: float = 10.0
@@ -36,7 +37,7 @@ var sight_type := 0
 @export_group("Audio")
 @export var fire_sounds: Array[AudioStream]
 
-@onready var ui_energy: ProgressBar = $"../../CanvasLayer/UI/Energy"
+@onready var ui_energy: Label = $"../../CanvasLayer/UI/Label"
 
 var cooldown := 0.0
 var shoot_pressed := false
@@ -45,10 +46,10 @@ func _process(delta):
 	cooldown = max(cooldown - delta, 0.0)
 	
 	var delta_recharge = recharge_speed
-	ui_energy.value = energy
+	ui_energy.text = str(int(energy))
 	
 	if shoot_pressed:
-		delta_recharge *= 0.5
+		delta_recharge *= recharge_shooting_multiplier
 	
 	energy = min(energy + delta_recharge * delta, max_energy)
 

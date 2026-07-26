@@ -347,6 +347,11 @@ func die(killer_id: int) -> void:
 	
 	print("Murió: " + str(peer_id) + " por " + str(killer_id))
 	
+	Network.spawn_play_at(
+		global_position,
+		"res://sounds/death.ogg"
+	)
+	
 	dead = true
 	die_client.rpc_id(peer_id, killer_id)
 

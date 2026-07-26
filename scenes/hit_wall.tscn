@@ -2,20 +2,14 @@
 
 [ext_resource type="AudioStream" uid="uid://dat7vrd2u235a" path="res://sounds/explosion_2.wav" id="1_1qn6g"]
 [ext_resource type="Script" uid="uid://d1uhluijxo2vb" path="res://scripts/game_logic/hit_wall.gd" id="1_egp5h"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_05igt"]
-albedo_color = Color(1, 0, 1, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_gyb6n"]
-material = SubResource("StandardMaterial3D_05igt")
-size = Vector3(0.1, 0.1, 0.1)
+[ext_resource type="PackedScene" uid="uid://b7an7oowhq0fw" path="res://scenes/particle_explosion.tscn" id="2_edy3p"]
 
 [node name="HitWall" type="Node3D" unique_id=424690785]
 script = ExtResource("1_egp5h")
 
+[node name="ParticleExplosion" parent="." unique_id=1140446227 instance=ExtResource("2_edy3p")]
+lifetime = 3.0
+
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1229160682]
 stream = ExtResource("1_1qn6g")
 autoplay = true
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=606005365]
-mesh = SubResource("BoxMesh_gyb6n")

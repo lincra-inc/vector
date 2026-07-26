@@ -23,5 +23,5 @@ extends Node
 @export_group("Efectos")
 @export var camera_shake: float = 0.0
 
-func setup(modifier: int) -> void:
+func setup(modifier_type: int) -> void:
 	pass

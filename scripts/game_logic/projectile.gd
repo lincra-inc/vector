@@ -97,11 +97,10 @@ func _on_hit(hit: Dictionary) -> void:
 			final_damage,
 			player.peer_id
 		)
-	else:
-			Network.spawn_hit_wall(
-				hit["position"],
-				damage
-			)
+	Network.spawn_hit_wall(
+		hit["position"],
+		damage
+	)
 	destroy_after_sound()
 
 func destroy_after_sound() -> void:
