@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://c1ae4cus4gfla" path="res://scripts/protocol/PlayerInputState.gd" id="2_6nmcj"]
 [ext_resource type="Script" uid="uid://4apytbitlx8x" path="res://scripts/game_logic/camera_shake.gd" id="3_pywmm"]
 [ext_resource type="Script" uid="uid://dox2qumu85jbb" path="res://scripts/game_logic/camera_recoil.gd" id="4_iv4wl"]
-[ext_resource type="PackedScene" uid="uid://cnquubxh0w0ni" path="res://Models/ArmaPlaceholder.glb" id="5_hl74m"]
+[ext_resource type="PackedScene" uid="uid://cxnbwi6d6dutb" path="res://Models/Arma/ArmaPlaceholder.glb" id="5_hl74m"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8b1co"]
 properties/0/path = NodePath(".:shoot_position")
@@ -37,13 +37,6 @@ height = 0.5875778
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hl74m"]
 size = Vector3(0.66210943, 0.55046844, 0.66210943)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lg2wt"]
-albedo_color = Color(0.27752772, 0.27752772, 0.27752772, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_gyb6n"]
-material = SubResource("StandardMaterial3D_lg2wt")
-size = Vector3(0.3076172, 0.32250977, 1)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3vyb7"]
 properties/0/path = NodePath(".:position")
@@ -110,11 +103,7 @@ target_position = Vector3(0, 0, -1000)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.42955256, 0.34024394, -0.77218467)
 
 [node name="ArmaPlaceholder" parent="Head/WeaponPivot" unique_id=1579602992 instance=ExtResource("5_hl74m")]
-transform = Transform3D(0.06828954, 0, -1.4233627, 0, 1.425, 0, 1.4233627, 0, 0.06828954, 0, 0, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/WeaponPivot" unique_id=921250963]
-visible = false
-mesh = SubResource("BoxMesh_gyb6n")
+transform = Transform3D(-7.86805e-08, 0, -1.8, 0, 1.8, 0, 1.8, 0, -7.86805e-08, 0, 0, 0.09426361)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1282376305]
 replication_config = SubResource("SceneReplicationConfig_3vyb7")
