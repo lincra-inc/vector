@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://e7tkrxwldqof"]
 
 [ext_resource type="Script" uid="uid://br62bk7xw8b7h" path="res://scripts/game_logic/projectile.gd" id="1_c8fcr"]
-[ext_resource type="Shader" uid="uid://b7kiicrgc7ipw" path="res://Shaders/Shader_Bala.tres" id="2_q3m7n"]
 [ext_resource type="AudioStream" uid="uid://7kqnsbk384v1" path="res://sounds/alienshoot1.ogg" id="3_softn"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gyb6n"]
@@ -21,15 +20,41 @@ properties/3/path = NodePath("Node3D:visible")
 properties/3/spawn = true
 properties/3/replication_mode = 1
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_softn"]
+[sub_resource type="Gradient" id="Gradient_softn"]
+offsets = PackedFloat32Array(0.2990762, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
-[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_6q2a6"]
-emission_enabled = true
-emission = Color(1.5754864, 1.5754864, 0.4081578, 1)
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_softn"]
+gradient = SubResource("Gradient_softn")
+width = 8
+height = 8
+fill = 1
+fill_from = Vector2(0.5, 0.48634812)
+fill_to = Vector2(0.5, 0.06313993)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_byeak"]
-render_priority = 0
-shader = ExtResource("2_q3m7n")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6q2a6"]
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+specular_mode = 2
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_softn")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_softn"]
+orientation = 2
+
+[sub_resource type="Curve" id="Curve_q3m7n"]
+_data = [Vector2(0, 0.17857146), 0.0, 0.99594206, 0, 0, Vector2(1, 0), -0.051578972, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_qfhx1"]
+offsets = PackedFloat32Array(0, 0.08216561, 1)
+colors = PackedColorArray(0, 1, 1, 1, 0, 0.56369424, 1, 0.56369424, 0, 0, 1, 0)
 
 [node name="Projectile" type="Area3D" unique_id=1808982652]
 script = ExtResource("1_c8fcr")
@@ -45,15 +70,17 @@ replication_config = SubResource("SceneReplicationConfig_6aapk")
 [node name="Node3D" type="Node3D" parent="." unique_id=461995765]
 transform = Transform3D(-4.371139e-09, 0, -0.1, 0, 0.1, 0, 0.1, 0, -4.371139e-09, 0, 0, 0)
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=1159926010]
-transform = Transform3D(-4.371139e-08, 1, -1.8512493e-29, -1, -4.371139e-08, -4.2351647e-22, -4.2351647e-22, 0, 1, -0.39353046, 0, 0)
-mesh = SubResource("CapsuleMesh_softn")
-surface_material_override/0 = SubResource("ORMMaterial3D_6q2a6")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Node3D" unique_id=735746444]
-transform = Transform3D(-4.371139e-08, 1, 1.5529405e-22, -1, -4.371139e-08, 3.552714e-15, 3.552714e-15, 1.2621775e-29, 1, 0.39353046, 0, 0)
-mesh = SubResource("CapsuleMesh_softn")
-surface_material_override/0 = SubResource("ShaderMaterial_byeak")
+[node name="CPUParticles3D" type="CPUParticles3D" parent="Node3D" unique_id=1896036731]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, -4.2351647e-22, -4.2351647e-22, 0, 1, -0.39353046, 0, -1.7763568e-15)
+material_override = SubResource("StandardMaterial3D_6q2a6")
+amount = 30
+lifetime = 0.12
+mesh = SubResource("PlaneMesh_softn")
+gravity = Vector3(0, 0, 0)
+scale_amount_min = 0.0
+scale_amount_curve = SubResource("Curve_q3m7n")
+color_ramp = SubResource("Gradient_qfhx1")
+hue_variation_max = 0.36
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1712433021]
 autoplay = true
