@@ -4,8 +4,11 @@ extends Node3D
 @export var projectile_scene: PackedScene
 @export var damage_number_scene: PackedScene
 @export var loot_modifier_scene: PackedScene
+@export var hit_wall_scene: PackedScene
+@export var play_at_scene: PackedScene
 
 @onready var players: Node3D = $World/Players
+@onready var spawns_pool: Node3D = $World/SpawnPools
 @onready var loots: Node3D = $World/Loots
 @onready var loots_pool: Node3D = $World/LootsPools
 @onready var ip = $CanvasLayer/IPLineEdit
@@ -13,6 +16,7 @@ extends Node3D
 
 @onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
 @onready var spawner_loots: MultiplayerSpawner = $MultiplayerSpawnerLoots
+
 
 var entity_scenes: Dictionary = {}
 
@@ -27,6 +31,8 @@ func _ready() -> void:
 		"projectile": projectile_scene,
 		"damage_number": damage_number_scene,
 		"loot_modifier": loot_modifier_scene,
+		"hit_wall": hit_wall_scene,
+		"play_at": play_at_scene,
 	}
 	
 	Network.peer_connected.connect(_peer_connected)
@@ -74,15 +80,12 @@ func _on_join_button_pressed() -> void:
 
 func _peer_connected(id: int) -> void:
 	if Network.is_server():
-		spawner.spawn({
-			"type": "player",
-			"id": id,
-			"position": Vector3(
-				randf() * 6.0,
-				1.0,
-				randf() * 6.0
-			)
-		})
+		Network.process_player_spawn(
+			spawns_pool,
+			players,
+			id
+		)
+	
 
 func _peer_disconnected(id: int) -> void:
 	var player := players.get_node_or_null(str(id))
@@ -98,7 +101,7 @@ func _physics_process(_delta):
 		)
 	
 	Network.process_player_actions(players, loots)
-	
+
 func _spawn_entity(data: Dictionary) -> Node:
 	var scene: PackedScene = entity_scenes.get(data["type"])
 	
@@ -120,6 +123,12 @@ func _spawn_entity(data: Dictionary) -> Node:
 		"damage_number":
 			entity.position = data["position"]
 			entity.setup(data["damage"])
+		"hit_wall":
+			entity.position = data["position"]
+			entity.setup(data["damage"])
+		"play_at":
+			entity.position = data["position"]
+			entity.setup(data["path"])
 		"loot_modifier":
 			entity.position = data["position"]
 			entity.setup(data["modifier"])

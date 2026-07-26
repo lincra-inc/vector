@@ -5,12 +5,46 @@
 [ext_resource type="PackedScene" uid="uid://e7tkrxwldqof" path="res://scenes/projectile.tscn" id="3_qmmbi"]
 [ext_resource type="PackedScene" uid="uid://b17iblkw03s4f" path="res://scenes/DamageNumber.tscn" id="4_spt58"]
 [ext_resource type="PackedScene" uid="uid://cmn0huj8lismy" path="res://scenes/loot_modifier.tscn" id="5_3cplo"]
-[ext_resource type="PackedScene" uid="uid://cxnbwi6d6dutb" path="res://Models/Arma/ArmaPlaceholder.glb" id="5_4cd4q"]
 [ext_resource type="ArrayMesh" uid="uid://ctju3h8703dki" path="res://Models/MapaPrueba/MAP01_MAP01.obj" id="5_prmo1"]
+[ext_resource type="PackedScene" uid="uid://bvcmogqbkd34e" path="res://scenes/hit_wall.tscn" id="6_prmo1"]
 [ext_resource type="Texture2D" uid="uid://b3ut36pqyjk0o" path="res://Models/MapaPrueba/STARTAN2.png" id="6_yhyg3"]
+[ext_resource type="PackedScene" uid="uid://b4dhqr6as5ta4" path="res://scenes/play_at.tscn" id="7_3cplo"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_05igt"]
-size = Vector3(4.6621094, 0.001, 7.82959)
+size = Vector3(1.408081, 0.001, 1.3497314)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h7x7i"]
+size = Vector3(1, 0.001, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pu2i2"]
+size = Vector3(0.86712646, 0.001, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3xgcd"]
+size = Vector3(1, 0.001, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7dcax"]
+size = Vector3(1, 0.001, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5oj4q"]
+size = Vector3(1, 0.001, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2tbgp"]
+size = Vector3(1, 0.001, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gyb6n"]
+size = Vector3(31.449371, 0.001, 4.4976196)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lg2wt"]
+size = Vector3(14.094421, 0.001, 5.0822754)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_m8m5u"]
+size = Vector3(11.358948, 0.001, 15.889923)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sn4am"]
+size = Vector3(6.7662964, 0.001, 6.3634033)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3jf2c"]
+size = Vector3(7.7061157, 0.001, 7.902405)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_prmo1"]
 shading_mode = 2
@@ -25,6 +59,8 @@ player_scene = ExtResource("2_jiai4")
 projectile_scene = ExtResource("3_qmmbi")
 damage_number_scene = ExtResource("4_spt58")
 loot_modifier_scene = ExtResource("5_3cplo")
+hit_wall_scene = ExtResource("6_prmo1")
+play_at_scene = ExtResource("7_3cplo")
 
 [node name="World" type="Node3D" parent="." unique_id=2125469171]
 
@@ -33,10 +69,76 @@ loot_modifier_scene = ExtResource("5_3cplo")
 [node name="Loots" type="Node3D" parent="World" unique_id=30258269]
 
 [node name="LootsPools" type="Area3D" parent="World" unique_id=1488890644]
+collision_layer = 2
+collision_mask = 2
 
 [node name="pool_0" type="CollisionShape3D" parent="World/LootsPools" unique_id=2053912581]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.598197, 0.4995, 3.1862721)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2252111, 0.4995, 3.6421437)
 shape = SubResource("BoxShape3D_05igt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/LootsPools" unique_id=1198590308]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21809673, 3.4781282, 9.207717)
+shape = SubResource("BoxShape3D_h7x7i")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="World/LootsPools" unique_id=1039443072]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.991813, 5.0647917, 16.06108)
+shape = SubResource("BoxShape3D_pu2i2")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="World/LootsPools" unique_id=1624737373]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.20837, 0.4995, 22.030287)
+shape = SubResource("BoxShape3D_3xgcd")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="World/LootsPools" unique_id=370932983]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4871254, 2.681009, 37.404964)
+shape = SubResource("BoxShape3D_7dcax")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="World/LootsPools" unique_id=312450836]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.79267, 1.8415589, 36.039494)
+shape = SubResource("BoxShape3D_5oj4q")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="World/LootsPools" unique_id=1970283826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.833986, 0.4995, 33.428856)
+shape = SubResource("BoxShape3D_2tbgp")
+
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="World/LootsPools" unique_id=548816355]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.651245, 3.77585, 28.221718)
+shape = SubResource("BoxShape3D_2tbgp")
+
+[node name="CollisionShape3D8" type="CollisionShape3D" parent="World/LootsPools" unique_id=843210099]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.34818, 3.7758503, 22.288836)
+shape = SubResource("BoxShape3D_2tbgp")
+
+[node name="CollisionShape3D9" type="CollisionShape3D" parent="World/LootsPools" unique_id=616783696]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.687786, 7.5585027, 5.5418434)
+shape = SubResource("BoxShape3D_2tbgp")
+
+[node name="CollisionShape3D10" type="CollisionShape3D" parent="World/LootsPools" unique_id=407529631]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.788673, 5.4837213, -0.49868143)
+shape = SubResource("BoxShape3D_2tbgp")
+
+[node name="SpawnPools" type="Area3D" parent="World" unique_id=440756058]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/SpawnPools" unique_id=1858051799]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.373024, 4.343489, 22.55112)
+shape = SubResource("BoxShape3D_gyb6n")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="World/SpawnPools" unique_id=1309774740]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2328353, 2.0952399, 42.314285)
+shape = SubResource("BoxShape3D_lg2wt")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="World/SpawnPools" unique_id=1277431313]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.412587, 0.4995, 7.1906567)
+shape = SubResource("BoxShape3D_m8m5u")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="World/SpawnPools" unique_id=909462626]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.08493, 0.8712003, 35.788692)
+shape = SubResource("BoxShape3D_sn4am")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="World/SpawnPools" unique_id=439530627]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.165348, 0.4995, 22.739126)
+shape = SubResource("BoxShape3D_3jf2c")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1115062734]
 transform = Transform3D(1, 0, 0, 0, 0.71595985, 0.69814146, 0, -0.69814146, 0.71595985, 0, 0.37335813, 0)
@@ -66,9 +168,6 @@ text = "130.94.106.209"
 placeholder_text = "IP..."
 editable = false
 
-[node name="ArmaPlaceholder" parent="." unique_id=314421071 instance=ExtResource("5_4cd4q")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.101932526, 0.17853019, 0.14767492)
-
 [node name="Map01Map01" type="MeshInstance3D" parent="." unique_id=479485827]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.953085, -1.2894135, 7.958968)
 material_override = SubResource("StandardMaterial3D_prmo1")
@@ -84,7 +183,7 @@ _spawnable_scenes = PackedStringArray("uid://cmn0huj8lismy")
 spawn_path = NodePath("../World/Loots")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=2117382879]
-_spawnable_scenes = PackedStringArray("uid://y6pvp6n81jev", "uid://7e5l8agops7g")
+_spawnable_scenes = PackedStringArray("uid://y6pvp6n81jev", "uid://e7tkrxwldqof", "uid://b4dhqr6as5ta4")
 spawn_path = NodePath("../World/Players")
 
 [connection signal="pressed" from="CanvasLayer/HostButton" to="." method="_on_host_button_pressed"]

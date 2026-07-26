@@ -1,16 +1,20 @@
 [gd_scene format=3 uid="uid://cmn0huj8lismy"]
 
 [ext_resource type="Script" uid="uid://coa1r3hdsbaxm" path="res://scripts/game_logic/loot_modifier.gd" id="1_6ovk1"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_05igt"]
-albedo_color = Color(0.2717122, 0.74001205, 7.70092e-07, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_gyb6n"]
-material = SubResource("StandardMaterial3D_05igt")
-size = Vector3(0.5432129, 0.5349121, 0.5576172)
+[ext_resource type="PackedScene" uid="uid://cavwoealti7e0" path="res://scenes/Power_Up/PowerUp.tscn" id="2_dm8yw"]
+[ext_resource type="AudioStream" uid="uid://iv01m3bht3qp" path="res://sounds/flight_sound.mp3" id="3_rutay"]
+[ext_resource type="AudioStream" uid="uid://dat7vrd2u235a" path="res://sounds/explosion_2.wav" id="4_4jdix"]
 
 [node name="LootModifier" type="Node3D" unique_id=338254868]
 script = ExtResource("1_6ovk1")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=879806762]
-mesh = SubResource("BoxMesh_gyb6n")
+[node name="PowerUp" parent="." unique_id=1221827739 instance=ExtResource("2_dm8yw")]
+
+[node name="AudioPick" type="AudioStreamPlayer3D" parent="." unique_id=269851800]
+stream = ExtResource("3_rutay")
+volume_db = -25.6
+pitch_scale = 0.5
+autoplay = true
+
+[node name="AudioAura" type="AudioStreamPlayer3D" parent="." unique_id=1372600170]
+stream = ExtResource("4_4jdix")

@@ -1,7 +1,7 @@
 extends Node
 
 @export var loot_spawn_interval := 5.0
-@export var loot_min_distance := 1.0
+@export var loot_min_distance := 3.5
 
 var loot_spawn_timer := 0.0
 
@@ -9,7 +9,7 @@ const DEDICATED_SERVER:    String = "--server"
 const DEFAULT_PORT:        int = 7777
 const DEFAULT_MAX_CLIENTS: int = 32
 
-const DEBUG_IN_LOCAL: bool = false
+const DEBUG_IN_LOCAL: bool = true
 
 signal server_started(port: int)
 signal server_stopped()
@@ -26,6 +26,8 @@ var _spawner: MultiplayerSpawner
 var _spawner_loots: MultiplayerSpawner
 
 var last_processed_shot: Dictionary = {}
+var last_footstep_sequence: Dictionary = {}
+var last_jump_sequence: Dictionary = {}
 
 func _ready() -> void:
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -142,6 +144,26 @@ func spawn_damage_number(position: Vector3, damage: int, id: int) -> void:
 		"id": id
 	})
 
+func spawn_hit_wall(position: Vector3, damage: int) -> void:
+	if !is_server():
+		return
+	
+	_spawner.spawn({
+		"type": "hit_wall",
+		"position": position,
+		"damage": damage
+	})
+
+func spawn_play_at(position: Vector3, path: String) -> void:
+	if !is_server():
+		return
+	
+	_spawner.spawn({
+		"type": "play_at",
+		"position": position,
+		"path": path
+	})
+
 func spawn_loot_box(position: Vector3, modifier: int) -> void:
 	if !is_server():
 		return
@@ -185,6 +207,7 @@ func process_player_actions(players: Node, loots: Node) -> void:
 				continue
 			
 			#player.weapon_data.apply_modifier(loot.modifier)
+			spawn_play_at(loot.position, "res://sounds/1up.mp3")
 			loot.queue_free()
 	
 	for node: Node in players.get_children():
@@ -197,6 +220,18 @@ func process_player_actions(players: Node, loots: Node) -> void:
 			continue
 		
 		var input := player.input_state
+		
+		var jump := player.input_state.jump_sequence
+		var last_jump : int = last_jump_sequence.get(player.peer_id, 0)
+		if jump != last_jump:
+			last_jump_sequence[player.peer_id] = jump
+			Network.spawn_play_at(player.global_position,"res://sounds/jumppp11.ogg")
+		
+		var step := player.input_state.footstep_sequence
+		var last_foot : int = last_footstep_sequence.get(player.peer_id, 0)
+		if step != last_foot:
+			last_footstep_sequence[player.peer_id] = step
+			Network.spawn_play_at(player.global_position,"res://sounds/stone01.ogg")
 		
 		var last: int = last_processed_shot.get(player.name, 0)
 		
@@ -212,6 +247,26 @@ func process_player_actions(players: Node, loots: Node) -> void:
 			player.weapon_data
 		)
 
+
+func process_player_spawn(player_spawn_area: Area3D, players: Node, id: int) -> void:
+	if !is_server():
+		return
+	
+	var position := _find_spawn_position(
+		player_spawn_area,
+		players,
+		10.0
+	)
+	
+	if position == Vector3.INF:
+		return
+	
+	_spawner.spawn({
+		"type": "player",
+		"id": id,
+		"position": position
+	})
+
 func process_loot_spawn(delta: float, loot_spawn_area: Area3D, loots: Node) -> void:
 	if !is_server():
 		return
@@ -223,9 +278,10 @@ func process_loot_spawn(delta: float, loot_spawn_area: Area3D, loots: Node) -> v
 	
 	loot_spawn_timer = loot_spawn_interval
 	
-	var position := _find_loot_spawn_position(
+	var position := _find_spawn_position(
 		loot_spawn_area,
-		loots
+		loots,
+		loot_min_distance
 	)
 	
 	if position == Vector3.INF:
@@ -236,34 +292,49 @@ func process_loot_spawn(delta: float, loot_spawn_area: Area3D, loots: Node) -> v
 		randi() % 8 
 	)
 
-func _find_loot_spawn_position(area_pool: Area3D, loots: Node) -> Vector3:
+func _find_spawn_position(area_pool: Area3D, parent_pool: Node, min_distance: float) -> Vector3:
 	var index := randi_range(0, area_pool.get_child_count() - 1)
-	var shape : CollisionShape3D = area_pool.get_child(index) as CollisionShape3D
+	var shape := area_pool.get_child(index) as CollisionShape3D
 	
 	if shape == null:
 		return Vector3.INF
-	
+
 	var box := shape.shape as BoxShape3D
-	
+
 	if box == null:
 		return Vector3.INF
-	
+
+	var valid_positions: Array[Vector3] = []
+
 	for i in 20:
 		var local := Vector3(
 			randf_range(-box.size.x * 0.5, box.size.x * 0.5),
 			randf_range(-box.size.y * 0.5, box.size.y * 0.5),
 			randf_range(-box.size.z * 0.5, box.size.z * 0.5)
 		)
-		
+
 		var world_pos := shape.global_transform * local
 		var valid := true
-		
-		for loot in loots.get_children():
-			if loot.global_position.distance_to(world_pos) < loot_min_distance:
+
+		for pool in parent_pool.get_children():
+			if pool.global_position.distance_to(world_pos) < min_distance:
 				valid = false
 				break
-		
+
 		if valid:
-			return world_pos
-	
-	return Vector3.INF
+			valid_positions.append(world_pos)
+
+	if valid_positions.is_empty():
+		return Vector3.INF
+
+	return valid_positions.pick_random()
+
+func get_random_player_spawn(player_spawn_area: Area3D, players: Node) -> Vector3:
+	if !is_server():
+		return Vector3.INF
+
+	return _find_spawn_position(
+		player_spawn_area,
+		players,
+		5.0
+	)

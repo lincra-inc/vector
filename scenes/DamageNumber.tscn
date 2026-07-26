@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b17iblkw03s4f"]
 
 [ext_resource type="Script" uid="uid://dvdrtj21lxq3g" path="res://scripts/game_logic/damage_number.gd" id="1_p3gxv"]
+[ext_resource type="AudioStream" uid="uid://8bqg8pviisl7" path="res://sounds/explosion_1.wav" id="2_5t1lh"]
 
 [node name="DamageNumber" type="Node3D" unique_id=881372226]
 script = ExtResource("1_p3gxv")
@@ -10,3 +11,7 @@ billboard = 1
 modulate = Color(0, 1, 1, 1)
 font_size = 48
 outline_size = 8
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=696596744]
+stream = ExtResource("2_5t1lh")
+autoplay = true

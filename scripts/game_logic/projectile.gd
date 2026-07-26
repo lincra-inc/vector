@@ -39,29 +39,37 @@ func _ready() -> void:
 			queue_free()
 
 func _physics_process(delta: float) -> void:
-	if waiting_remove: 
+	if waiting_remove:
 		return
-	
+
 	if !multiplayer.is_server():
 		return
-	
-	var from := global_position
-	var to := from + direction * speed * delta
-	
+
+	var remaining_distance : float = speed * delta
+	var step_size : float = 0.5 # Distancia máxima recorrida por comprobación
+
 	var space_state := get_world_3d().direct_space_state
-	
-	var query := PhysicsRayQueryParameters3D.create(from, to)
-	
-	query.collide_with_areas = true
-	query.collide_with_bodies = true
-	query.collision_mask = 1
-	var result := space_state.intersect_ray(query)
-	
-	if !result.is_empty():
-		_on_hit(result)
-		return
-	
-	global_position = to
+
+	while remaining_distance > 0.0:
+		var distance : float = min(step_size, remaining_distance)
+
+		var from := global_position
+		var to := from + direction * distance
+
+		var query := PhysicsRayQueryParameters3D.create(from, to)
+		query.collide_with_bodies = true
+		query.collide_with_areas = true
+		query.collision_mask = 1
+
+		var result := space_state.intersect_ray(query)
+
+		if !result.is_empty():
+			global_position = result.position
+			_on_hit(result)
+			return
+
+		global_position = to
+		remaining_distance -= distance
 
 func _on_hit(hit: Dictionary) -> void:
 	if waiting_remove: 
@@ -78,22 +86,29 @@ func _on_hit(hit: Dictionary) -> void:
 		if collider.has_meta("damage_multiplier"):
 			multiplier = collider.get_meta("damage_multiplier")
 		
+		if player.peer_id == owner_peer_id:
+			return
+		
 		var final_damage := int(damage * multiplier)
-		player.take_damage(final_damage)
+		player.take_damage(owner_peer_id, final_damage)
 		
 		Network.spawn_damage_number(
 			hit["position"],
 			final_damage,
 			player.peer_id
 		)
-	
+	else:
+			Network.spawn_hit_wall(
+				hit["position"],
+				damage
+			)
 	destroy_after_sound()
 
 func destroy_after_sound() -> void:
 	waiting_remove = true;
 	$Node3D.visible = false
-	var audio := $AudioStreamPlayer3D
 	
+	var audio := $AudioStreamPlayer3D
 	if audio.playing:
 		await audio.finished
 	

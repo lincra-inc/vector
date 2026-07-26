@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="vector3"
-run/main_scene="uid://cu6afc3584gyi"
+run/main_scene="uid://cby4rnbahppsl"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Network="*uid://dq73ew4r5d8q7"
+Globals="*uid://ll8bqed4la0j"
 
 [display]
 

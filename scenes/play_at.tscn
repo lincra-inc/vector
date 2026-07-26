@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://b4dhqr6as5ta4"]
+
+[ext_resource type="Script" uid="uid://b8nrnyufdqtje" path="res://scripts/game_logic/play_at.gd" id="1_ogh71"]
+
+[node name="PlayAt" type="Node3D" unique_id=51533593]
+script = ExtResource("1_ogh71")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=275983131]

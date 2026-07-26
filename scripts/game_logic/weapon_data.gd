@@ -2,7 +2,7 @@ extends Node3D
 class_name WeaponData
 
 @export_group("Daño")
-@export var damage: float = 1.0
+@export var damage: float = 10.0
 @export var critical_multiplier: float = 2.0
 
 @export_group("Cadencia")
@@ -36,7 +36,7 @@ var sight_type := 0
 @export_group("Audio")
 @export var fire_sounds: Array[AudioStream]
 
-@onready var ui_energy: ProgressBar = $"../../CanvasLayer/Energy"
+@onready var ui_energy: ProgressBar = $"../../CanvasLayer/UI/Energy"
 
 var cooldown := 0.0
 var shoot_pressed := false

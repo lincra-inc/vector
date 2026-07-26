@@ -37,4 +37,4 @@ func _process(delta: float) -> void:
 	
 	if timer >= lifetime:
 		pass
-		#queue_free()
+		queue_free()

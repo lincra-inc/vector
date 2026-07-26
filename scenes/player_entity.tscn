@@ -19,6 +19,15 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath(".:shoot_direction")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath(".:player_name")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:footstep_sequence")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:jump_sequence")
+properties/5/spawn = true
+properties/5/replication_mode = 1
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gyb6n"]
 height = 2.1226807
@@ -51,11 +60,27 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath(".:scale")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath("Head:rotation")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("Head/WeaponPivot/Weapon:position")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("Head/WeaponPivot/Weapon:rotation")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath("Name:text")
+properties/6/spawn = true
+properties/6/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" unique_id=986923867]
 collision_layer = 2
 wall_min_slide_angle = 1.4835298
 script = ExtResource("1_8b1co")
+
+[node name="Name" type="Label3D" parent="." unique_id=506809439]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+billboard = 1
 
 [node name="InputState" type="Node" parent="." unique_id=1720547633]
 script = ExtResource("2_6nmcj")
@@ -92,7 +117,10 @@ mesh = SubResource("CylinderMesh_gyb6n")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.800488, 0)
 
 [node name="AimPivot" type="Node3D" parent="Head/Camera3D" unique_id=29266203]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.37593532, -0.3959285)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.33440512, -0.3959285)
+
+[node name="RunPivot" type="Node3D" parent="Head/Camera3D" unique_id=2144529657]
+transform = Transform3D(0.37897322, -0.45227328, 0.80735874, 0, 0.8724358, 0.4887287, -0.92540765, -0.18521509, 0.3306298, 0.4583996, -0.4024878, -0.6239777)
 
 [node name="CameraShake" type="Node" parent="Head" unique_id=309191043 node_paths=PackedStringArray("camera")]
 script = ExtResource("3_pywmm")
@@ -119,7 +147,7 @@ script = ExtResource("5_nk4n4")
 [node name="Weapon" type="Node3D" parent="Head/WeaponPivot" unique_id=55296784]
 
 [node name="ShootPivot" type="Node3D" parent="Head/WeaponPivot/Weapon" unique_id=733549340]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.024199992, 0.074374676, -0.5134875)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0020342171, 0.14914039, -0.9484075)
 
 [node name="ArmaPlaceholder" parent="Head/WeaponPivot/Weapon" unique_id=1512367302 instance=ExtResource("5_hl74m")]
 transform = Transform3D(-7.86805e-08, 0, -1.8, 0, 1.8, 0, 1.8, 0, -7.86805e-08, 0, 0, 0.09426361)
@@ -129,17 +157,54 @@ replication_config = SubResource("SceneReplicationConfig_3vyb7")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1927998647]
 
-[node name="Energy" type="ProgressBar" parent="CanvasLayer" unique_id=2012042959]
+[node name="UI" type="Control" parent="CanvasLayer" unique_id=1831014651]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Energy" type="ProgressBar" parent="CanvasLayer/UI" unique_id=2012042959]
+layout_mode = 0
 offset_left = 324.0
 offset_top = 573.0
 offset_right = 770.0
 offset_bottom = 600.0
+show_percentage = false
 
-[node name="Health" type="ProgressBar" parent="CanvasLayer" unique_id=1692221499]
-offset_left = 397.0
-offset_top = 508.0
-offset_right = 707.0
-offset_bottom = 548.0
+[node name="Health" type="Label" parent="CanvasLayer/UI" unique_id=1980767086]
+layout_mode = 0
+offset_left = 340.0
+offset_top = 475.0
+offset_right = 429.0
+offset_bottom = 570.0
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="INFO" type="Control" parent="CanvasLayer" unique_id=1066089378]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Killer" type="Label" parent="CanvasLayer/INFO" unique_id=263141238]
+layout_mode = 0
+offset_left = 435.0
+offset_top = 36.0
+offset_right = 641.0
+offset_bottom = 103.0
+theme_override_colors/font_color = Color(0, 1, 1, 1)
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Respawn" type="Label" parent="CanvasLayer/INFO" unique_id=1446612483]
+layout_mode = 0
+offset_left = 322.0
+offset_top = 568.0
+offset_right = 774.0
+offset_bottom = 602.0
+text = "R para reaparecer"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="StepRayLow" type="RayCast3D" parent="." unique_id=960950051]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -0.29948258)
@@ -148,3 +213,5 @@ target_position = Vector3(0, 0, -0.5)
 [node name="StepRayHigh" type="RayCast3D" parent="." unique_id=1595005485]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, -0.29948258)
 target_position = Vector3(0, 0, -0.5)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=884271565]
