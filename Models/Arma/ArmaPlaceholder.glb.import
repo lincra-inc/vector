@@ -45,6 +45,11 @@ _subresources={
 "use_external/enabled": true,
 "use_external/fallback_path": "res://Models/Arma/ArmaMaterial.tres",
 "use_external/path": "uid://c0ypnogowxjch"
+},
+"Material.002": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/Character/CharacterMaterial.tres",
+"use_external/path": "uid://mqbs6b1mlbhi"
 }
 }
 }
