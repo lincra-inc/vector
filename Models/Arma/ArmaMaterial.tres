@@ -1,15 +1,8 @@
-[gd_resource type="ORMMaterial3D" format=3 uid="uid://c0ypnogowxjch"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c0ypnogowxjch"]
 
 [ext_resource type="Texture2D" uid="uid://ujj2oyh1d8sg" path="res://Models/Arma/ArmaPlaceholder_arma.png" id="1_eimjt"]
 
-[sub_resource type="Gradient" id="Gradient_yx0c2"]
-colors = PackedColorArray(1, 1, 0, 1, 1, 1, 0.050980393, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_wrl5f"]
-gradient = SubResource("Gradient_yx0c2")
-
 [resource]
-shading_mode = 0
-diffuse_mode = 1
+shading_mode = 2
 albedo_texture = ExtResource("1_eimjt")
-orm_texture = SubResource("GradientTexture1D_wrl5f")
+metallic_specular = 0.0

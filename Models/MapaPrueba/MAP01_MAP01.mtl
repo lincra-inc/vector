@@ -1,0 +1,27 @@
+# MTL for MDJ26.wad, map MAP01
+# Created by Ultimate Doom Builder 3.0.0.4323
+
+newmtl CRATE1
+Kd 1.0 1.0 1.0
+map_Kd C:\Users\Luca\Desktop\New folder\CRATE1.png
+
+newmtl CRATE3
+Kd 1.0 1.0 1.0
+map_Kd C:\Users\Luca\Desktop\New folder\CRATE3.png
+
+newmtl STARTAN2
+Kd 1.0 1.0 1.0
+map_Kd C:\Users\Luca\Desktop\New folder\STARTAN2.png
+
+newmtl CEIL1_1
+Kd 1.0 1.0 1.0
+map_Kd C:\Users\Luca\Desktop\New folder\CEIL1_1.png
+
+newmtl F_SKY1
+Kd 1.0 1.0 1.0
+map_Kd C:\Users\Luca\Desktop\New folder\F_SKY1.png
+
+newmtl FLOOR0_1
+Kd 1.0 1.0 1.0
+map_Kd C:\Users\Luca\Desktop\New folder\FLOOR0_1.png
+
