@@ -63,3 +63,45 @@ func try_fire() -> bool:
 	cooldown = fire_rate
 	energy -= energy_cost
 	return true
+
+func apply_modifier(modifier: LootModifier) -> void:
+	if modifier == null:
+		return
+
+	# Vida
+	var player_state := $"../../PlayerState" as PlayerState
+	if player_state:
+		player_state.health = min(
+			player_state.health + modifier.health,
+			player_state.max_health
+		)
+		player_state.set_health.rpc(player_state.health)
+
+	# Daño
+	damage += modifier.damage
+	critical_multiplier += modifier.critical_multiplier
+
+	# Cadencia
+	fire_rate += modifier.fire_rate
+	fire_rate = max(fire_rate, 0.02)
+
+	# Proyectil
+	projectile_speed += modifier.projectile_speed
+	projectile_lifetime += modifier.projectile_lifetime
+
+	# Energía
+	max_energy += modifier.max_energy
+	energy = min(energy, max_energy)
+
+	energy_cost += modifier.energy_cost
+	energy_cost = max(energy_cost, 0.0)
+
+	recharge_speed += modifier.recharge_speed
+	recharge_speed = max(recharge_speed, 0.0)
+
+	# Recoil
+	recoil_pitch += modifier.recoil_pitch
+	recoil_yaw += modifier.recoil_yaw
+
+	# Efectos
+	camera_shake += modifier.camera_shake

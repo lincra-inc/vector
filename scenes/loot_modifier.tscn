@@ -1,14 +1,34 @@
 [gd_scene format=3 uid="uid://cmn0huj8lismy"]
 
 [ext_resource type="Script" uid="uid://coa1r3hdsbaxm" path="res://scripts/game_logic/loot_modifier.gd" id="1_6ovk1"]
-[ext_resource type="PackedScene" uid="uid://cavwoealti7e0" path="res://scenes/Power_Up/PowerUp.tscn" id="2_dm8yw"]
+[ext_resource type="Shader" uid="uid://0ukq5l2q34fe" path="res://scenes/Power_Up/PowerUpShader.tres" id="2_4jdix"]
 [ext_resource type="AudioStream" uid="uid://iv01m3bht3qp" path="res://sounds/flight_sound.mp3" id="3_rutay"]
 [ext_resource type="AudioStream" uid="uid://dat7vrd2u235a" path="res://sounds/explosion_2.wav" id="4_4jdix"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s6sty"]
+render_priority = 0
+shader = ExtResource("2_4jdix")
+shader_parameter/ColorParameter = Color(3.2944162, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_wfv3s"]
+material = SubResource("ShaderMaterial_s6sty")
+radial_segments = 8
+rings = 4
 
 [node name="LootModifier" type="Node3D" unique_id=338254868]
 script = ExtResource("1_6ovk1")
 
-[node name="PowerUp" parent="." unique_id=1221827739 instance=ExtResource("2_dm8yw")]
+[node name="PowerUp" type="Node3D" parent="." unique_id=1221827739]
+
+[node name="Label3D" type="Label3D" parent="PowerUp" unique_id=215054137]
+billboard = 2
+modulate = Color(1, 0, 0.015686275, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "G"
+font_size = 80
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PowerUp" unique_id=1570539048]
+mesh = SubResource("SphereMesh_wfv3s")
 
 [node name="AudioPick" type="AudioStreamPlayer3D" parent="." unique_id=269851800]
 stream = ExtResource("3_rutay")

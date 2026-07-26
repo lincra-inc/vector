@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cavwoealti7e0"]
 
-[ext_resource type="Shader" uid="uid://0ukq5l2q34fe" path="res://Shaders/PowerUpShader.tres" id="1_hdd7a"]
+[ext_resource type="Shader" uid="uid://0ukq5l2q34fe" path="res://scenes/Power_Up/PowerUpShader.tres" id="1_hdd7a"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s6sty"]
 render_priority = 0

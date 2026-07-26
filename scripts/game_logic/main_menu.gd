@@ -6,17 +6,19 @@ extends Control
 func _ready():
 	player_name.grab_focus()
 	var args := OS.get_cmdline_args()
-	
+
 	for arg in args:
 		if arg.begins_with("--playername="):
-			var name := arg.trim_prefix("--playername=")
-			
-			Globals.player_name = name
-			get_tree().change_scene_to_file("res://main_scene/world.tscn")
-			break
-	
+			Globals.player_name = arg.trim_prefix("--playername=")
+			call_deferred("_load_world")
+			return
+
 	if Network.DEDICATED_SERVER in args:
-		get_tree().change_scene_to_file("res://main_scene/world.tscn")
+		call_deferred("_load_world")
+
+
+func _load_world():
+	get_tree().change_scene_to_file("res://main_scene/world.tscn")
 
 func start_game():
 	var name := player_name.text.strip_edges()

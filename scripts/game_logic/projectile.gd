@@ -97,6 +97,7 @@ func _on_hit(hit: Dictionary) -> void:
 			final_damage,
 			player.peer_id
 		)
+	
 	Network.spawn_hit_wall(
 		hit["position"],
 		damage

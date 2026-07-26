@@ -9,7 +9,7 @@ const DEDICATED_SERVER:    String = "--server"
 const DEFAULT_PORT:        int = 7777
 const DEFAULT_MAX_CLIENTS: int = 32
 
-const DEBUG_IN_LOCAL: bool = false
+const DEBUG_IN_LOCAL: bool = true
 
 signal server_started(port: int)
 signal server_stopped()
@@ -206,7 +206,16 @@ func process_player_actions(players: Node, loots: Node) -> void:
 			if loot.global_position.distance_to(player.global_position) > 2.0:
 				continue
 			
-			#player.weapon_data.apply_modifier(loot.modifier)
+			var _player := player as Player
+			
+			if _player == null:
+				continue
+			
+			var modifier := loot as LootModifier
+			
+			if modifier != null:
+				_player.weapon_data.apply_modifier(modifier)
+			
 			spawn_play_at(loot.position, "res://sounds/1up.mp3")
 			loot.queue_free()
 	
@@ -259,7 +268,7 @@ func process_player_spawn(player_spawn_area: Area3D, players: Node, id: int) -> 
 	)
 	
 	if position == Vector3.INF:
-		return
+		position = Vector3.ZERO
 	
 	_spawner.spawn({
 		"type": "player",
@@ -306,7 +315,7 @@ func _find_spawn_position(area_pool: Area3D, parent_pool: Node, min_distance: fl
 
 	var valid_positions: Array[Vector3] = []
 
-	for i in 20:
+	for i in 40:
 		var local := Vector3(
 			randf_range(-box.size.x * 0.5, box.size.x * 0.5),
 			randf_range(-box.size.y * 0.5, box.size.y * 0.5),

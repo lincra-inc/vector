@@ -11,8 +11,7 @@ extends Node3D
 @onready var spawns_pool: Node3D = $World/SpawnPools
 @onready var loots: Node3D = $World/Loots
 @onready var loots_pool: Node3D = $World/LootsPools
-@onready var ip = $CanvasLayer/IPLineEdit
-@onready var canvas: CanvasLayer = $CanvasLayer
+@onready var scoreboard: PanelContainer = $CanvasLayer/Scoreboard
 
 @onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
 @onready var spawner_loots: MultiplayerSpawner = $MultiplayerSpawnerLoots
@@ -39,11 +38,11 @@ func _ready() -> void:
 	Network.peer_disconnected.connect(_peer_disconnected)
 	
 	if Network.is_dedicated_server():
-		canvas.hide()
+		scoreboard.visible = false
 		Network.start_server()
 		return
 	
-	canvas.hide()
+	scoreboard.visible = false
 	_on_join_button_pressed()
 
 func _notification(what: int) -> void:
@@ -61,11 +60,10 @@ func _on_host_button_pressed() -> void:
 		push_error("No pudo iniciarse el servidor.")
 		return
 	
-	canvas.hide()
 
 
 func _on_join_button_pressed() -> void:
-	var host_ip = ip.text;
+	var host_ip = "130.94.106.209";
 	
 	if Network.DEBUG_IN_LOCAL:
 		host_ip = "localhost"
@@ -76,7 +74,6 @@ func _on_join_button_pressed() -> void:
 		push_error("No pudo conectarse al servidor.")
 		return
 	
-	canvas.hide()
 
 func _peer_connected(id: int) -> void:
 	if Network.is_server():

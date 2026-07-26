@@ -28,6 +28,12 @@ properties/4/replication_mode = 1
 properties/5/path = NodePath(".:jump_sequence")
 properties/5/spawn = true
 properties/5/replication_mode = 1
+properties/6/path = NodePath(".:kills")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath(".:deaths")
+properties/7/spawn = true
+properties/7/replication_mode = 1
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gyb6n"]
 height = 2.1226807

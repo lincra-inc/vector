@@ -90,6 +90,7 @@ func _ready():
 		
 		ui_player.show()
 		ui_info.hide()
+		$Name.visible = false
 		
 		camera.current = true
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -104,6 +105,12 @@ func _process(delta):
 	
 	if dead:
 		return
+	
+	var main = get_tree().current_scene
+	if Input.is_action_pressed("scoreboard"):
+		main.scoreboard.show_scoreboard()
+	else:
+		main.scoreboard.hide_scoreboard()
 	
 	var look := Input.get_vector(
 		"look_left",
@@ -197,6 +204,9 @@ func _physics_process(delta):
 				10.0
 			)
 			
+			if spawn == Vector3.INF:
+				spawn = spawn_position
+			
 			global_position = spawn
 			velocity = Vector3.ZERO
 			
@@ -251,8 +261,19 @@ func move_player(delta):
 	
 	var target_velocity := dir * move_speed * current_speed_multiplier
 	
-	velocity.x = lerpf(velocity.x, target_velocity.x, 12.0 * delta)
-	velocity.z = lerpf(velocity.z, target_velocity.z, 12.0 * delta)
+	var accel := 12.0 if is_on_floor() else 3.5
+	
+	velocity.x = lerpf(
+		velocity.x,
+		target_velocity.x,
+		accel * delta
+	)
+
+	velocity.z = lerpf(
+		velocity.z,
+		target_velocity.z,
+		accel * delta
+	)
 	
 	if not is_on_floor():
 		velocity.y -= GRAVITY * delta
@@ -343,8 +364,6 @@ func die(killer_id: int) -> void:
 		return
 	
 	player_state.health = 0.0
-	player_state.deaths += 1
-	
 	print("Murió: " + str(peer_id) + " por " + str(killer_id))
 	
 	Network.spawn_play_at(
@@ -352,8 +371,14 @@ func die(killer_id: int) -> void:
 		"res://sounds/death.ogg"
 	)
 	
-	dead = true
+	var killer := get_player_by_peer_id(killer_id)
+	if killer:
+		killer.add_kill.rpc()
 	die_client.rpc_id(peer_id, killer_id)
+
+@rpc("any_peer", "call_local", "reliable")
+func add_kill():
+	input_state.kills += 1
 
 @rpc("any_peer", "call_local", "reliable")
 func die_client(killer_id: int):
@@ -363,6 +388,7 @@ func die_client(killer_id: int):
 	dead = true
 	camera.current = false
 	
+	input_state.deaths += 1
 	ui_player.hide()
 	ui_info.show()
 	
@@ -406,10 +432,17 @@ func get_spectator_target(killer_id: int) -> Player:
 	var alive_players: Array[Node] = []
 	
 	for player in players.get_children():
+		
+		if player == null:
+			continue
+		
 		if player == self:
 			continue
 		
-		if player.player_state.health > 0 && !player.dead:
+		if player.player_state == null:
+			continue
+		
+		if !player.dead && player.player_state.health > 0:
 			alive_players.append(player)
 	
 	if alive_players.is_empty():
