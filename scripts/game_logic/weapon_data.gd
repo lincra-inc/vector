@@ -105,3 +105,54 @@ func apply_modifier(modifier: LootModifier) -> void:
 
 	# Efectos
 	camera_shake += modifier.camera_shake
+	
+	var player := get_parent().get_parent() as Player
+	if player:
+		sync_stats.rpc_id(
+			player.peer_id,
+			damage,
+			critical_multiplier,
+			fire_rate,
+			projectile_speed,
+			projectile_lifetime,
+			max_energy,
+			energy,
+			energy_cost,
+			recharge_speed,
+			recoil_pitch,
+			recoil_yaw,
+			camera_shake
+		)
+
+@rpc("any_peer", "call_remote", "reliable")
+func sync_stats(
+	p_damage: float,
+	p_critical_multiplier: float,
+	p_fire_rate: float,
+	p_projectile_speed: float,
+	p_projectile_lifetime: float,
+	p_max_energy: float,
+	p_energy: float,
+	p_energy_cost: float,
+	p_recharge_speed: float,
+	p_recoil_pitch: float,
+	p_recoil_yaw: float,
+	p_camera_shake: float
+) -> void:
+	damage = p_damage
+	critical_multiplier = p_critical_multiplier
+
+	fire_rate = p_fire_rate
+
+	projectile_speed = p_projectile_speed
+	projectile_lifetime = p_projectile_lifetime
+
+	max_energy = p_max_energy
+	energy = p_energy
+	energy_cost = p_energy_cost
+	recharge_speed = p_recharge_speed
+
+	recoil_pitch = p_recoil_pitch
+	recoil_yaw = p_recoil_yaw
+
+	camera_shake = p_camera_shake

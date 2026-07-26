@@ -206,6 +206,9 @@ func process_player_actions(players: Node, loots: Node) -> void:
 			if loot.global_position.distance_to(player.global_position) > 2.0:
 				continue
 			
+			spawn_play_at(loot.position, "res://sounds/1up.mp3")
+			loot.queue_free()
+			
 			var _player := player as Player
 			
 			if _player == null:
@@ -215,9 +218,6 @@ func process_player_actions(players: Node, loots: Node) -> void:
 			
 			if modifier != null:
 				_player.weapon_data.apply_modifier(modifier)
-			
-			spawn_play_at(loot.position, "res://sounds/1up.mp3")
-			loot.queue_free()
 	
 	for node: Node in players.get_children():
 		var player := node as Player

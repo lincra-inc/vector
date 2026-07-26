@@ -152,6 +152,9 @@ func _unhandled_input(event):
 	if !is_multiplayer_authority():
 		return
 	
+	if event.is_action_pressed("ui_cancel"): # Typically the Escape key
+		get_tree().quit()
+	
 	if dead:
 		return
 	
@@ -163,8 +166,6 @@ func _unhandled_input(event):
 		pitch -= event.relative.y * mouse_look_sensitivity
 		pitch  = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
 	
-	if Input.is_action_pressed("ui_cancel"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func update_footsteps(delta: float):
 	if !is_multiplayer_authority():

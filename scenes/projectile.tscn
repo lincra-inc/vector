@@ -84,3 +84,6 @@ hue_variation_max = 0.36
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1712433021]
 autoplay = true
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1701943733]
+light_color = Color(0, 0.47058824, 1, 1)
