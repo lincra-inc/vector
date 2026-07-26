@@ -157,8 +157,8 @@ func _unhandled_input(event):
 		return
 	
 	if event.is_action_pressed("ui_cancel"): # Typically the Escape key
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		#get_tree().quit()
+		#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		get_tree().quit()
 	
 	if dead:
 		return

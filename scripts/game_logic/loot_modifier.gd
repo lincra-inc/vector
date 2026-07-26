@@ -111,4 +111,8 @@ func setup(modifier_type: int) -> void:
 	if material:
 		$PowerUp/Label3D.text = text
 		$PowerUp/Label3D.modulate = color
-		material.set_shader_parameter("ColorParameter", color)
+		
+		var unique_material := material.duplicate() as ShaderMaterial
+		$PowerUp/MeshInstance3D.set_surface_override_material(0, unique_material)
+		if unique_material:
+			unique_material.set_shader_parameter("ColorParameter", color)
