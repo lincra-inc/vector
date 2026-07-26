@@ -1,7 +1,7 @@
 extends Node
 
 @export var loot_spawn_interval := 5.0
-@export var loot_min_distance := 3.5
+@export var loot_min_distance := 5.0
 
 var loot_spawn_timer := 0.0
 
@@ -298,7 +298,7 @@ func process_loot_spawn(delta: float, loot_spawn_area: Area3D, loots: Node) -> v
 	
 	spawn_loot_box(
 		position,
-		randi() % 8 
+		randi() % 16
 	)
 
 func _find_spawn_position(area_pool: Area3D, parent_pool: Node, min_distance: float) -> Vector3:

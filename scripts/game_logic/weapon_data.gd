@@ -106,7 +106,7 @@ func apply_modifier(modifier: LootModifier) -> void:
 	# Vida
 	var player_state := player.player_state
 	if player_state:
-		player_state.max_health = player_state.health + modifier.health
+		player_state.max_health = player_state.max_health + modifier.health
 		player_state.health += modifier.health
 		
 		player_state.set_health.rpc(player_state.health)
@@ -115,10 +115,10 @@ func apply_modifier(modifier: LootModifier) -> void:
 	if player:
 		sync_stats.rpc_id(
 			player.peer_id,
+			
 			speed,
 			speed_multiplier,
 			jump_force,
-			
 			damage,
 			critical_multiplier,
 			fire_rate,

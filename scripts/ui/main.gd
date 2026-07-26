@@ -112,6 +112,21 @@ func _spawn_entity(data: Dictionary) -> Node:
 		"player":
 			entity.name = str(data["id"])
 			entity.position = data["position"]
+			var mesh := entity.find_child("QuakeGuy_002", true, false) as MeshInstance3D
+			
+			if mesh:
+				var material := mesh.get_active_material(0) as ShaderMaterial
+				
+				var unique_material := material.duplicate() as ShaderMaterial
+				mesh.set_surface_override_material(0, unique_material)
+				if unique_material:
+					unique_material.set_shader_parameter("ColorParameter", Color(
+						randf(),
+						randf(),
+						randf(),
+						1.0
+					))
+			
 			entity.setup(data["id"])
 		"projectile":
 			entity.position = data["position"]

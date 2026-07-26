@@ -41,28 +41,73 @@ func setup(modifier_type: int) -> void:
 	if modifier_type == 0:
 		health = randf_range(10, 20)
 		color = Color.GREEN
-		text  = "+" + str(int(health))
+		text = "+" + str(int(health))
+
 	elif modifier_type == 1:
 		damage = randf_range(2, 6)
 		color = Color.ORANGE
-		text  = "+" + str(int(damage))
+		text = "+" + str(int(damage))
+
 	elif modifier_type == 2:
 		max_energy = randf_range(5, 10)
 		color = Color.SKY_BLUE
-		text  = "+" + str(int(max_energy))
+		text = "+" + str(int(max_energy))
+
 	elif modifier_type == 3:
 		recharge_speed = randf_range(5, 10)
 		color = Color.BLUE_VIOLET
-		text  = "+" + str(int(recharge_speed))
+		text = "+" + str(int(recharge_speed))
+
 	elif modifier_type == 4:
-		recharge_speed = randf_range(0.01, 0.02)
+		fire_rate = randf_range(0.01, 0.03)
 		color = Color.YELLOW
-		text  = "+" + str("%.2f" % recharge_speed)
-	else:
-		critical_multiplier = randf_range(0.04, 0.10)
+		text = "-" + str("%.2f" % fire_rate)
+
+	elif modifier_type == 5:
+		speed = randf_range(0.5, 2.0)
+		color = Color.ALICE_BLUE
+		text = "+" + str("%.1f" % speed)
+
+	elif modifier_type == 6:
+		jump = randf_range(0.5, 2.0)
+		color = Color.GREEN_YELLOW
+		text = "+" + str("%.1f" % jump)
+
+	elif modifier_type == 7:
+		run_speed = randf_range(0.1, 0.5)
+		color = Color.AQUAMARINE
+		text = "+" + str("%.1f" % run_speed)
+
+	elif modifier_type == 8:
+		critical_multiplier = randf_range(0.05, 0.20)
 		color = Color.GOLD
-		text  = "+" + str("%.2f" % critical_multiplier)
-	
+		text = "+" + str("%.2f" % critical_multiplier)
+
+	elif modifier_type == 9:
+		projectile_speed = randf_range(5, 15)
+		color = Color.CYAN
+		text = "+" + str(int(projectile_speed))
+
+	elif modifier_type == 10:
+		energy_cost = -randf_range(1, 5)
+		color = Color.PALE_GREEN
+		text = str(int(energy_cost))
+
+	elif modifier_type == 11:
+		recoil_pitch = -randf_range(0.5, 2.0)
+		color = Color.SALMON
+		text = str("%.1f" % recoil_pitch)
+
+	elif modifier_type == 12:
+		recoil_yaw = -randf_range(0.5, 2.0)
+		color = Color.LIGHT_CORAL
+		text = str("%.1f" % recoil_yaw)
+
+	elif modifier_type == 14:
+		camera_shake = -randf_range(0.02, 0.10)
+		color = Color.LIGHT_PINK
+		text = str("%.2f" % camera_shake)
+
 	if material:
 		$PowerUp/Label3D.text = text
 		$PowerUp/Label3D.modulate = color

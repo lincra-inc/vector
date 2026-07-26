@@ -92,11 +92,14 @@ func _ready():
 		ui_player.show()
 		ui_info.hide()
 		$Name.visible = false
+		$Body/Character2.hide()
 		
 		camera.current = true
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	else:
 		camera.current = false
+		$Head/WeaponPivot/Weapon/ArmaPlaceholder.hide()
+		
 		canvas_layer.hide()
 	spawn_position = global_position
 
@@ -154,7 +157,8 @@ func _unhandled_input(event):
 		return
 	
 	if event.is_action_pressed("ui_cancel"): # Typically the Escape key
-		get_tree().quit()
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		#get_tree().quit()
 	
 	if dead:
 		return
@@ -197,9 +201,15 @@ func _physics_process(delta):
 	
 	if dead:
 		if Input.is_action_just_pressed("restart"):
-			var root = get_tree().current_scene
-			
 			var main = get_tree().current_scene
+			for it in main.players.get_children():
+				if it is Player:
+					if it.peer_id != peer_id:
+						var body : Node3D = it.get_node("Body/Character2")
+						body.show()
+						var hand : Node3D= it.get_node("Head/WeaponPivot")
+						hand.hide()
+			
 			var spawn := Network._find_spawn_position(
 				main.spawns_pool,
 				main.players,
@@ -233,10 +243,6 @@ func move_player(delta):
 	if !is_multiplayer_authority():
 		return
 	
-	if Input.is_action_pressed("ui_cancel"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		#get_tree().quit()
-	
 	var input := Input.get_vector(
 		"ui_left",
 		"ui_right",
@@ -252,8 +258,14 @@ func move_player(delta):
 	var dir := (transform.basis.x * input.x - -transform.basis.z * input.y).normalized()
 	
 	var target_multiplier := 1.0
-	if Input.is_action_pressed("run"):
-		target_multiplier = run_multiplier
+	if is_on_floor():
+		if input != Vector2.ZERO:
+			target_multiplier = run_multiplier
+			$Body/Character2/AnimationPlayer.current_animation = "mixamo_com_001"
+		else:
+			$Body/Character2/AnimationPlayer.current_animation = "mixamo_com"
+	else:
+			$Body/Character2/AnimationPlayer.current_animation = "mixamo_com_002"
 	
 	current_speed_multiplier = lerpf(
 		current_speed_multiplier,
@@ -409,6 +421,12 @@ func die_client(killer_id: int):
 	if target:
 		var target_camera: Camera3D = target.get_node("Head/Camera3D")
 		target_camera.current = true
+		
+		if target:
+			var body := target.get_node("Body/Character2")
+			body.hide()
+			var hand := target.get_node("Head/WeaponPivot")
+			hand.show()
 		
 		print("Ahora espectando a: ", target.peer_id)
 	else:
