@@ -9,3 +9,7 @@ class_name PlayerState
 @rpc("any_peer", "call_remote", "reliable")
 func set_health(value: float):
 	health = value
+
+@rpc("any_peer", "call_remote", "reliable")
+func set_max_health(value: float):
+	max_health = value

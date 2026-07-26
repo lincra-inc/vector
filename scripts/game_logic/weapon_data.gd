@@ -1,6 +1,11 @@
 extends Node3D
 class_name WeaponData
 
+@export_group("Atributos")
+@export var speed: float = 0.0
+@export var speed_multiplier: float = 0.0
+@export var jump_force: float = 0.0
+
 @export_group("Daño")
 @export var damage: float = 10.0
 @export var critical_multiplier: float = 2.0
@@ -67,23 +72,13 @@ func try_fire() -> bool:
 func apply_modifier(modifier: LootModifier) -> void:
 	if modifier == null:
 		return
-
-	# Vida
-	var player_state := $"../../PlayerState" as PlayerState
-	if player_state:
-		player_state.health = min(
-			player_state.health + modifier.health,
-			player_state.max_health
-		)
-		player_state.set_health.rpc(player_state.health)
-
+	
 	# Daño
 	damage += modifier.damage
 	critical_multiplier += modifier.critical_multiplier
 
 	# Cadencia
-	fire_rate += modifier.fire_rate
-	fire_rate = max(fire_rate, 0.02)
+	fire_rate -= modifier.fire_rate
 
 	# Proyectil
 	projectile_speed += modifier.projectile_speed
@@ -101,15 +96,29 @@ func apply_modifier(modifier: LootModifier) -> void:
 
 	# Recoil
 	recoil_pitch += modifier.recoil_pitch
-	recoil_yaw += modifier.recoil_yaw
+	recoil_yaw -= modifier.recoil_yaw
 
 	# Efectos
-	camera_shake += modifier.camera_shake
+	camera_shake -= modifier.camera_shake
 	
 	var player := get_parent().get_parent() as Player
+	
+	# Vida
+	var player_state := player.player_state
+	if player_state:
+		player_state.max_health = player_state.health + modifier.health
+		player_state.health += modifier.health
+		
+		player_state.set_health.rpc(player_state.health)
+		player_state.set_max_health.rpc(player_state.max_health)
+	
 	if player:
 		sync_stats.rpc_id(
 			player.peer_id,
+			speed,
+			speed_multiplier,
+			jump_force,
+			
 			damage,
 			critical_multiplier,
 			fire_rate,
@@ -126,6 +135,10 @@ func apply_modifier(modifier: LootModifier) -> void:
 
 @rpc("any_peer", "call_remote", "reliable")
 func sync_stats(
+	p_speed: float,
+	p_speed_multiplier: float,
+	p_jump_force: float,
+	
 	p_damage: float,
 	p_critical_multiplier: float,
 	p_fire_rate: float,
@@ -156,3 +169,8 @@ func sync_stats(
 	recoil_yaw = p_recoil_yaw
 
 	camera_shake = p_camera_shake
+	
+	var player := get_parent().get_parent() as Player
+	player.move_speed     += p_speed
+	player.run_multiplier += p_speed_multiplier
+	player.JUMP_FORCE     += p_jump_force

@@ -5,8 +5,6 @@ class_name Player
 @export var gamepad_deadzone         := 0.15
 @export var mouse_look_sensitivity   := 0.003
 
-@export var move_speed:    float = 6.0
-@export var run_multiplier: float = 1.8
 @export var run_lerp_speed: float = 8.0
 
 @export var step_distance := 0.85
@@ -19,9 +17,12 @@ const MAX_SPEED    := 10.0
 const ACCEL        := 70.0
 const AIR_ACCEL    := 35.0
 const FRICTION     := 10.0
-const JUMP_FORCE   := 9.0
 const GRAVITY      := 18.0
 const FALL_GRAVITY := 45.0
+
+@export var JUMP_FORCE   := 9.0
+@export var move_speed:    float = 6.0
+@export var run_multiplier: float = 1.8
 
 @onready var step_ray_low: RayCast3D = $StepRayLow
 @onready var step_ray_high: RayCast3D = $StepRayHigh

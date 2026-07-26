@@ -1,6 +1,11 @@
 extends Node
 class_name LootModifier
 
+@export_group("Atributos")
+@export var speed: float = 0.0
+@export var run_speed: float = 0.0
+@export var jump: float = 0.0
+
 @export_group("Vida")
 @export var health: float = 0.0
 
