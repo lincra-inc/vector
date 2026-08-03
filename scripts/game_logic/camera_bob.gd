@@ -4,8 +4,8 @@ class_name CameraBob
 @export var walk_frequency: float = 1.5
 @export var run_frequency: float = 2.25
 
-@export var walk_amplitude: float = 0.035
-@export var run_amplitude: float = 0.065
+@export var walk_amplitude: float = 0.015
+@export var run_amplitude: float = 0.02
 
 @export var smoothing: float = 12.0
 
