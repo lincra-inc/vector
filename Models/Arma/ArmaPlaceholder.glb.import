@@ -46,7 +46,7 @@ _subresources={
 "use_external/fallback_path": "res://Models/Arma/ArmaMaterial.tres",
 "use_external/path": "uid://c0ypnogowxjch"
 },
-"Material.002": {
+"Material.018": {
 "use_external/enabled": true,
 "use_external/fallback_path": "res://Shaders/ShaderMaterial_Character.tres",
 "use_external/path": "uid://bdv25ty3mqddg"
@@ -54,5 +54,5 @@ _subresources={
 }
 }
 gltf/naming_version=2
-gltf/embedded_image_handling=1
+gltf/embedded_image_handling=2
 gltf/texture_map_mode=1

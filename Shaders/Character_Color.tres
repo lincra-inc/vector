@@ -16,11 +16,57 @@ function = 2
 [sub_resource type="VisualShaderNodeColorFunc" id="VisualShaderNodeColorFunc_et10b"]
 function = 1
 
+[sub_resource type="VisualShaderNodeColorFunc" id="VisualShaderNodeColorFunc_ty1oo"]
+function = 2
+
+[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_vdyoe"]
+default_input_values = [0, -1.885, 1, 1.105, 2, 0.0]
+
+[sub_resource type="VisualShaderNodeColorFunc" id="VisualShaderNodeColorFunc_c8ibn"]
+function = 1
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_r5xqe"]
+output_port_for_preview = 1
+
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_phvoo"]
 parameter_name = "Texture2DParameter"
 
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_phvoo"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5, 0.5, 0.5)]
+op_type = 3
+
+[sub_resource type="VisualShaderNodeSmoothStep" id="VisualShaderNodeSmoothStep_ty1oo"]
+default_input_values = [0, 0.0, 1, 0.145, 2, 0.5]
+
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_ty1oo"]
 parameter_name = "EMISSIONtEXTURE"
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_vdyoe"]
+default_input_values = [0, 0.0, 1, 1.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeColorOp" id="VisualShaderNodeColorOp_c8ibn"]
+operator = 8
+
+[sub_resource type="VisualShaderNodeSmoothStep" id="VisualShaderNodeSmoothStep_r5xqe"]
+default_input_values = [0, 0.21, 1, 0.8, 2, 0.5]
+
+[sub_resource type="Gradient" id="Gradient_75auh"]
+offsets = PackedFloat32Array(0, 0.18087557, 0.39285713, 0.64400923)
+colors = PackedColorArray(0.25144, 0.1848, 0.42, 1, 0.49884793, 0.49884793, 0.49884793, 1, 0.49884793, 0.49884793, 0.49884793, 1, 0.99, 0.96607494, 0.70290005, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wfv3s"]
+gradient = SubResource("Gradient_75auh")
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_fqnhm"]
+texture = SubResource("GradientTexture1D_wfv3s")
+texture_type = 1
+
+[sub_resource type="VisualShaderNodeMultiplyAdd" id="VisualShaderNodeMultiplyAdd_et10b"]
+default_input_values = [0, 0.0, 1, 2.0, 2, 0.0]
+
+[sub_resource type="VisualShaderNodeMultiplyAdd" id="VisualShaderNodeMultiplyAdd_phvoo"]
+default_input_values = [0, 0.0, 1, 1.3, 2, 0.0]
 
 [sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_vdyoe"]
 output_port_for_preview = 1
@@ -35,29 +81,54 @@ default_input_values = [0, -1.885, 1, 1.105, 2, 0.0]
 function = 2
 
 [resource]
-modes/diffuse = 2
+modes/diffuse = 3
 modes/specular = 2
-nodes/fragment/0/position = Vector2(688, 144)
+flags/vertex_lighting = true
+nodes/fragment/0/position = Vector2(1936, 144)
 nodes/fragment/2/node = SubResource("VisualShaderNodeTexture2DParameter_phvoo")
 nodes/fragment/2/position = Vector2(-1440, 160)
 nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_ty1oo")
-nodes/fragment/3/position = Vector2(-208, 464)
+nodes/fragment/3/position = Vector2(-1424, 624)
 nodes/fragment/4/node = SubResource("VisualShaderNodeVectorDecompose_vdyoe")
-nodes/fragment/4/position = Vector2(-400, 208)
+nodes/fragment/4/position = Vector2(-400, 224)
 nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_c8ibn")
 nodes/fragment/5/position = Vector2(-1040, 224)
 nodes/fragment/7/node = SubResource("VisualShaderNodeVectorCompose_75auh")
-nodes/fragment/7/position = Vector2(-16, 224)
+nodes/fragment/7/position = Vector2(464, -144)
 nodes/fragment/9/node = SubResource("VisualShaderNodeColorFunc_2nxk3")
-nodes/fragment/9/position = Vector2(-704, 240)
+nodes/fragment/9/position = Vector2(-736, 192)
 nodes/fragment/11/node = SubResource("VisualShaderNodeTexture_et10b")
-nodes/fragment/11/position = Vector2(80, 464)
+nodes/fragment/11/position = Vector2(-896, 608)
 nodes/fragment/12/node = SubResource("VisualShaderNodeColorParameter_et10b")
-nodes/fragment/12/position = Vector2(-1152, -80)
+nodes/fragment/12/position = Vector2(-1088, -384)
 nodes/fragment/13/node = SubResource("VisualShaderNodeColorFunc_phvoo")
 nodes/fragment/13/position = Vector2(-720, 0)
 nodes/fragment/14/node = SubResource("VisualShaderNodeVectorDecompose_ty1oo")
 nodes/fragment/14/position = Vector2(-400, -16)
 nodes/fragment/15/node = SubResource("VisualShaderNodeColorFunc_et10b")
-nodes/fragment/15/position = Vector2(304, 192)
-nodes/fragment/connections = PackedInt32Array(2, 0, 5, 2, 5, 0, 9, 0, 9, 0, 4, 0, 3, 0, 11, 2, 11, 0, 0, 5, 12, 0, 13, 0, 13, 0, 14, 0, 7, 0, 15, 0, 15, 0, 0, 0, 4, 2, 7, 2, 14, 0, 7, 0, 14, 1, 7, 1)
+nodes/fragment/15/position = Vector2(752, -80)
+nodes/fragment/16/node = SubResource("VisualShaderNodeColorFunc_ty1oo")
+nodes/fragment/16/position = Vector2(-592, 640)
+nodes/fragment/17/node = SubResource("VisualShaderNodeVectorCompose_vdyoe")
+nodes/fragment/17/position = Vector2(480, 544)
+nodes/fragment/18/node = SubResource("VisualShaderNodeColorFunc_c8ibn")
+nodes/fragment/18/position = Vector2(1456, 496)
+nodes/fragment/19/node = SubResource("VisualShaderNodeVectorDecompose_r5xqe")
+nodes/fragment/19/position = Vector2(-224, 688)
+nodes/fragment/28/node = SubResource("VisualShaderNodeMix_phvoo")
+nodes/fragment/28/position = Vector2(1072, -32)
+nodes/fragment/29/node = SubResource("VisualShaderNodeSmoothStep_ty1oo")
+nodes/fragment/29/position = Vector2(512, 160)
+nodes/fragment/30/node = SubResource("VisualShaderNodeFloatOp_vdyoe")
+nodes/fragment/30/position = Vector2(256, 112)
+nodes/fragment/31/node = SubResource("VisualShaderNodeColorOp_c8ibn")
+nodes/fragment/31/position = Vector2(1312, 64)
+nodes/fragment/32/node = SubResource("VisualShaderNodeSmoothStep_r5xqe")
+nodes/fragment/32/position = Vector2(752, 336)
+nodes/fragment/33/node = SubResource("VisualShaderNodeTexture_fqnhm")
+nodes/fragment/33/position = Vector2(1024, 256)
+nodes/fragment/34/node = SubResource("VisualShaderNodeMultiplyAdd_et10b")
+nodes/fragment/34/position = Vector2(32, 32)
+nodes/fragment/35/node = SubResource("VisualShaderNodeMultiplyAdd_phvoo")
+nodes/fragment/35/position = Vector2(32, 624)
+nodes/fragment/connections = PackedInt32Array(2, 0, 5, 2, 5, 0, 9, 0, 9, 0, 4, 0, 12, 0, 13, 0, 13, 0, 14, 0, 7, 0, 15, 0, 11, 0, 16, 0, 17, 0, 18, 0, 16, 0, 19, 0, 19, 2, 17, 2, 18, 0, 0, 5, 3, 0, 11, 2, 14, 0, 17, 0, 14, 0, 7, 0, 15, 0, 28, 1, 5, 0, 28, 0, 4, 2, 29, 2, 4, 2, 30, 0, 30, 0, 7, 2, 28, 0, 31, 0, 29, 0, 28, 2, 4, 2, 33, 0, 33, 0, 31, 1, 4, 1, 34, 0, 34, 0, 7, 1, 19, 1, 35, 0, 35, 0, 17, 1, 31, 0, 0, 0)

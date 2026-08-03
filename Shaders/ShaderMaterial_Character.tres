@@ -1,12 +1,12 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://bdv25ty3mqddg"]
 
 [ext_resource type="Shader" uid="uid://bkv4g1s6bqpju" path="res://Shaders/Character_Color.tres" id="1_bexfi"]
-[ext_resource type="Texture2D" uid="uid://hp2574tr4ngf" path="res://Models/Character/Character_RunnerGuy_Emissive_256.png" id="2_4hshi"]
-[ext_resource type="Texture2D" uid="uid://dl5ntbh0404i3" path="res://Models/Character/Character_RunnerGuy_BaseColor_256.png" id="3_3jd5n"]
+[ext_resource type="Texture2D" uid="uid://moid1fqik8ft" path="res://Models/Character/CharacterV2_RunnerGuy_BaseColor_256.png" id="1_qijeb"]
+[ext_resource type="Texture2D" uid="uid://t1lerkuaitt8" path="res://Models/Character/CharacterV2_RunnerGuy_Emissive_256.png" id="2_bexfi"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_bexfi")
-shader_parameter/ColorParameter = Color(0, 0.64, 0.40533325, 1)
-shader_parameter/Texture2DParameter = ExtResource("3_3jd5n")
-shader_parameter/EMISSIONtEXTURE = ExtResource("2_4hshi")
+shader_parameter/Texture2DParameter = ExtResource("1_qijeb")
+shader_parameter/ColorParameter = Color(0.642163, 0.630141, 0, 1)
+shader_parameter/EMISSIONtEXTURE = ExtResource("2_bexfi")

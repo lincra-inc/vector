@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://v522iajqgiav"]
+
+[ext_resource type="Shader" uid="uid://di2dnlmlco0na" path="res://Shaders/triplanar_topproyection.tres" id="1_g071x"]
+[ext_resource type="Texture2D" uid="uid://by3a2vavtp470" path="res://Models/MUndo/Fondo_Roca.png" id="2_ownu8"]
+[ext_resource type="Texture2D" uid="uid://cyonulqp3a3cw" path="res://Models/MapaFinal/Cesped.png" id="3_cip1k"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_g071x")
+shader_parameter/TextureParameterTriplanar = ExtResource("2_ownu8")
+shader_parameter/TextureParameterTriplanar2 = ExtResource("3_cip1k")
+shader_parameter/triplanar_scale = Vector3(12, 12, 12)
+shader_parameter/triplanar_offset = Vector3(0.21, 0, 0)
+shader_parameter/triplanar_sharpness = 0.5
