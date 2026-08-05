@@ -94,17 +94,17 @@ func setup(modifier_type: int) -> void:
 		text = str(int(energy_cost))
 
 	elif modifier_type == 11:
-		recoil_pitch = -randf_range(0.5, 2.0)
+		recoil_pitch = randf_range(0.5, 2.0)
 		color = Color.SALMON
 		text = str("%.1f" % recoil_pitch)
 
 	elif modifier_type == 12:
-		recoil_yaw = -randf_range(0.5, 2.0)
+		recoil_yaw = randf_range(0.5, 2.0)
 		color = Color.LIGHT_CORAL
 		text = str("%.1f" % recoil_yaw)
 
 	elif modifier_type == 14:
-		camera_shake = -randf_range(0.02, 0.10)
+		camera_shake = randf_range(0.02, 0.10)
 		color = Color.LIGHT_PINK
 		text = str("%.2f" % camera_shake)
 

@@ -80,6 +80,8 @@ func _on_hit(hit: Dictionary) -> void:
 	var player := collider.get_parent() as Player
 	
 	if player:
+		if player.dead:
+			return
 		
 		var multiplier := 1.0
 		
@@ -102,7 +104,8 @@ func _on_hit(hit: Dictionary) -> void:
 		hit["position"],
 		damage
 	)
-	destroy_after_sound()
+	queue_free()
+	#destroy_after_sound()
 
 func destroy_after_sound() -> void:
 	waiting_remove = true;

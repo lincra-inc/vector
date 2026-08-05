@@ -9,7 +9,7 @@ const DEDICATED_SERVER:    String = "--server"
 const DEFAULT_PORT:        int = 7777
 const DEFAULT_MAX_CLIENTS: int = 32
 
-const DEBUG_IN_LOCAL: bool = false
+const DEBUG_IN_LOCAL: bool = true
 
 signal server_started(port: int)
 signal server_stopped()
@@ -186,13 +186,15 @@ func spawn_projectile(position: Vector3, direction: Vector3, shooter: int, weapo
 	if _spawner == null:
 		push_error("MultiplayerSpawner no registrado.")
 		return
+		
+	var final_damage = weapon.damage + randf_range(-3.0, 3.0)
 	
 	_spawner.spawn({
 		"type": "projectile",
 		"position": position,
 		"direction": direction.normalized(),
 		"id": shooter,
-		"damage": weapon.damage,
+		"damage": final_damage,
 		"speed": weapon.projectile_speed,
 		"lifetime": weapon.projectile_lifetime
 	})
@@ -227,6 +229,9 @@ func process_player_actions(players: Node, loots: Node) -> void:
 		
 		if player.input_state == null:
 			continue
+		
+		if player.dead && player.player_state.health > 0:
+			player.dead = false
 		
 		var input := player.input_state
 		
