@@ -1,0 +1,31 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://umuoqgwalsdn"]
+
+[ext_resource type="Shader" uid="uid://byfxia2cd1wwq" path="res://Shaders/AguaShader.tres" id="1_3y7x2"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0scrx"]
+noise_type = 2
+frequency = 0.2103
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_htsel"]
+width = 32
+height = 32
+noise = SubResource("FastNoiseLite_0scrx")
+seamless = true
+seamless_blend_skirt = 0.344
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_3y7x2")
+shader_parameter/ValorBajo = -0.415
+shader_parameter/ValorAlto = 1.295
+shader_parameter/FloatParameter = 0.0
+shader_parameter/caida_del_agua_angulo = Vector2(1, 0)
+shader_parameter/TextureParameterTriplanar = SubResource("NoiseTexture2D_htsel")
+shader_parameter/FloatParameter3 = 41.715
+shader_parameter/Corte_de_caida = Vector2(0, 0)
+shader_parameter/Color1 = Color(0.65098, 0.937255, 1, 1)
+shader_parameter/Color2 = Color(0.039216, 0.070588, 0.32549, 1)
+shader_parameter/triplanar_scale = Vector3(21, 21, 21)
+shader_parameter/triplanar_offset = Vector3(0, 0, 0)
+shader_parameter/triplanar_sharpness = 0.5

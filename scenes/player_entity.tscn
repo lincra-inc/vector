@@ -1641,7 +1641,7 @@ bones/40/rotation = Quaternion(0.0005133291, -0.0032223212, 9.148803e-05, 0.9999
 bones/40/scale = Vector3(1, 1, 1)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Body/Character2/Armature_003/Skeleton3D" unique_id=892970856]
-transform = Transform3D(-0.010071622, -0.00027872555, -0.00048621313, -0.00014945629, -0.0070985383, 0.0071652094, -0.0005401412, 0.0071613453, 0.007083441, -0.020661429, -0.22068971, -1.1256546)
+transform = Transform3D(-0.998367, -0.023981793, -0.051844165, -0.019160708, -0.7144218, 0.6994525, -0.053812735, 0.699304, 0.71279603, -0.018449625, -0.22143084, -1.1293383)
 bone_name = "mixamorig_LeftArm"
 bone_idx = 15
 
@@ -1731,6 +1731,11 @@ theme_override_font_sizes/font_size = 32
 text = "100"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/UI" unique_id=761355531]
+layout_mode = 0
+offset_right = 925.0
+offset_bottom = 648.0
 
 [node name="INFO" type="Control" parent="CanvasLayer" unique_id=1066089378]
 layout_mode = 3

@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bk87r21kkqeln"]
+
+[ext_resource type="Shader" uid="uid://dsv74vms80cde" path="res://Shaders/ParedInvisible.tres" id="1_r8chr"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_r8chr")
+shader_parameter/valor_bajo = 0.7
+shader_parameter/valor_alto = 2.0
+shader_parameter/tilescale = 200.0
+shader_parameter/Velocidad = 0.01
+shader_parameter/tilescale2 = 60.0
+shader_parameter/DistanceFade = 15.0
+shader_parameter/ColorParameter = Color(4.4848967, 1.1714178, 1.1714178, 1)

@@ -1,8 +1,0 @@
-[gd_resource type="StandardMaterial3D" format=3 uid="uid://dujcwbfbwp7du"]
-
-[ext_resource type="Texture2D" uid="uid://djuy75rgg7uip" path="res://Models/MUndo/skybox.png" id="1_85o33"]
-
-[resource]
-cull_mode = 1
-albedo_texture = ExtResource("1_85o33")
-metallic_specular = 0.0

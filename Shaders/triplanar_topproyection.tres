@@ -1,9 +1,5 @@
 [gd_resource type="VisualShader" format=3 uid="uid://di2dnlmlco0na"]
 
-[ext_resource type="Texture2D" uid="uid://cyonulqp3a3cw" path="res://Models/MapaFinal/Cesped.png" id="1_p1iwc"]
-
-[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_q6ky1"]
-
 [sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_p1iwc"]
 default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, 0.5]
 op_type = 4
@@ -50,12 +46,18 @@ default_input_values = [0, 0.5, 1, 1.5, 2, 0.5]
 parameter_name = "TextureParameterTriplanar2"
 texture_type = 1
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qelxb"]
+load_path = "res://.godot/imported/Cesped.png-ab750183042c6598565da5a999d19c87.s3tc.ctex"
+
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_8f7t1"]
 source = 5
-texture = ExtResource("1_p1iwc")
+texture = SubResource("CompressedTexture2D_qelxb")
 
 [resource]
-nodes/fragment/0/position = Vector2(656, 32)
+modes/blend = 4
+flags/depth_prepass_alpha = true
+flags/alpha_to_coverage = true
+nodes/fragment/0/position = Vector2(1264, 16)
 nodes/fragment/2/node = SubResource("VisualShaderNodeTextureParameterTriplanar_f2nso")
 nodes/fragment/2/position = Vector2(-1056, -96)
 nodes/fragment/4/node = SubResource("VisualShaderNodeVectorDecompose_wxxjc")
@@ -68,12 +70,10 @@ nodes/fragment/8/node = SubResource("VisualShaderNodeTextureParameterTriplanar_a
 nodes/fragment/8/position = Vector2(-1104, -544)
 nodes/fragment/9/node = SubResource("VisualShaderNodeTexture_8f7t1")
 nodes/fragment/9/position = Vector2(-480, 96)
-nodes/fragment/10/node = SubResource("VisualShaderNodeFloatConstant_q6ky1")
-nodes/fragment/10/position = Vector2(208, 432)
 nodes/fragment/18/node = SubResource("VisualShaderNodeMix_p1iwc")
 nodes/fragment/18/position = Vector2(130.06233, -79.02263)
 nodes/fragment/19/node = SubResource("VisualShaderNodeMix_q6ky1")
-nodes/fragment/19/position = Vector2(128, -288)
+nodes/fragment/19/position = Vector2(128, -352)
 nodes/fragment/24/node = SubResource("VisualShaderNodeDotProduct_f2nso")
 nodes/fragment/24/position = Vector2(-720, 592)
 nodes/fragment/25/node = SubResource("VisualShaderNodeTransformVecMult_hl6pd")
@@ -88,4 +88,4 @@ nodes/fragment/37/node = SubResource("VisualShaderNodeInput_gqaxe")
 nodes/fragment/37/position = Vector2(-2576, 592)
 nodes/fragment/38/node = SubResource("VisualShaderNodeVectorDecompose_apg4d")
 nodes/fragment/38/position = Vector2(-2176, 560)
-nodes/fragment/connections = PackedInt32Array(2, 1, 9, 2, 9, 0, 5, 1, 8, 0, 18, 0, 19, 0, 0, 0, 6, 0, 19, 2, 2, 0, 19, 0, 8, 0, 19, 1, 25, 0, 24, 1, 33, 0, 24, 0, 37, 0, 38, 0, 38, 0, 36, 0, 38, 1, 36, 1, 38, 2, 36, 2, 35, 0, 25, 0, 24, 0, 4, 0, 4, 0, 6, 2)
+nodes/fragment/connections = PackedInt32Array(2, 1, 9, 2, 9, 0, 5, 1, 8, 0, 18, 0, 6, 0, 19, 2, 2, 0, 19, 0, 8, 0, 19, 1, 25, 0, 24, 1, 33, 0, 24, 0, 37, 0, 38, 0, 38, 0, 36, 0, 38, 1, 36, 1, 38, 2, 36, 2, 35, 0, 25, 0, 24, 0, 4, 0, 4, 0, 6, 2, 19, 0, 5, 0, 19, 0, 0, 0)
