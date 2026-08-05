@@ -1,0 +1,51 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://ca6yijccrmyws"]
+
+[ext_resource type="Shader" uid="uid://d4j1bh41iat1" path="res://Shaders/fuego.tres" id="1_k0rtf"]
+
+[sub_resource type="Gradient" id="Gradient_3wjnx"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_p2jh1"]
+gradient = SubResource("Gradient_3wjnx")
+fill = 1
+fill_from = Vector2(0.52047783, 0.52047783)
+fill_to = Vector2(0.6194539, 0.96416384)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_r1h6l"]
+noise_type = 0
+frequency = 0.1303
+fractal_weighted_strength = 0.74
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_86ti1"]
+width = 32
+height = 32
+noise = SubResource("FastNoiseLite_r1h6l")
+seamless = true
+seamless_blend_skirt = 0.267
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_nd41b"]
+noise_type = 2
+frequency = 0.181
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ipnpr"]
+width = 32
+height = 32
+noise = SubResource("FastNoiseLite_nd41b")
+seamless = true
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_k0rtf")
+shader_parameter/smoothstep_0 = 0.7
+shader_parameter/smoothstep_1 = 1.155
+shader_parameter/direccionimagen2 = Vector2(0.08, 0.16)
+shader_parameter/velocidad = 4.0
+shader_parameter/textura1 = SubResource("NoiseTexture2D_86ti1")
+shader_parameter/direccionimagen1 = Vector2(0.19, 0.34)
+shader_parameter/textura2 = SubResource("NoiseTexture2D_ipnpr")
+shader_parameter/mascara = SubResource("GradientTexture2D_p2jh1")
+shader_parameter/maskpower = 1.225
+shader_parameter/smothstepcentro0 = 0.98
+shader_parameter/smothstepcentro1 = 1.0
+shader_parameter/ColorParameter = Color(1.7141744, 0.97771704, 0.28877318, 1)
