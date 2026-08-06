@@ -2,13 +2,22 @@
 
 [ext_resource type="Script" uid="uid://cb3rqtq2pntq" path="res://scripts/game_logic/main_menu.gd" id="1_l6cm7"]
 [ext_resource type="Material" uid="uid://c0ypnogowxjch" path="res://Models/Arma/ArmaMaterial.tres" id="2_bqqt6"]
+[ext_resource type="Texture2D" uid="uid://bbxxswe3gc780" path="res://assets/UI/vector3.png" id="2_oa1go"]
+[ext_resource type="Texture2D" uid="uid://ciagl1n0fld4w" path="res://assets/UI/cabeza.png" id="3_tbmy8"]
 [ext_resource type="Material" uid="uid://bdv25ty3mqddg" path="res://Shaders/ShaderMaterial_Character.tres" id="3_wu84c"]
+[ext_resource type="LabelSettings" uid="uid://cndnd13l6wnky" path="res://assets/UI/Fuentes/Type_minus_bar.tres" id="4_jk1qb"]
 [ext_resource type="Shader" uid="uid://d4j1bh41iat1" path="res://Shaders/fuego.tres" id="4_wu84c"]
+[ext_resource type="Texture2D" uid="uid://ce05yl8b3k8rt" path="res://assets/UI/BACKGROUND.png" id="8_tbmy8"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_gyb6n"]
-font_size = 64
-font_color = Color(0, 1, 1, 1)
-shadow_color = Color(0, 0, 0, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wfv3s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_awdws"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rm3d5"]
+texture = ExtResource("3_tbmy8")
+texture_margin_left = 65.0
+texture_margin_top = 62.0
+texture_margin_bottom = 4.0
 
 [sub_resource type="Environment" id="Environment_wfv3s"]
 
@@ -213,7 +222,7 @@ frequency = 0.1768
 fractal_weighted_strength = 0.74
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_86ti1"]
-width = 32
+width = 103
 height = 32
 noise = SubResource("FastNoiseLite_r1h6l")
 seamless = true
@@ -225,20 +234,44 @@ frequency = 0.406
 fractal_type = 0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ipnpr"]
-width = 90
+width = 126
 height = 32
 noise = SubResource("FastNoiseLite_nd41b")
 seamless = true
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oa1go"]
+render_priority = 0
+shader = ExtResource("4_wu84c")
+shader_parameter/smoothstep_0 = 0.595
+shader_parameter/smoothstep_1 = 1.13
+shader_parameter/direccionimagen2 = Vector2(0, 0.16)
+shader_parameter/velocidad = 0.555
+shader_parameter/textura1 = SubResource("NoiseTexture2D_86ti1")
+shader_parameter/direccionimagen1 = Vector2(0, 0.34)
+shader_parameter/textura2 = SubResource("NoiseTexture2D_ipnpr")
+shader_parameter/mascara = SubResource("GradientTexture2D_p2jh1")
+shader_parameter/maskpower = 0.59
+shader_parameter/smothstepcentro0 = 0.96
+shader_parameter/smothstepcentro1 = 1.01
+shader_parameter/ColorParameter = Color(0, 0.6948564, 1.6023782, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbmy8"]
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 2
+albedo_color = Color(0.7127916, 0.7707372, 1.0025201, 1)
+albedo_texture = ExtResource("8_tbmy8")
+uv1_scale = Vector3(2, 2, 2)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8ln24"]
 render_priority = 0
 shader = ExtResource("4_wu84c")
-shader_parameter/smoothstep_0 = 0.7
-shader_parameter/smoothstep_1 = 1.155
-shader_parameter/direccionimagen2 = Vector2(0.08, 0.16)
+shader_parameter/smoothstep_0 = 0.51
+shader_parameter/smoothstep_1 = 1.505
+shader_parameter/direccionimagen2 = Vector2(0, 0.16)
 shader_parameter/velocidad = 1.5350000000000001
 shader_parameter/textura1 = SubResource("NoiseTexture2D_86ti1")
-shader_parameter/direccionimagen1 = Vector2(0.19, 0.34)
+shader_parameter/direccionimagen1 = Vector2(0, 0.34)
 shader_parameter/textura2 = SubResource("NoiseTexture2D_ipnpr")
 shader_parameter/mascara = SubResource("GradientTexture2D_p2jh1")
 shader_parameter/maskpower = 1.005
@@ -247,24 +280,40 @@ shader_parameter/smothstepcentro1 = 1.03
 shader_parameter/ColorParameter = Color(0, 0.6948564, 1.6023782, 1)
 
 [node name="MainMenu" type="Control" unique_id=1211363165]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_l6cm7")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1897347644]
+follow_viewport_enabled = true
+follow_viewport_scale = 0.001
+
+[node name="Label" type="TextureRect" parent="." unique_id=1336832087]
+texture_filter = 1
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 1
+offset_left = 256.0
+offset_top = 32.735
+offset_right = 897.0
+offset_bottom = 212.735
+texture = ExtResource("2_oa1go")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2110209007]
 layout_mode = 0
-offset_left = 312.0
-offset_top = 139.0
-offset_right = 855.0
-offset_bottom = 452.0
+offset_left = 20.0
+offset_top = 19.0
+offset_right = 661.0
+offset_bottom = 640.0
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer" unique_id=388186506]
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer" unique_id=353055575]
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-text = "Vector3"
-label_settings = SubResource("LabelSettings_gyb6n")
-horizontal_alignment = 1
-vertical_alignment = 1
+offset_transform_enabled = true
+theme_override_styles/separator = SubResource("StyleBoxEmpty_wfv3s")
 
 [node name="LineEdit" type="LineEdit" parent="VBoxContainer" unique_id=913414606]
 layout_mode = 2
@@ -272,22 +321,40 @@ placeholder_text = "Nombre"
 alignment = 1
 
 [node name="Button" type="Button" parent="VBoxContainer" unique_id=1060992929]
+texture_filter = 1
+texture_repeat = 1
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_awdws")
+theme_override_styles/hover = SubResource("StyleBoxTexture_rm3d5")
+toggle_mode = true
+text = "Unirse"
+
+[node name="Button2" type="Button" parent="VBoxContainer" unique_id=800070452]
+layout_mode = 2
+toggle_mode = true
+text = "Unirse"
+
+[node name="Button3" type="Button" parent="VBoxContainer" unique_id=373962223]
 layout_mode = 2
 text = "Unirse"
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer" unique_id=1489529052]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+offset_transform_enabled = true
+theme_override_styles/separator = SubResource("StyleBoxEmpty_wfv3s")
 
 [node name="Label2" type="Label" parent="VBoxContainer" unique_id=142553049]
 layout_mode = 2
 text = "
 
-Creditos
-
-Arte: Franco Ponce
-Programación: Tomás Gullari 
-Programación: Luis Monteza
-Level-Design: Luca Ciriaco
-Arte 3D: Franco Biagioli 
-Lucas Goyta"
-horizontal_alignment = 1
+CREDITOS
+ARTE: FRANCO PONCE
+PROGRAMACION: TOMAS GULLARI 
+PROGRAMACION: LUIS MONTEZA
+LEVEL-DESIGN: LUCA CIRIACO
+ARTE 3D: FRANCO BIAGIOLI "
+label_settings = ExtResource("4_jk1qb")
 vertical_alignment = 1
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1178070014]
@@ -298,7 +365,7 @@ environment = SubResource("Environment_wfv3s")
 fov = 20.0
 
 [node name="Player" type="CharacterBody3D" parent="Node3D" unique_id=986923867]
-transform = Transform3D(0.94942546, 0, -0.31399244, 0, 1, 0, 0.31399244, 0, 0.94942546, -0.131, -0.09, 0.396)
+transform = Transform3D(0.9416219, 0, -0.336672, 0, 1, 0, 0.336672, 0, 0.9416219, -0.25289336, -0.06921178, 0.73691773)
 collision_layer = 2
 wall_min_slide_angle = 1.4835298
 
@@ -621,9 +688,41 @@ skeleton = NodePath("..")
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Node3D/Player" unique_id=884271565]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=672296015]
-transform = Transform3D(10.952257, 0, 0, 0, 2.4568572, 0, 0, 0, 1.7260559, 0.9677857, -0.44752803, 0.8583637)
+transform = Transform3D(6.398774, 0, 0, 0, 2.9224448, 0, 0, 0, 1.7260559, -0.11743296, 0.1858139, 0.3729146)
+mesh = SubResource("QuadMesh_wfv3s")
+surface_material_override/0 = SubResource("ShaderMaterial_oa1go")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=2694121]
+transform = Transform3D(-6.398774, 0, -1.508966e-07, 0, 2.9224448, 0, 5.593986e-07, 0, -1.7260559, -0.121503375, 0.50437224, 1.8961415)
+mesh = SubResource("QuadMesh_wfv3s")
+surface_material_override/0 = SubResource("StandardMaterial3D_tbmy8")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=341754344]
+transform = Transform3D(13.8579855, 0, 0, 0, 2.33962, 0, 0, 0, 1.7260559, -0.12150324, 0.0017214715, 1.4689758)
 mesh = SubResource("QuadMesh_wfv3s")
 surface_material_override/0 = SubResource("ShaderMaterial_8ln24")
 
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=289468758]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.012856364, -0.88745594)
+light_color = Color(0.36078432, 0.64705884, 1, 1)
+light_energy = 1.12
+light_specular = 0.0
+omni_range = 2.904
+
+[node name="OmniLight3D2" type="SpotLight3D" parent="." unique_id=1313101887]
+transform = Transform3D(0.97039425, 0.13935287, 0.19727081, 0, 0.81676716, -0.57696754, -0.24152638, 0.559886, 0.79258615, 0.39131534, -0.17838985, 1.3433492)
+light_color = Color(0.03529412, 0.56078434, 1, 1)
+light_energy = 54.812
+light_specular = 0.0
+shadow_enabled = true
+
+[node name="OmniLight3D3" type="SpotLight3D" parent="." unique_id=1283576853]
+transform = Transform3D(0.9679378, -0.1449285, -0.20516379, 3.1953107e-11, 0.81676716, -0.5769675, 0.25119007, 0.55846864, 0.7905798, -1.0044901, -0.17838985, 1.3433492)
+light_color = Color(0.03529412, 0.56078434, 1, 1)
+light_energy = 54.812
+shadow_enabled = true
+
 [connection signal="text_submitted" from="VBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button3" to="." method="_on_button_pressed"]
