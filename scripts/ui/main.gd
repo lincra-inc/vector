@@ -7,10 +7,10 @@ extends Node3D
 @export var hit_wall_scene: PackedScene
 @export var play_at_scene: PackedScene
 
-@onready var players: Node3D = $World/Players
-@onready var spawns_pool: Node3D = $World/SpawnPools
-@onready var loots: Node3D = $World/Loots
-@onready var loots_pool: Node3D = $World/LootsPools
+@onready var players: Node3D = $SubViewportContainer/SubViewport/World/Players
+@onready var spawns_pool: Node3D = $SubViewportContainer/SubViewport/World/SpawnPools
+@onready var loots: Node3D = $SubViewportContainer/SubViewport/World/Loots
+@onready var loots_pool: Node3D = $SubViewportContainer/SubViewport/World/LootsPools
 @onready var scoreboard: PanelContainer = $CanvasLayer/Scoreboard
 
 @onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
@@ -19,7 +19,12 @@ extends Node3D
 
 var entity_scenes: Dictionary = {}
 
+@onready var fps_label : Label = $CanvasLayer/FPS
+
 func _ready() -> void:
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	players = $SubViewportContainer/SubViewport/World/Players
+	
 	spawner.spawn_function = _spawn_entity
 	spawner_loots.spawn_function = _spawn_entity
 	Network._spawner = spawner
@@ -44,6 +49,14 @@ func _ready() -> void:
 	
 	scoreboard.visible = false
 	_on_join_button_pressed()
+
+func _process(_delta):
+	fps_label.text = (
+	"FPS: %d\n" % Engine.get_frames_per_second() +
+	"Draw Calls: %d\n" % RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME) +
+	"Objects: %d\n" % RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_OBJECTS_IN_FRAME) +
+	"Primitives: %d" % RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_PRIMITIVES_IN_FRAME)
+)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:

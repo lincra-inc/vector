@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://rb8ydaqef5vu"
 path.s3tc="res://.godot/imported/escenario_cupula_caliza.png-6b4e5ae7ee7d044aac6f05874ff73092.s3tc.ctex"
+path.etc2="res://.godot/imported/escenario_cupula_caliza.png-6b4e5ae7ee7d044aac6f05874ff73092.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Models/Escenario_final_final/escenario_cupula_caliza.png"
-dest_files=["res://.godot/imported/escenario_cupula_caliza.png-6b4e5ae7ee7d044aac6f05874ff73092.s3tc.ctex"]
+dest_files=["res://.godot/imported/escenario_cupula_caliza.png-6b4e5ae7ee7d044aac6f05874ff73092.s3tc.ctex", "res://.godot/imported/escenario_cupula_caliza.png-6b4e5ae7ee7d044aac6f05874ff73092.etc2.ctex"]
 
 [params]
 

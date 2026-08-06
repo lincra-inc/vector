@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://fddewmkwoecy"
 path.s3tc="res://.godot/imported/escenario_Tablas_madera.png-f1f8bd3e53f923073895e957b4f93ecf.s3tc.ctex"
+path.etc2="res://.godot/imported/escenario_Tablas_madera.png-f1f8bd3e53f923073895e957b4f93ecf.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Models/Escenario_final_final/escenario_Tablas_madera.png"
-dest_files=["res://.godot/imported/escenario_Tablas_madera.png-f1f8bd3e53f923073895e957b4f93ecf.s3tc.ctex"]
+dest_files=["res://.godot/imported/escenario_Tablas_madera.png-f1f8bd3e53f923073895e957b4f93ecf.s3tc.ctex", "res://.godot/imported/escenario_Tablas_madera.png-f1f8bd3e53f923073895e957b4f93ecf.etc2.ctex"]
 
 [params]
 

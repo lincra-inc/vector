@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://pfv5kjrn5ltl"
 path.s3tc="res://.godot/imported/escenario_FLATMARM.png-48e38b0cd8f97f66fd8572830e4e1af2.s3tc.ctex"
+path.etc2="res://.godot/imported/escenario_FLATMARM.png-48e38b0cd8f97f66fd8572830e4e1af2.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Models/Escenario_final_final/escenario_FLATMARM.png"
-dest_files=["res://.godot/imported/escenario_FLATMARM.png-48e38b0cd8f97f66fd8572830e4e1af2.s3tc.ctex"]
+dest_files=["res://.godot/imported/escenario_FLATMARM.png-48e38b0cd8f97f66fd8572830e4e1af2.s3tc.ctex", "res://.godot/imported/escenario_FLATMARM.png-48e38b0cd8f97f66fd8572830e4e1af2.etc2.ctex"]
 
 [params]
 

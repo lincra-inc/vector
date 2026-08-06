@@ -44,8 +44,6 @@ var sight_type := 0
 @export_group("Audio")
 @export var fire_sounds: Array[AudioStream]
 
-@onready var ui_energy: Label = $"../../CanvasLayer/UI/Label"
-
 var cooldown := 0.0
 var shoot_pressed := false
 
@@ -53,7 +51,6 @@ func _process(delta):
 	cooldown = max(cooldown - delta, 0.0)
 	
 	var delta_recharge = recharge_speed
-	ui_energy.text = str(int(energy))
 	
 	if shoot_pressed:
 		delta_recharge *= recharge_shooting_multiplier

@@ -72,12 +72,11 @@ var spawn_position: Vector3
 @onready var ui_player: Control = $CanvasLayer/UI
 @onready var ui_info: Control = $CanvasLayer/INFO
 
-# UI Stuff!!
-var stats_template  := ""
-var energy_template := ""
-var bullet_template := ""
-var weapon_template := ""
+var last_position: Vector3
+var stopped_time := 0.0
+var target: Vector3
 
+# UI Stuff!!
 var health_width : float = 0
 var energy_width : float = 0
 var delayed_health := 0.0
@@ -86,14 +85,41 @@ var damage_timer := 0.0
 var delayed_energy := 0.0
 var energy_timer := 0.0
 var energy_delay := 1.0
+
 @onready var health_bar : ColorRect = $CanvasLayer/UI/HealthBar
 @onready var shadow_bar : ColorRect = $CanvasLayer/UI/ShadowHealthBar
 @onready var energy_bar : ColorRect = $CanvasLayer/UI/EnergyBar
 @onready var energy_shadow_bar : ColorRect = $CanvasLayer/UI/ShadowEnergyBar
-@onready var stats_label: Label = $CanvasLayer/UI/character_text
-@onready var power_label: Label = $CanvasLayer/UI/powerenergy_text
-@onready var bullet_label: Label = $CanvasLayer/UI/bullet_text
-@onready var weapon_label: Label = $CanvasLayer/UI/weapon_text
+
+@onready var extra_label  : Label = $CanvasLayer/UI/HBoxContainer/energy_container/EXTRA
+@onready var cost_label   : Label = $CanvasLayer/UI/HBoxContainer/energy_container/COST
+@onready var refill_label : Label = $CanvasLayer/UI/HBoxContainer/energy_container/REFILL
+var extra_template  := ""
+var cost_template   := ""
+var refill_template := ""
+
+@onready var damage_label   : Label = $CanvasLayer/UI/HBoxContainer/weapon_container/DAMAGE
+@onready var headshot_label : Label = $CanvasLayer/UI/HBoxContainer/weapon_container/HEADSHOT
+@onready var firerate_label : Label = $"CanvasLayer/UI/HBoxContainer/weapon_container/VEL ATTK"
+@onready var recoil_label   : Label = $CanvasLayer/UI/HBoxContainer/weapon_container/RECOIL
+var damage_template   := ""
+var headshot_template := ""
+var firerate_template := ""
+var recoil_template   := ""
+
+@onready var amount_label : Label = $CanvasLayer/UI/HBoxContainer/bullet_container/AMOUNT
+@onready var vel_label    : Label = $CanvasLayer/UI/HBoxContainer/bullet_container/VEL
+@onready var size_label   : Label = $CanvasLayer/UI/HBoxContainer/bullet_container/SIZE
+var amount_template := ""
+var vel_template    := ""
+var size_template   := ""
+
+@onready var health_label : Label = $CanvasLayer/UI/HBoxContainer/hero_container/HEALTH
+@onready var jump_label   : Label = $CanvasLayer/UI/HBoxContainer/hero_container/JUMP
+@onready var run_label    : Label = $CanvasLayer/UI/HBoxContainer/hero_container/RUN
+var health_template := ""
+var jump_template   := ""
+var run_template    := ""
 
 func _enter_tree():
 	set_multiplayer_authority(int(name))
@@ -102,11 +128,26 @@ func setup(id: int) -> void:
 	peer_id = id;
 
 func _ready():
+	$CanvasLayer/UI.set_anchors_preset(Control.PRESET_FULL_RECT)
+	
+	Input.use_accumulated_input = false
 	# UI Inits!
-	stats_template  = stats_label.text
-	energy_template = power_label.text
-	bullet_template = bullet_label.text
-	weapon_template = weapon_label.text
+	damage_template   = damage_label.text
+	headshot_template = headshot_label.text
+	firerate_template = firerate_label.text
+	recoil_template   = recoil_label.text
+	
+	extra_template  = extra_label.text
+	cost_template   = cost_label.text
+	refill_template = refill_label.text
+	
+	amount_template = amount_label.text
+	vel_template    = vel_label.text
+	size_template   = size_label.text
+	
+	health_template = health_label.text
+	jump_template   = jump_label.text
+	run_template    = run_label.text
 	
 	delayed_health = player_state.health
 	delayed_energy = weapon_data.energy
@@ -140,6 +181,7 @@ func _ready():
 		$Body/Character2/Armature_003/Skeleton3D/BoneAttachment3D/Weapon.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
 		camera.current = true
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		camera.make_current()
 	else:
 		camera.current = false
 		$Head/WeaponPivot/Weapon/ArmaPlaceholder.hide()
@@ -161,31 +203,11 @@ func _process(delta):
 	else:
 		main.scoreboard.hide_scoreboard()
 	
-	var look := Input.get_vector(
-		"look_left",
-		"look_right",
-		"look_up",
-		"look_down",
-		gamepad_deadzone
-	)
-	
-	if look != Vector2.ZERO:
-		yaw   -= look.x * gamepad_look_sensitivity * delta
-		pitch -= look.y * gamepad_look_sensitivity * delta
-		pitch = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
-	
-	#input_state.movement = Input.get_vector(
-		#"ui_left",
-		#"ui_right",
-		#"ui_up",
-		#"ui_down"
-	#)
-	
 	update_shoot_input()
 	
 	# UI! Temporary
 	$CanvasLayer/UI/name_text.text = Globals.player_name;
-	$CanvasLayer/UI/Score.text = str("SCORE: ", input_state.kills, "/", input_state.deaths)
+	$CanvasLayer/UI/Score.text = str(input_state.kills, "/", input_state.deaths)
 	
 	var current_health = player_state.health
 	health_bar.size.x = health_width * (current_health / player_state.max_health)
@@ -226,38 +248,29 @@ func _process(delta):
 	var ui_energy_text : Label = $CanvasLayer/UI/energy_text
 	ui_energy_text.text = str(int(weapon_data.energy)) +"/"+ str(int(weapon_data.max_energy))
 	
-	# Stats!
-	var text = stats_template \
-		.replace("{HEALTH}", str("+", (int)(player_state.max_health-100.0))) \
-		.replace("{RUN}", str("%.1f" % run_multiplier)) \
-		.replace("{JUMP}", str("%.1f" % JUMP_FORCE))
-	stats_label.text = text
+	health_label.text = health_template.replace("{HEALTH}", str("+", (int)(player_state.max_health-100.0)))
+	jump_label.text   = jump_template.replace("{JUMP}", str("%.1f" % JUMP_FORCE))
+	run_label.text    = run_template.replace("{RUN}", str("%.1f" % run_multiplier))
 	
-	var power_text = energy_template \
-		.replace("{EXTRA}", str("+", (int)(weapon_data.max_energy-100.0))) \
-		.replace("{COST}", str("%.1f" % weapon_data.energy_cost)) \
-		.replace("{REFILL}", str("%.1f" % weapon_data.recharge_speed))
-	power_label.text = power_text
+	extra_label.text  = extra_template.replace("{EXTRA}", str("+", (int)(weapon_data.max_energy-100.0)))
+	cost_label.text   = cost_template.replace("{COST}", str("%.1f" % weapon_data.energy_cost))
+	refill_label.text = refill_template.replace("{REFILL}", str("%.1f" % weapon_data.recharge_speed))
 	
-	var bullet_text = bullet_template \
-		.replace("{AMOUNT}", str(weapon_data.projectile_per_shoot)) \
-		.replace("{VEL}", str("%.1f" % weapon_data.projectile_speed)) \
-		.replace("{SIZE}", str("%.1f" % weapon_data.projectile_size))
-	bullet_label.text = bullet_text
+	amount_label.text = amount_template.replace("{AMOUNT}", str(weapon_data.projectile_per_shoot))
+	vel_label.text    = vel_template.replace("{VEL}", str("%.1f" % weapon_data.projectile_speed))
+	size_label.text   = size_template.replace("{SIZE}", str("%.1f" % weapon_data.projectile_size))
 	
-	var weapon_text = weapon_template \
-		.replace("{DAMAGE}", str("%.1f" % weapon_data.damage)) \
-		.replace("{HEADSHOT}", str("%.1f" % weapon_data.critical_multiplier)) \
-		.replace("{VEL_ATTK}", str("%.1f" % weapon_data.fire_rate)) \
-		.replace("{RECOIL}", str("%.1f" % weapon_data.camera_shake))
-	weapon_label.text = weapon_text
+	damage_label.text   = damage_template.replace("{DAMAGE}", str("%.1f" % weapon_data.damage))
+	headshot_label.text = headshot_template.replace("{HEADSHOT}", str("%.1f" % weapon_data.critical_multiplier))
+	firerate_label.text = firerate_template.replace("{VEL_ATTK}", str("%.1f" % weapon_data.fire_rate))
+	recoil_label.text   = recoil_template.replace("{RECOIL}", str("%.1f" % weapon_data.camera_shake))
 	
 	#ui_health.add_theme_color_override("font_color", Color.GOLD)
 	
 	rotation.y = yaw + recoil.rotation_offset.y + camera_bob.position_offset.x
 	head.rotation.x = pitch + recoil.rotation_offset.x  + camera_bob.position_offset.y
 
-func _unhandled_input(event):
+func _input(event):
 	if !is_multiplayer_authority():
 		return
 	
@@ -275,7 +288,6 @@ func _unhandled_input(event):
 		
 		pitch -= event.relative.y * mouse_look_sensitivity
 		pitch  = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
-	
 
 func update_footsteps(delta: float):
 	if !is_multiplayer_authority():
@@ -287,26 +299,36 @@ func update_footsteps(delta: float):
 		"ui_up",
 		"ui_down"
 	)
-
+	
 	var moving := input.length() > 0.1 and is_on_floor()
-
+	
 	footstep_timer -= delta
-
+	
 	if moving and footstep_timer <= 0:
 		footstep_timer = (
 			0.22 if Input.is_action_pressed("run")
 			else 0.35
 		)
-
+	
 		input_state.footstep_sequence += 1
 
-var last_position: Vector3
-var stopped_time := 0.0
-
 func _physics_process(delta):
-	
 	if multiplayer.is_server():
 		return
+	
+	var look := Input.get_vector(
+		"look_left",
+		"look_right",
+		"look_up",
+		"look_down",
+		gamepad_deadzone
+	)
+	
+	yaw   -= look.x * gamepad_look_sensitivity * delta
+	pitch -= look.y * gamepad_look_sensitivity * delta
+	pitch = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
+	
+	update_autoaim(delta)
 	
 	var is_dead = player_state.health <= 0
 	anim_tree.set("parameters/StateMachine/conditions/dead", is_dead)
@@ -419,6 +441,12 @@ func move_player(delta):
 		"ui_down"
 	)
 	
+	if Globals.always_run:
+		if input.length() > 0.5 and !Input.is_action_pressed("shoot"):
+			Input.action_press("run")
+		else:
+			Input.action_release("run")
+	
 	if is_on_floor() or coyote_timer > 0:
 		if Input.is_action_just_pressed("jump"):
 			coyote_timer = 0
@@ -462,7 +490,7 @@ func move_player(delta):
 	if Input.is_action_pressed("run"):
 		target_position = run_pivot.global_position
 	else:
-		if Input.is_action_pressed("aim"):
+		if Input.is_action_pressed("aim") or Input.is_action_pressed("aim_and_shoot"):
 			target_position = aim_pivot.global_position
 		else:
 			target_position = weapon_pivot.global_position
@@ -478,7 +506,7 @@ func move_player(delta):
 			run_pivot.global_transform.basis,
 			run_pivot.global_position
 		)
-	elif Input.is_action_pressed("aim"):
+	elif Input.is_action_pressed("aim") or Input.is_action_pressed("aim_and_shoot"):
 		target_transform = Transform3D(
 			aim_pivot.global_transform.basis,
 			aim_pivot.global_position
@@ -517,17 +545,39 @@ func update_shoot_input():
 	if !is_multiplayer_authority():
 		return
 	
-	weapon_data.shoot_pressed = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
-	if !Input.is_action_pressed("shoot") or Input.is_action_pressed("run"):
+	weapon_data.shoot_pressed = Input.is_action_pressed("shoot") or Input.is_action_pressed("aim_and_shoot")
+	if (!Input.is_action_pressed("shoot") and !Input.is_action_pressed("aim_and_shoot")) or Input.is_action_pressed("run"):
 		return
 	
 	raycast.force_raycast_update()
 	
 	var target: Vector3
+	
 	if raycast.is_colliding():
 		target = raycast.get_collision_point()
 	else:
 		target = raycast.global_position + (-camera.global_transform.basis.z) * 1000.0
+	
+	if Input.is_action_pressed("aim_and_shoot"):
+		var enemy := get_autoaim_target()
+
+		if enemy:
+			target = enemy.head.global_position
+		else:
+			raycast.force_raycast_update()
+
+			if raycast.is_colliding():
+				target = raycast.get_collision_point()
+			else:
+				target = raycast.global_position + (-camera.global_transform.basis.z) * 1000.0
+	else:
+		raycast.force_raycast_update()
+
+		if raycast.is_colliding():
+			target = raycast.get_collision_point()
+		else:
+			target = raycast.global_position + (-camera.global_transform.basis.z) * 1000.0
+
 	
 	if(weapon_data.try_fire()):
 		input_state.shoot_sequence += 1
@@ -717,3 +767,60 @@ func is_inside_concave(other: CollisionShape3D, concave_body: CollisionShape3D) 
 			return true
 	
 	return false
+
+@export var autoaim_angle := 36.0 # grados
+
+func get_autoaim_target() -> Player:
+	var main = get_tree().current_scene
+
+	var from := camera.global_position
+	var forward := -camera.global_transform.basis.z
+
+	var best: Player = null
+	var best_dot := cos(deg_to_rad(autoaim_angle))
+
+	for p in main.players.get_children():
+		if p == self:
+			continue
+
+		var player := p as Player
+		
+		if player.dead:
+			continue
+
+		if player.player_state.health <= 0:
+			continue
+
+		var target_pos : Vector3 = player.head.global_position
+
+		var dir := (target_pos - from).normalized()
+		var dot := forward.dot(dir)
+
+		if dot > best_dot:
+			best_dot = dot
+			best = p
+
+	return best
+
+@export var autoaim_speed := 10.0
+
+func update_autoaim(delta: float):
+	if !Input.is_action_pressed("aim_and_shoot"):
+		return
+
+	var enemy := get_autoaim_target()
+	if enemy == null:
+		return
+
+	var target_pos := enemy.head.global_position
+	var dir := (target_pos - camera.global_position).normalized()
+
+	var target_yaw := atan2(-dir.x, -dir.z)
+	var target_pitch := asin(dir.y)
+
+	yaw = lerp_angle(yaw, target_yaw, autoaim_speed * delta)
+	pitch = lerp_angle(
+		pitch,
+		clamp(target_pitch, deg_to_rad(-89), deg_to_rad(89)),
+		autoaim_speed * delta
+	)

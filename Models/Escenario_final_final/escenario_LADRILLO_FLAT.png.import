@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c81eih3a1fll4"
 path.s3tc="res://.godot/imported/escenario_LADRILLO_FLAT.png-5d2adc4c4c8354eec14a0e92676e5a0a.s3tc.ctex"
+path.etc2="res://.godot/imported/escenario_LADRILLO_FLAT.png-5d2adc4c4c8354eec14a0e92676e5a0a.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Models/Escenario_final_final/escenario_LADRILLO_FLAT.png"
-dest_files=["res://.godot/imported/escenario_LADRILLO_FLAT.png-5d2adc4c4c8354eec14a0e92676e5a0a.s3tc.ctex"]
+dest_files=["res://.godot/imported/escenario_LADRILLO_FLAT.png-5d2adc4c4c8354eec14a0e92676e5a0a.s3tc.ctex", "res://.godot/imported/escenario_LADRILLO_FLAT.png-5d2adc4c4c8354eec14a0e92676e5a0a.etc2.ctex"]
 
 [params]
 

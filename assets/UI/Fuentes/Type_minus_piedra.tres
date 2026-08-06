@@ -4,7 +4,6 @@
 
 [resource]
 font = ExtResource("1_20sv3")
-font_size = 10
 font_color = Color(0.14509805, 0.14117648, 0.1254902, 1)
 stacked_shadow_count = 2
 stacked_shadow_0/color = Color(0.7607843, 0.7294118, 0.67058825, 1)

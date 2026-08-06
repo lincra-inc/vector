@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://moid1fqik8ft"
 path.bptc="res://.godot/imported/CharacterV2_RunnerGuy_BaseColor_256.png-c06ea217cc597561d784f19b8fe17a3d.bptc.ctex"
+path.astc="res://.godot/imported/CharacterV2_RunnerGuy_BaseColor_256.png-c06ea217cc597561d784f19b8fe17a3d.astc.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Models/Character/CharacterV2_RunnerGuy_BaseColor_256.png"
-dest_files=["res://.godot/imported/CharacterV2_RunnerGuy_BaseColor_256.png-c06ea217cc597561d784f19b8fe17a3d.bptc.ctex"]
+dest_files=["res://.godot/imported/CharacterV2_RunnerGuy_BaseColor_256.png-c06ea217cc597561d784f19b8fe17a3d.bptc.ctex", "res://.godot/imported/CharacterV2_RunnerGuy_BaseColor_256.png-c06ea217cc597561d784f19b8fe17a3d.astc.ctex"]
 
 [params]
 

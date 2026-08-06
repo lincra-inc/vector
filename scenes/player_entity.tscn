@@ -1455,29 +1455,29 @@ bones/0/name = "mixamorig_Hips"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, -0.03539523, -0.0011612872, -0.8191304)
 bones/0/enabled = true
-bones/0/position = Vector3(0.0034017973, -0.0036254167, -0.7693314)
-bones/0/rotation = Quaternion(-0.63786286, -0.27830935, 0.37278777, 0.6137622)
+bones/0/position = Vector3(0.0012672842, -0.001958204, -0.7722408)
+bones/0/rotation = Quaternion(-0.6352905, -0.28410342, 0.3671831, 0.6171449)
 bones/0/scale = Vector3(1, 1, 1)
 bones/1/name = "mixamorig_LeftUpLeg"
 bones/1/parent = 0
 bones/1/rest = Transform3D(-0.9999995, -0.0010266057, 5.0700645e-08, 0.0010249226, -0.998363, -0.05718847, 5.876046e-05, -0.057188287, 0.9983662, -0.0013450533, -0.04217606, -0.07657767)
 bones/1/enabled = true
 bones/1/position = Vector3(-0.0013450533, -0.04217606, -0.07657767)
-bones/1/rotation = Quaternion(0.1379103, -0.101724274, 0.9718254, -0.1618282)
+bones/1/rotation = Quaternion(0.13806677, -0.09956254, 0.97196996, -0.16217078)
 bones/1/scale = Vector3(1, 1.0000001, 1.0000027)
 bones/2/name = "mixamorig_LeftLeg"
 bones/2/parent = 1
 bones/2/rest = Transform3D(0.999939, 0.011042471, 0.0002624866, -0.01104559, 0.99965984, 0.02363085, -1.4543184e-06, -0.02363231, 0.99972075, -3.3446668e-09, 0.34360135, 7.409604e-09)
 bones/2/enabled = true
 bones/2/position = Vector3(-3.3446668e-09, 0.34360135, 7.409604e-09)
-bones/2/rotation = Quaternion(-0.04508118, -0.12133172, -0.26509967, 0.9554938)
+bones/2/rotation = Quaternion(-0.044068936, -0.123774074, -0.25180927, 0.958817)
 bones/2/scale = Vector3(1, 1.0000001, 1)
 bones/3/name = "mixamorig_LeftFoot"
 bones/3/parent = 2
 bones/3/rest = Transform3D(-0.002228498, -0.81913304, -0.57359904, -5.960463e-08, 0.5736004, -0.81913507, 0.9999973, -0.0018254068, -0.0012783165, -2.3646862e-09, 0.32750708, 2.9906914e-08)
 bones/3/enabled = true
 bones/3/position = Vector3(-2.3646862e-09, 0.32750708, 2.9906914e-08)
-bones/3/rotation = Quaternion(0.3514564, -0.6448047, 0.29710472, 0.61027384)
+bones/3/rotation = Quaternion(0.34789363, -0.64605063, 0.2943319, 0.6123377)
 bones/3/scale = Vector3(0.99999976, 0.9999999, 0.9999998)
 bones/4/name = "mixamorig_LeftToeBase"
 bones/4/parent = 3
@@ -1498,21 +1498,21 @@ bones/6/parent = 0
 bones/6/rest = Transform3D(-0.99999964, -0.0008606931, 3.135314e-08, 0.00085928617, -0.9983632, 0.057188466, -4.9190283e-05, 0.057188306, 0.99836606, -0.0013841689, -0.042176075, 0.07657767)
 bones/6/enabled = true
 bones/6/position = Vector3(-0.0013841689, -0.042176075, 0.07657767)
-bones/6/rotation = Quaternion(-0.19318558, 0.14493282, 0.96158653, -0.13048044)
+bones/6/rotation = Quaternion(-0.19382179, 0.14238964, 0.96168673, -0.13159421)
 bones/6/scale = Vector3(1, 1.0000001, 1.0000026)
 bones/7/name = "mixamorig_RightLeg"
 bones/7/parent = 6
 bones/7/rest = Transform3D(0.9999076, 0.013592333, -0.00032313977, -0.013596174, 0.9996283, -0.023629358, 1.8415595e-06, 0.023631565, 0.99972075, 5.0049493e-09, 0.34360126, 2.3495778e-10)
 bones/7/enabled = true
 bones/7/position = Vector3(5.0049493e-09, 0.34360126, 2.3495778e-10)
-bones/7/rotation = Quaternion(0.049349472, 0.01918918, -0.35023496, 0.9351641)
+bones/7/rotation = Quaternion(0.04905865, 0.021370867, -0.33862078, 0.9394001)
 bones/7/scale = Vector3(1, 0.99999994, 1)
 bones/8/name = "mixamorig_RightFoot"
 bones/8/parent = 7
 bones/8/rest = Transform3D(0.0022767785, -0.82122654, -0.57059807, -8.9406974e-08, 0.57059956, -0.8212286, 0.99999744, 0.0018698066, 0.0012990553, 1.5061232e-09, 0.32751736, 5.6024874e-09)
 bones/8/enabled = true
 bones/8/position = Vector3(1.5061232e-09, 0.32751736, 5.6024874e-09)
-bones/8/rotation = Quaternion(0.36425078, -0.56827563, 0.45008296, 0.58464485)
+bones/8/rotation = Quaternion(0.36102906, -0.57021546, 0.44766802, 0.58660525)
 bones/8/scale = Vector3(1, 1.0000001, 1.0000001)
 bones/9/name = "mixamorig_RightToeBase"
 bones/9/parent = 8
@@ -1554,7 +1554,7 @@ bones/14/parent = 13
 bones/14/rest = Transform3D(-0.99987435, 0.0151156075, -0.004762423, -1.938548e-06, -0.30062085, -0.9537437, -0.015848102, -0.95362365, 0.3005832, 0.0011652408, 0.090845846, -0.073526256)
 bones/14/enabled = true
 bones/14/position = Vector3(0.0327059, 0.10571678, -0.06465186)
-bones/14/rotation = Quaternion(-0.29100156, -0.63531923, 0.7031935, -0.13117391)
+bones/14/rotation = Quaternion(-0.2920235, -0.6335778, 0.70423704, -0.13172545)
 bones/14/scale = Vector3(0.99999994, 0.9999997, 1)
 bones/15/name = "mixamorig_LeftArm"
 bones/15/parent = 14
@@ -1568,14 +1568,14 @@ bones/16/parent = 15
 bones/16/rest = Transform3D(0.9990993, -0.042165708, -0.0047617652, 0.04243373, 0.99278826, 0.11211937, -1.6763808e-07, -0.112220444, 0.9936833, 0, 0.17083439, 1.44355e-08)
 bones/16/enabled = true
 bones/16/position = Vector3(0, 0.17083439, 1.44355e-08)
-bones/16/rotation = Quaternion(0.5112713, -0.5772264, 0.44756263, 0.45287862)
+bones/16/rotation = Quaternion(0.51118, -0.57485175, 0.4519017, 0.45169175)
 bones/16/scale = Vector3(1, 0.99999994, 0.99999994)
 bones/17/name = "mixamorig_LeftHand"
 bones/17/parent = 16
 bones/17/rest = Transform3D(0.90012795, -0.03354185, 0.4343323, -0.034299254, 0.9884791, 0.14741975, -0.4342731, -0.14759389, 0.8886073, -5.5879354e-09, 0.21899766, 1.7462298e-09)
 bones/17/enabled = true
 bones/17/position = Vector3(-5.5879354e-09, 0.21899766, 1.7462298e-09)
-bones/17/rotation = Quaternion(-0.0040487708, -0.016179217, 0.07089806, 0.99734414)
+bones/17/rotation = Quaternion(0.006951141, -0.013052988, 0.07788293, 0.9968528)
 bones/17/scale = Vector3(0.99999994, 0.99999994, 1)
 bones/18/name = "mixamorig_LeftHandIndex1"
 bones/18/parent = 17
@@ -1659,28 +1659,28 @@ bones/29/parent = 13
 bones/29/rest = Transform3D(0.9999339, 0.01096299, -0.003462208, -4.187692e-06, -0.30080074, -0.9536869, -0.011496697, 0.953624, -0.30078077, 0.0008457417, 0.09083198, 0.073526256)
 bones/29/enabled = true
 bones/29/position = Vector3(-0.030694917, 0.075960994, 0.064651884)
-bones/29/rotation = Quaternion(0.8261557, -0.06275062, -0.0033740597, 0.55992657)
+bones/29/rotation = Quaternion(0.8282599, -0.063882746, -0.0065172133, 0.55665255)
 bones/29/scale = Vector3(1, 1, 0.9999999)
 bones/30/name = "mixamorig_RightArm"
 bones/30/parent = 29
 bones/30/rest = Transform3D(-0.9999058, 0.006200271, -0.012231852, -2.677552e-08, 0.89195275, 0.45212886, 0.013713552, 0.45208642, -0.8918687, 6.9849193e-10, 0.15387967, 1.0133954e-07)
 bones/30/enabled = true
 bones/30/position = Vector3(6.9849193e-10, 0.15387967, 1.0133954e-07)
-bones/30/rotation = Quaternion(0.2781473, 0.9057015, 0.2986982, 0.11453534)
+bones/30/rotation = Quaternion(0.25916702, 0.90504235, 0.30784997, 0.13769259)
 bones/30/scale = Vector3(0.9999998, 1.0000001, 0.99999994)
 bones/31/name = "mixamorig_RightForeArm"
 bones/31/parent = 30
 bones/31/rest = Transform3D(0.99940133, -0.034384347, 0.0038351067, 0.034597557, 0.9932424, -0.11078312, 1.46683306e-08, 0.1108495, 0.99383724, -2.561137e-09, 0.17080683, -3.0966476e-08)
 bones/31/enabled = true
 bones/31/position = Vector3(-2.561137e-09, 0.17080683, -3.0966476e-08)
-bones/31/rotation = Quaternion(-0.06368921, 0.2367326, 0.7149314, 0.6548087)
+bones/31/rotation = Quaternion(-0.058085836, 0.23653689, 0.7217163, 0.6479213)
 bones/31/scale = Vector3(1, 1.0000001, 1)
 bones/32/name = "mixamorig_RightHand"
 bones/32/parent = 31
 bones/32/rest = Transform3D(-0.8966466, -0.06966795, 0.4372313, -0.037337214, 0.99592257, 0.08212042, -0.44116977, 0.05730798, -0.89559203, 4.656613e-10, 0.21898462, 6.0535967e-09)
 bones/32/enabled = true
 bones/32/position = Vector3(4.656613e-10, 0.21898462, 6.0535967e-09)
-bones/32/rotation = Quaternion(-0.20793012, 0.9587507, -0.07022081, 0.18064156)
+bones/32/rotation = Quaternion(-0.21248285, 0.9602662, -0.06353316, 0.1694215)
 bones/32/scale = Vector3(1, 0.99999976, 1)
 bones/33/name = "mixamorig_RightHandIndex1"
 bones/33/parent = 32
@@ -1740,7 +1740,7 @@ bones/40/rotation = Quaternion(0.0005133291, -0.0032223212, 9.148803e-05, 0.9999
 bones/40/scale = Vector3(1, 1, 1)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Body/Character2/Armature_003/Skeleton3D" unique_id=892970856]
-transform = Transform3D(-0.46537256, 0.85805064, 0.21720265, -0.412189, 0.007068917, -0.911071, -0.78328073, -0.5135159, 0.35038942, 0.07279803, 0.29175198, -0.9187337)
+transform = Transform3D(-0.4430113, 0.8721926, 0.20741442, -0.35331294, 0.042780265, -0.93452626, -0.8239605, -0.48728782, 0.28920457, 0.06615062, 0.28811914, -0.9041273)
 bone_name = "mixamorig_RightHand"
 bone_idx = 32
 
@@ -1810,10 +1810,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0020342171, 0.14914039, -0
 [node name="ArmaPlaceholder" parent="Head/WeaponPivot/Weapon" unique_id=1512367302 instance=ExtResource("5_hl74m")]
 transform = Transform3D(-7.86805e-08, 0, -1.8, 0, 1.8, 0, 1.8, 0, -7.86805e-08, 0, 0, 0.09426361)
 
-[node name="Cubo_013" parent="Head/WeaponPivot/Weapon/ArmaPlaceholder" index="0" unique_id=630692936]
+[node name="Cubo_013" parent="Head/WeaponPivot/Weapon/ArmaPlaceholder" index="0" unique_id=901880926]
 cast_shadow = 0
 
-[node name="QuakeGuy_002" parent="Head/WeaponPivot/Weapon/ArmaPlaceholder" index="1" unique_id=976105351]
+[node name="QuakeGuy_002" parent="Head/WeaponPivot/Weapon/ArmaPlaceholder" index="1" unique_id=1430024402]
 cast_shadow = 0
 
 [node name="TransformSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1282376305]
@@ -1830,30 +1830,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Health" type="Label" parent="CanvasLayer/UI" unique_id=1980767086]
-layout_mode = 0
-offset_left = 454.0
-offset_top = 539.0
-offset_right = 543.0
-offset_bottom = 634.0
-theme_override_colors/font_color = Color(1, 0, 0, 1)
-theme_override_font_sizes/font_size = 32
-text = "100"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label" type="Label" parent="CanvasLayer/UI" unique_id=805706730]
-layout_mode = 0
-offset_left = 543.0
-offset_top = 539.0
-offset_right = 638.0
-offset_bottom = 630.0
-theme_override_colors/font_color = Color(0, 1, 1, 1)
-theme_override_font_sizes/font_size = 32
-text = "100"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="background" type="TextureRect" parent="CanvasLayer/UI" unique_id=1987506281]
 texture_filter = 1
 layout_mode = 1
@@ -1862,10 +1838,10 @@ anchor_left = 0.113000005
 anchor_top = 0.87000006
 anchor_right = 0.499
 anchor_bottom = 1.0
-offset_left = 598.824
-offset_top = 15.239929
-offset_right = 982.152
-offset_bottom = 51.0
+offset_left = 752.28
+offset_top = 24.399902
+offset_right = 1227.1599
+offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
@@ -1874,34 +1850,34 @@ stretch_mode = 1
 
 [node name="ShadowHealthBar" type="ColorRect" parent="CanvasLayer/UI" unique_id=436291266]
 layout_mode = 0
-offset_left = 740.9
-offset_top = 606.005
-offset_right = 1136.6019
-offset_bottom = 638.005
+offset_left = 927.0
+offset_top = 1026.0
+offset_right = 1420.205
+offset_bottom = 1058.0
 color = Color(1, 0, 0, 1)
 
 [node name="HealthBar" type="ColorRect" parent="CanvasLayer/UI" unique_id=1887160815]
 layout_mode = 0
-offset_left = 740.9
-offset_top = 606.005
-offset_right = 1136.6019
-offset_bottom = 638.005
+offset_left = 927.0
+offset_top = 1026.0
+offset_right = 1420.205
+offset_bottom = 1058.0
 color = Color(0.37254903, 0.7490196, 0, 1)
 
 [node name="ShadowEnergyBar" type="ColorRect" parent="CanvasLayer/UI" unique_id=1582625684]
 layout_mode = 0
-offset_left = 740.9
-offset_top = 580.495
-offset_right = 1136.6019
-offset_bottom = 608.495
+offset_left = 927.0
+offset_top = 978.0
+offset_right = 1420.205
+offset_bottom = 1006.0
 color = Color(1, 0.4392157, 0, 1)
 
 [node name="EnergyBar" type="ColorRect" parent="CanvasLayer/UI" unique_id=1509800947]
 layout_mode = 0
-offset_left = 740.9
-offset_top = 580.495
-offset_right = 1136.6019
-offset_bottom = 608.495
+offset_left = 927.0
+offset_top = 978.0
+offset_right = 1420.205
+offset_bottom = 1006.0
 color = Color(1, 1, 0, 1)
 
 [node name="Hud" type="TextureRect" parent="CanvasLayer/UI" unique_id=761355531]
@@ -1919,28 +1895,34 @@ texture = ExtResource("12_0a0vq")
 [node name="cara" type="TextureRect" parent="CanvasLayer/UI" unique_id=1226408312]
 texture_filter = 1
 material = ExtResource("13_qd4s2")
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.72800004
-anchor_right = 0.119
-anchor_bottom = 1.0
-offset_left = 618.99994
-offset_top = 68.25598
-offset_right = 545.9119
-offset_bottom = -43.99951
-grow_vertical = 0
-scale = Vector2(1.6, 1.6)
+layout_mode = 0
+offset_left = 766.0
+offset_top = 919.0
+offset_right = 906.0
+offset_bottom = 1059.0
 texture = ExtResource("13_yc1dn")
-expand_mode = 1
 
 [node name="Score" type="Label" parent="CanvasLayer/UI" unique_id=565540710]
 layout_mode = 0
-offset_left = 1033.0
-offset_top = 554.0
-offset_right = 1119.0
-offset_bottom = 596.0
-text = "SCORE 6/6"
+offset_left = 1282.0
+offset_top = 935.0
+offset_right = 1412.0
+offset_bottom = 954.0
+text = "6/6"
 label_settings = ExtResource("14_oevyd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer/UI" unique_id=1487726471]
+layout_mode = 0
+offset_left = 1282.0
+offset_top = 914.0
+offset_right = 1412.0
+offset_bottom = 933.0
+text = "SCORE"
+label_settings = ExtResource("14_oevyd")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="name_text" type="Label" parent="CanvasLayer/UI" unique_id=919152568]
 layout_mode = 1
@@ -1949,39 +1931,68 @@ anchor_left = 0.507
 anchor_top = 0.739
 anchor_right = 0.99100006
 anchor_bottom = 0.98300004
-offset_left = 167.93597
-offset_top = 65.12799
-offset_right = -158.63208
-offset_bottom = -56.98401
+offset_left = 209.91998
+offset_top = 119.880005
+offset_right = -199.04004
+offset_bottom = -103.640015
 text = "NAME"
 label_settings = ExtResource("15_qd4s2")
 
+[node name="health_text" type="Label" parent="CanvasLayer/UI" unique_id=1561868183]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.507
+anchor_top = 0.739
+anchor_right = 0.99100006
+anchor_bottom = 0.98300004
+offset_left = 414.55988
+offset_top = 234.88
+offset_right = -192.40015
+offset_bottom = -11.888062
+text = "120/300"
+label_settings = ExtResource("14_oevyd")
+
+[node name="energy_text" type="Label" parent="CanvasLayer/UI" unique_id=728360081]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.507
+anchor_top = 0.739
+anchor_right = 0.99100006
+anchor_bottom = 0.98300004
+offset_left = 413.55988
+offset_top = 185.88
+offset_right = -193.40015
+offset_bottom = -58.888
+text = "120/300"
+label_settings = ExtResource("14_oevyd")
+
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI" unique_id=129621613]
 layout_mode = 0
-offset_left = 20.0
-offset_top = 536.0
-offset_right = 586.0
-offset_bottom = 648.0
+offset_left = 33.0
+offset_top = 919.0
+offset_right = 733.0
+offset_bottom = 1070.0
+size_flags_vertical = 4
 
-[node name="VBoxContainer4" type="VBoxContainer" parent="CanvasLayer/UI/HBoxContainer" unique_id=1720745499]
+[node name="energy_container" type="VBoxContainer" parent="CanvasLayer/UI/HBoxContainer" unique_id=1720745499]
 layout_mode = 2
 
-[node name="ENERGY" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer4" unique_id=807057577]
+[node name="ENERGY" type="Label" parent="CanvasLayer/UI/HBoxContainer/energy_container" unique_id=807057577]
 layout_mode = 2
 text = "ENERGY"
 label_settings = ExtResource("16_gkhnj")
 
-[node name="EXTRA" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer4" unique_id=974784487]
+[node name="EXTRA" type="Label" parent="CanvasLayer/UI/HBoxContainer/energy_container" unique_id=974784487]
 layout_mode = 2
 text = "EXTRA  {EXTRA}"
 label_settings = ExtResource("15_lh1p7")
 
-[node name="COST" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer4" unique_id=1693658279]
+[node name="COST" type="Label" parent="CanvasLayer/UI/HBoxContainer/energy_container" unique_id=1693658279]
 layout_mode = 2
 text = "COST   {COST}"
 label_settings = ExtResource("15_lh1p7")
 
-[node name="REFILL" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer4" unique_id=109496153]
+[node name="REFILL" type="Label" parent="CanvasLayer/UI/HBoxContainer/energy_container" unique_id=109496153]
 layout_mode = 2
 text = "REFILL {REFILL}"
 label_settings = ExtResource("15_lh1p7")
@@ -1994,31 +2005,31 @@ offset_transform_enabled = true
 offset_transform_scale = Vector2(-1.705, 1)
 theme_override_styles/separator = SubResource("StyleBoxTexture_ur5vi")
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="CanvasLayer/UI/HBoxContainer" unique_id=1077603562]
+[node name="weapon_container" type="VBoxContainer" parent="CanvasLayer/UI/HBoxContainer" unique_id=1077603562]
 layout_mode = 2
 
-[node name="WEAPON" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer3" unique_id=1661594045]
+[node name="WEAPON" type="Label" parent="CanvasLayer/UI/HBoxContainer/weapon_container" unique_id=1661594045]
 use_parent_material = true
 layout_mode = 2
 text = "WEAPON"
 label_settings = ExtResource("19_5wctj")
 
-[node name="DAMAGE" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer3" unique_id=2051253652]
+[node name="DAMAGE" type="Label" parent="CanvasLayer/UI/HBoxContainer/weapon_container" unique_id=2051253652]
 layout_mode = 2
 text = "DAMAGE   {DAMAGE}"
 label_settings = ExtResource("15_lh1p7")
 
-[node name="HEADSHOT" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer3" unique_id=780828840]
+[node name="HEADSHOT" type="Label" parent="CanvasLayer/UI/HBoxContainer/weapon_container" unique_id=780828840]
 layout_mode = 2
 text = "HEADSHOT {HEADSHOT}"
 label_settings = ExtResource("15_lh1p7")
 
-[node name="VEL ATTK" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer3" unique_id=1915264105]
+[node name="VEL ATTK" type="Label" parent="CanvasLayer/UI/HBoxContainer/weapon_container" unique_id=1915264105]
 layout_mode = 2
 text = "VEL ATTK {VEL_ATTK}"
 label_settings = ExtResource("15_lh1p7")
 
-[node name="RECOIL" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer3" unique_id=1579862293]
+[node name="RECOIL" type="Label" parent="CanvasLayer/UI/HBoxContainer/weapon_container" unique_id=1579862293]
 layout_mode = 2
 text = "RECOIL   {RECOIL}"
 label_settings = ExtResource("15_lh1p7")
@@ -2031,25 +2042,25 @@ offset_transform_enabled = true
 offset_transform_scale = Vector2(-1.705, 1)
 theme_override_styles/separator = SubResource("StyleBoxTexture_ur5vi")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/UI/HBoxContainer" unique_id=900667008]
+[node name="bullet_container" type="VBoxContainer" parent="CanvasLayer/UI/HBoxContainer" unique_id=900667008]
 layout_mode = 2
 
-[node name="BULLETS" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer2" unique_id=1780400845]
+[node name="BULLETS" type="Label" parent="CanvasLayer/UI/HBoxContainer/bullet_container" unique_id=1780400845]
 layout_mode = 2
 text = "BULLETS"
 label_settings = ExtResource("20_qbt7l")
 
-[node name="AMOUNT" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer2" unique_id=311671087]
+[node name="AMOUNT" type="Label" parent="CanvasLayer/UI/HBoxContainer/bullet_container" unique_id=311671087]
 layout_mode = 2
 text = "AMOUNT {AMOUNT}"
 label_settings = ExtResource("15_lh1p7")
 
-[node name="VEL" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer2" unique_id=1452537814]
+[node name="VEL" type="Label" parent="CanvasLayer/UI/HBoxContainer/bullet_container" unique_id=1452537814]
 layout_mode = 2
 text = "VEL    {VEL}"
 label_settings = ExtResource("15_lh1p7")
 
-[node name="SIZE" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer2" unique_id=1144642309]
+[node name="SIZE" type="Label" parent="CanvasLayer/UI/HBoxContainer/bullet_container" unique_id=1144642309]
 layout_mode = 2
 text = "SIZE   {SIZE}"
 label_settings = ExtResource("15_lh1p7")
@@ -2062,57 +2073,29 @@ offset_transform_enabled = true
 offset_transform_scale = Vector2(-1.705, 1)
 theme_override_styles/separator = SubResource("StyleBoxTexture_ur5vi")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/HBoxContainer" unique_id=478440415]
+[node name="hero_container" type="VBoxContainer" parent="CanvasLayer/UI/HBoxContainer" unique_id=478440415]
 layout_mode = 2
 
-[node name="HERO" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer" unique_id=1551528960]
+[node name="HERO" type="Label" parent="CanvasLayer/UI/HBoxContainer/hero_container" unique_id=1551528960]
 layout_mode = 2
 text = "HERO"
 label_settings = ExtResource("21_fe05t")
 
-[node name="HEALTH" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer" unique_id=2071750581]
+[node name="HEALTH" type="Label" parent="CanvasLayer/UI/HBoxContainer/hero_container" unique_id=2071750581]
 layout_mode = 2
 text = "HEALTH {HEALTH}"
 label_settings = ExtResource("15_lh1p7")
 
-[node name="JUMP" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer" unique_id=2065678151]
+[node name="JUMP" type="Label" parent="CanvasLayer/UI/HBoxContainer/hero_container" unique_id=2065678151]
 layout_mode = 2
 text = "JUMP   {JUMP}"
 label_settings = ExtResource("15_lh1p7")
 
-[node name="RUN" type="Label" parent="CanvasLayer/UI/HBoxContainer/VBoxContainer" unique_id=613115969]
+[node name="RUN" type="Label" parent="CanvasLayer/UI/HBoxContainer/hero_container" unique_id=613115969]
 layout_mode = 2
 text = "RUN    {RUN}
 "
 label_settings = ExtResource("15_lh1p7")
-
-[node name="health_text" type="Label" parent="CanvasLayer/UI" unique_id=1561868183]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.507
-anchor_top = 0.739
-anchor_right = 0.99100006
-anchor_bottom = 0.98300004
-offset_left = 315.93597
-offset_top = 139.12799
-offset_right = -170.63208
-offset_bottom = -0.9840088
-text = "120/300"
-label_settings = ExtResource("14_oevyd")
-
-[node name="energy_text" type="Label" parent="CanvasLayer/UI" unique_id=728360081]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.507
-anchor_top = 0.739
-anchor_right = 0.99100006
-anchor_bottom = 0.98300004
-offset_left = 315.93597
-offset_top = 110.12799
-offset_right = -152.63208
-offset_bottom = -27.984009
-text = "120/300"
-label_settings = ExtResource("14_oevyd")
 
 [node name="INFO" type="Control" parent="CanvasLayer" unique_id=1066089378]
 visible = false

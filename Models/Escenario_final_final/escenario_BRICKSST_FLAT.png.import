@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bc0t1f8d1xxx7"
 path.s3tc="res://.godot/imported/escenario_BRICKSST_FLAT.png-0b6af2cbcf85dc2b633d9b6db94f4677.s3tc.ctex"
+path.etc2="res://.godot/imported/escenario_BRICKSST_FLAT.png-0b6af2cbcf85dc2b633d9b6db94f4677.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Models/Escenario_final_final/escenario_BRICKSST_FLAT.png"
-dest_files=["res://.godot/imported/escenario_BRICKSST_FLAT.png-0b6af2cbcf85dc2b633d9b6db94f4677.s3tc.ctex"]
+dest_files=["res://.godot/imported/escenario_BRICKSST_FLAT.png-0b6af2cbcf85dc2b633d9b6db94f4677.s3tc.ctex", "res://.godot/imported/escenario_BRICKSST_FLAT.png-0b6af2cbcf85dc2b633d9b6db94f4677.etc2.ctex"]
 
 [params]
 

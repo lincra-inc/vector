@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://gjejc0lqu5hr"
 path.s3tc="res://.godot/imported/escenariodecorado_ESTATUA_Guy.png-0a3865524f2294067f70a3d71d636518.s3tc.ctex"
+path.etc2="res://.godot/imported/escenariodecorado_ESTATUA_Guy.png-0a3865524f2294067f70a3d71d636518.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Models/escenarioestatua/escenariodecorado_ESTATUA_Guy.png"
-dest_files=["res://.godot/imported/escenariodecorado_ESTATUA_Guy.png-0a3865524f2294067f70a3d71d636518.s3tc.ctex"]
+dest_files=["res://.godot/imported/escenariodecorado_ESTATUA_Guy.png-0a3865524f2294067f70a3d71d636518.s3tc.ctex", "res://.godot/imported/escenariodecorado_ESTATUA_Guy.png-0a3865524f2294067f70a3d71d636518.etc2.ctex"]
 
 [params]
 

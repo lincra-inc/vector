@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://boo72usgl8alk"
 path.s3tc="res://.godot/imported/escenario_TRIMSHEE.png-5779442dc4e2dc5779d01380b150a36b.s3tc.ctex"
+path.etc2="res://.godot/imported/escenario_TRIMSHEE.png-5779442dc4e2dc5779d01380b150a36b.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Models/Escenario_final_final/escenario_TRIMSHEE.png"
-dest_files=["res://.godot/imported/escenario_TRIMSHEE.png-5779442dc4e2dc5779d01380b150a36b.s3tc.ctex"]
+dest_files=["res://.godot/imported/escenario_TRIMSHEE.png-5779442dc4e2dc5779d01380b150a36b.s3tc.ctex", "res://.godot/imported/escenario_TRIMSHEE.png-5779442dc4e2dc5779d01380b150a36b.etc2.ctex"]
 
 [params]
 

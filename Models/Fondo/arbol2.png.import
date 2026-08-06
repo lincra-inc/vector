@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bcl4fxwgbfalo"
 path.s3tc="res://.godot/imported/arbol2.png-482659524fc7b097bc06b734e2e61c43.s3tc.ctex"
+path.etc2="res://.godot/imported/arbol2.png-482659524fc7b097bc06b734e2e61c43.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Models/Fondo/arbol2.png"
-dest_files=["res://.godot/imported/arbol2.png-482659524fc7b097bc06b734e2e61c43.s3tc.ctex"]
+dest_files=["res://.godot/imported/arbol2.png-482659524fc7b097bc06b734e2e61c43.s3tc.ctex", "res://.godot/imported/arbol2.png-482659524fc7b097bc06b734e2e61c43.etc2.ctex"]
 
 [params]
 
