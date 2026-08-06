@@ -1,0 +1,14 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://bkyrjtl3ayc1w"]
+
+[ext_resource type="FontFile" uid="uid://cm7dibp6efayt" path="res://assets/UI/Fuentes/3x5 MT Pixel.ttf" id="1_20sv3"]
+
+[resource]
+font = ExtResource("1_20sv3")
+font_size = 10
+font_color = Color(0.14509805, 0.14117648, 0.1254902, 1)
+stacked_shadow_count = 2
+stacked_shadow_0/color = Color(0.7607843, 0.7294118, 0.67058825, 1)
+stacked_shadow_0/outline_size = 1
+stacked_shadow_1/offset = Vector2(-1, -1)
+stacked_shadow_1/color = Color(0.20392157, 0.2, 0.18039216, 0)
+stacked_shadow_1/outline_size = 1

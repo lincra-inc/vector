@@ -1,0 +1,19 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://c4ofiuumysf6q"]
+
+[ext_resource type="FontFile" uid="uid://3rqdwxe03qyn" path="res://assets/UI/Fuentes/mini_pixel-7.ttf" id="1_gt2rr"]
+
+[resource]
+font = ExtResource("1_gt2rr")
+font_size = 35
+stacked_shadow_count = 4
+stacked_shadow_0/color = Color(0.13725491, 0.14509805, 0.12156863, 1)
+stacked_shadow_0/outline_size = 1
+stacked_shadow_1/offset = Vector2(-1, 1)
+stacked_shadow_1/color = Color(0.10980392, 0.12156863, 0.10980392, 1)
+stacked_shadow_1/outline_size = 1
+stacked_shadow_2/offset = Vector2(-1, -1)
+stacked_shadow_2/color = Color(0.10980392, 0.12156863, 0.10980392, 1)
+stacked_shadow_2/outline_size = 1
+stacked_shadow_3/offset = Vector2(1, -1)
+stacked_shadow_3/color = Color(0.10980392, 0.12156863, 0.10980392, 1)
+stacked_shadow_3/outline_size = 1
