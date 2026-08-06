@@ -11,7 +11,10 @@
 [ext_resource type="Shader" uid="uid://d4j1bh41iat1" path="res://Shaders/fuego.tres" id="8_s326q"]
 [ext_resource type="Texture2D" uid="uid://cih0q135iyrp0" path="res://Models/Fondo/antorcha.png" id="9_cteo7"]
 [ext_resource type="Environment" uid="uid://dx0qvwfaoxq62" path="res://Shaders/world_environment.tres" id="9_nghjj"]
+[ext_resource type="Texture2D" uid="uid://ce05yl8b3k8rt" path="res://assets/UI/BACKGROUND.png" id="10_hnkpq"]
+[ext_resource type="Texture2D" uid="uid://bbxxswe3gc780" path="res://assets/UI/vector3.png" id="12_emm7u"]
 [ext_resource type="PackedScene" uid="uid://01ebdn5h4xij" path="res://Models/Escenario_final_final/escenario.glb" id="13_7w6jk"]
+[ext_resource type="Texture2D" uid="uid://csxdii0ksbuny" path="res://assets/UI/tab_block.png" id="13_hloe5"]
 [ext_resource type="PackedScene" uid="uid://dvjeveqbl2fdo" path="res://Models/escenarioestatua/escenariodecorado.glb" id="13_rp2rq"]
 [ext_resource type="Texture2D" uid="uid://boo72usgl8alk" path="res://Models/Escenario_final_final/escenario_TRIMSHEE.png" id="14_45rnh"]
 [ext_resource type="Texture2D" uid="uid://cl556rrbjv0ju" path="res://Models/Escenario_final_final/escenario_trimsheet_metal.png" id="15_vewc6"]
@@ -130,6 +133,12 @@ size = Vector3(6.7662964, 0.001, 6.3634033)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3jf2c"]
 size = Vector3(7.7061157, 0.001, 7.902405)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rm3d5"]
+content_margin_bottom = 12.0
+texture = ExtResource("10_hnkpq")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [sub_resource type="SphereMesh" id="SphereMesh_awdws"]
 
@@ -436,8 +445,10 @@ debug_color = Color(1, 0.61960787, 0.58431375, 0.94509804)
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1971614241]
 
 [node name="Scoreboard" type="PanelContainer" parent="CanvasLayer" unique_id=615458954]
-offset_right = 40.0
-offset_bottom = 40.0
+texture_filter = 1
+offset_right = 256.0
+offset_bottom = 136.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_rm3d5")
 script = ExtResource("8_nghjj")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scoreboard" unique_id=1330127926]
@@ -446,14 +457,20 @@ layout_mode = 2
 [node name="Header" type="VBoxContainer" parent="CanvasLayer/Scoreboard/VBoxContainer" unique_id=1503762546]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/Scoreboard/VBoxContainer/Header" unique_id=121023780]
+[node name="Vector3" type="TextureRect" parent="CanvasLayer/Scoreboard/VBoxContainer/Header" unique_id=1946072649]
+texture_filter = 1
 layout_mode = 2
-text = "vector3"
-horizontal_alignment = 1
-vertical_alignment = 1
+offset_transform_enabled = true
+offset_transform_scale = Vector2(0.79, 0.79)
+texture = ExtResource("12_emm7u")
 
 [node name="Players" type="VBoxContainer" parent="CanvasLayer/Scoreboard/VBoxContainer" unique_id=518475441]
 layout_mode = 2
+
+[node name="Label" type="TextureRect" parent="CanvasLayer/Scoreboard/VBoxContainer/Players" unique_id=845445548]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("13_hloe5")
 
 [node name="MultiplayerSpawnerLoots" type="MultiplayerSpawner" parent="." unique_id=1574877655]
 _spawnable_scenes = PackedStringArray("uid://cmn0huj8lismy")
