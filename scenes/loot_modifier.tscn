@@ -9,6 +9,7 @@
 render_priority = 0
 shader = ExtResource("2_4jdix")
 shader_parameter/ColorParameter = Color(3.2944162, 0, 0, 1)
+shader_parameter/FloatParameter = 0.03
 
 [sub_resource type="SphereMesh" id="SphereMesh_wfv3s"]
 material = SubResource("ShaderMaterial_s6sty")
@@ -28,6 +29,7 @@ text = "G"
 font_size = 80
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PowerUp" unique_id=1570539048]
+cast_shadow = 0
 mesh = SubResource("SphereMesh_wfv3s")
 
 [node name="AudioPick" type="AudioStreamPlayer3D" parent="." unique_id=269851800]

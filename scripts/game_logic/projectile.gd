@@ -80,7 +80,7 @@ func _on_hit(hit: Dictionary) -> void:
 	var player := collider.get_parent() as Player
 	
 	if player:
-		if player.dead:
+		if player.network_state.dead or player.network_state.health <= 0:
 			return
 		
 		var multiplier := 1.0
@@ -92,7 +92,7 @@ func _on_hit(hit: Dictionary) -> void:
 			return
 		
 		var final_damage := int(damage * multiplier)
-		player.take_damage(owner_peer_id, final_damage)
+		player.take_damage(owner_peer_id, final_damage, -direction)
 		
 		Network.spawn_damage_number(
 			hit["position"],
@@ -104,8 +104,9 @@ func _on_hit(hit: Dictionary) -> void:
 		hit["position"],
 		damage
 	)
-	queue_free()
-	#destroy_after_sound()
+	
+	#queue_free()
+	destroy_after_sound()
 
 func destroy_after_sound() -> void:
 	waiting_remove = true;
@@ -115,4 +116,4 @@ func destroy_after_sound() -> void:
 	if audio.playing:
 		await audio.finished
 	
-	#queue_free()
+	queue_free()

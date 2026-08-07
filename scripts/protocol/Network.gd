@@ -6,10 +6,10 @@ extends Node
 var loot_spawn_timer := 0.0
 
 const DEDICATED_SERVER:    String = "--server"
-const DEFAULT_PORT:        int = 7777
+const DEFAULT_PORT:        int = 7770
 const DEFAULT_MAX_CLIENTS: int = 32
 
-const DEBUG_IN_LOCAL: bool = true
+const DEBUG_IN_LOCAL: bool = false
 
 signal server_started(port: int)
 signal server_stopped()
@@ -21,9 +21,9 @@ signal server_disconnected()
 signal peer_connected(peer_id: int)
 signal peer_disconnected(peer_id: int)
 
-var _peer: ENetMultiplayerPeer
-var _spawner: MultiplayerSpawner
-var _spawner_loots: MultiplayerSpawner
+var _peer : ENetMultiplayerPeer
+var _spawner : MultiplayerSpawner
+var _spawner_loots : MultiplayerSpawner
 
 var last_processed_shot: Dictionary = {}
 var last_footstep_sequence: Dictionary = {}
@@ -126,7 +126,6 @@ func _on_peer_connected(id: int) -> void:
 	
 	peer_connected.emit(id)
 
-
 func _on_peer_disconnected(id: int) -> void:
 	print("Jugador desconectado: ", id)
 	print("Jugadores: ", get_player_count())
@@ -179,7 +178,6 @@ func spawn_loot_box(position: Vector3, modifier_type: int) -> void:
 	})
 
 func spawn_projectile(position: Vector3, direction: Vector3, shooter: int, weapon: WeaponData) -> void:
-	
 	if !is_server():
 		return
 	
@@ -229,9 +227,6 @@ func process_player_actions(players: Node, loots: Node) -> void:
 		
 		if player.input_state == null:
 			continue
-		
-		if player.dead && player.player_state.health > 0:
-			player.dead = false
 		
 		var input := player.input_state
 		

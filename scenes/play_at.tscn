@@ -6,3 +6,4 @@
 script = ExtResource("1_ogh71")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=275983131]
+autoplay = true
