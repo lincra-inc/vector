@@ -477,7 +477,6 @@ label_settings = ExtResource("4_jk1qb")
 vertical_alignment = 1
 
 [node name="ControlContainer" type="Control" parent="." unique_id=2044766172]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1010,4 +1009,5 @@ skeleton = NodePath("..")
 [connection signal="text_submitted" from="VBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
 [connection signal="pressed" from="VBoxContainer/start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="VBoxContainer/options" to="ControlContainer" method="_on_options_pressed"]
+[connection signal="pressed" from="VBoxContainer/QUIT" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="ControlContainer/PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer/resume" to="ControlContainer" method="_on_resume_pressed"]

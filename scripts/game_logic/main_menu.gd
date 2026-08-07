@@ -24,10 +24,13 @@ func _load_world():
 func start_game():
 	var name := player_name.text.strip_edges()
 	
+	name = name.replace("\\", "")
+	var regex := RegEx.new()
+	regex.compile("[^a-zA-Z0-9 ]")
+	name = regex.sub(name, "", true)
+	
 	if name.is_empty():
 		name = "Player"
-	
-	# Guardar nombre globalmente
 	Globals.player_name = name
 	
 	get_tree().change_scene_to_file("res://main_scene/world.tscn")
@@ -43,3 +46,7 @@ func _on_line_edit_text_submitted(new_text: String) -> void:
 
 func _on_start_pressed() -> void:
 	start_game()
+
+
+func _on_quit_pressed() -> void:
+	get_tree().quit()

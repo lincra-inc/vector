@@ -310,7 +310,22 @@ func process_player_spawn(player_spawn_area: Area3D, players: Node, id: int) -> 
 	if position == Vector3.INF:
 		position = Vector3.ZERO
 	
-	var player_color : Color = Color(randf(), randf(), randf(), 1.0)
+	
+	const PLAYER_COLORS := [
+		Color(1.353, 0.0, 0.033, 1.0),
+		Color(1.353, 0.0, 1.175, 1.0),
+		Color(0.619, 0.0, 1.353, 1.0),
+		Color(0.0, 0.107, 1.353, 1.0),
+		Color(0.0, 0.708, 1.353, 1.0),
+		Color(0.0, 1.286, 1.353, 1.0),
+		Color(0.0, 1.353, 0.508, 1.0),
+		Color(0.283, 1.155, 0.0, 1.0),
+		Color(0.752, 1.353, 0.0, 1.0),
+		Color(1.353, 1.264, 0.0, 1.0),
+		Color(1.353, 0.819, 0.0, 1.0),
+	]
+
+	var player_color : Color = PLAYER_COLORS.pick_random()
 	_spawner.spawn({
 		"type": "player",
 		"id": id,
@@ -358,42 +373,53 @@ func process_loot_spawn(delta: float, loot_spawn_area: Area3D, special_loot_spaw
 		loot_index
 	)
 
-func _find_spawn_position(area_pool: Area3D, parent_pool: Node, min_distance: float) -> Vector3:
-	var index := randi_range(0, area_pool.get_child_count() - 1)
-	var shape := area_pool.get_child(index) as CollisionShape3D
-	
-	if shape == null:
+func _find_spawn_position(
+	area_pool: Area3D,
+	parent_pool: Node,
+	min_distance: float
+) -> Vector3:
+	var child_count := area_pool.get_child_count()
+
+	if child_count == 0:
 		return Vector3.INF
 
-	var box := shape.shape as BoxShape3D
+	var min_distance_sq := min_distance * min_distance
 
-	if box == null:
-		return Vector3.INF
+	# Intentar varias zonas de spawn
+	for _i in 10:
+		var shape := area_pool.get_child(
+			randi_range(0, child_count - 1)
+		) as CollisionShape3D
 
-	var valid_positions: Array[Vector3] = []
+		if shape == null:
+			continue
 
-	for i in 40:
-		var local := Vector3(
-			randf_range(-box.size.x * 0.5, box.size.x * 0.5),
-			randf_range(-box.size.y * 0.5, box.size.y * 0.5),
-			randf_range(-box.size.z * 0.5, box.size.z * 0.5)
-		)
+		var box := shape.shape as BoxShape3D
 
-		var world_pos := shape.global_transform * local
-		var valid := true
+		if box == null:
+			continue
 
-		for pool in parent_pool.get_children():
-			if pool.global_position.distance_to(world_pos) < min_distance:
-				valid = false
-				break
+		# Intentar varias posiciones dentro de la zona
+		for _j in 10:
+			var local_pos := Vector3(
+				randf_range(-box.size.x * 0.5, box.size.x * 0.5),
+				randf_range(-box.size.y * 0.5, box.size.y * 0.5),
+				randf_range(-box.size.z * 0.5, box.size.z * 0.5)
+			)
 
-		if valid:
-			valid_positions.append(world_pos)
+			var world_pos := shape.global_transform * local_pos
 
-	if valid_positions.is_empty():
-		return Vector3.INF
+			var valid := true
 
-	return valid_positions.pick_random()
+			for node in parent_pool.get_children():
+				if node.global_position.distance_squared_to(world_pos) < min_distance_sq:
+					valid = false
+					break
+
+			if valid:
+				return world_pos
+
+	return Vector3.INF
 
 func get_random_player_spawn(player_spawn_area: Area3D, players: Node) -> Vector3:
 	if !is_server():
@@ -402,7 +428,7 @@ func get_random_player_spawn(player_spawn_area: Area3D, players: Node) -> Vector
 	return _find_spawn_position(
 		player_spawn_area,
 		players,
-		5.0
+		1.0
 	)
 
 func update_regeneration(player: Player, delta: float):
