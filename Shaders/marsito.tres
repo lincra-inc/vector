@@ -17,7 +17,7 @@ seamless_blend_skirt = 0.344
 [resource]
 render_priority = 0
 shader = ExtResource("1_3y7x2")
-shader_parameter/ValorBajo = -0.415
+shader_parameter/ValorBajo = 1.355
 shader_parameter/ValorAlto = 1.295
 shader_parameter/FloatParameter = 0.0
 shader_parameter/caida_del_agua_angulo = Vector2(1, 0)

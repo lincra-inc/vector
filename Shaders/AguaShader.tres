@@ -167,6 +167,7 @@ texture = SubResource("NoiseTexture2D_h0247")
 texture_type = 1
 
 [resource]
+modes/specular = 2
 nodes/fragment/0/position = Vector2(1904, -176)
 nodes/fragment/5/node = SubResource("VisualShaderNodeInput_6jvpv")
 nodes/fragment/5/position = Vector2(-2704, 464)

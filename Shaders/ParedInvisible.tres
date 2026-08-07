@@ -136,7 +136,6 @@ default_input_values = [1, Vector2(0.5, 0.5), 2, Vector2(0, 0)]
 op_type = 0
 
 [resource]
-modes/cull = 1
 modes/specular = 2
 flags/shadows_disabled = true
 flags/fog_disabled = true
