@@ -5,7 +5,7 @@
 [resource]
 font = ExtResource("1_ymfk5")
 font_size = 45
-font_color = Color(0.09411765, 1, 1, 1)
+font_color = Color(0, 0.7999997, 1, 1)
 stacked_shadow_count = 4
 stacked_shadow_0/offset = Vector2(-1, -1)
 stacked_shadow_0/color = Color(0.16435191, 0.15318438, 0.13922241, 1)

@@ -1,7 +1,7 @@
 extends PanelContainer
 class_name PauseMenu
 
-@onready var sound_slider: HSlider = $VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sound
+@onready var sound_slider: HSlider = $VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sfc
 @onready var music_slider: HSlider = $VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/music
 @onready var sensitivity_slider: HSlider = $VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sensitivity
 

@@ -1,0 +1,9 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://ddqax5hgwkbig"]
+
+[ext_resource type="Texture2D" uid="uid://bntcrk3coxgi1" path="res://assets/UI/señaladorabajo.png" id="1_2rd6b"]
+
+[resource]
+content_margin_top = 40.0
+texture = ExtResource("1_2rd6b")
+texture_margin_right = 0.44983757
+region_rect = Rect2(-17.044708, 0.5302429, 59.01248, 37.312958)

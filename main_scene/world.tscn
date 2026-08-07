@@ -22,6 +22,7 @@
 [ext_resource type="Script" uid="uid://cfirgc51rtnqf" path="res://scripts/game_logic/pause.gd" id="15_jaxpi"]
 [ext_resource type="Texture2D" uid="uid://cl556rrbjv0ju" path="res://Models/Escenario_final_final/escenario_trimsheet_metal.png" id="15_vewc6"]
 [ext_resource type="Material" uid="uid://bk87r21kkqeln" path="res://Shaders/ParedInvisiblematerial.tres" id="15_yc2d1"]
+[ext_resource type="Texture2D" uid="uid://d0r6xi5wucs0t" path="res://assets/UI/BACKGROUND2.png" id="16_41n7x"]
 [ext_resource type="Texture2D" uid="uid://ccwc4vgb1wunq" path="res://Models/Escenario_final_final/escenario_PARED_CA.png" id="16_hnkpq"]
 [ext_resource type="Texture2D" uid="uid://banqykrs3x8li" path="res://assets/UI/slide_handle.png" id="16_jaxpi"]
 [ext_resource type="Texture2D" uid="uid://c81eih3a1fll4" path="res://Models/Escenario_final_final/escenario_LADRILLO_FLAT.png" id="16_v0vsi"]
@@ -31,8 +32,8 @@
 [ext_resource type="FontFile" uid="uid://3rqdwxe03qyn" path="res://assets/UI/Fuentes/mini_pixel-7.ttf" id="18_3gejo"]
 [ext_resource type="Texture2D" uid="uid://b2gse6sc8cf0d" path="res://Models/Escenario_final_final/escenario_BALDOZA__FLAT.png" id="18_hloe5"]
 [ext_resource type="Texture2D" uid="uid://bc0t1f8d1xxx7" path="res://Models/Escenario_final_final/escenario_BRICKSST_FLAT.png" id="18_sowr8"]
-[ext_resource type="StyleBox" uid="uid://6qxwltcvqc2y" path="res://assets/UI/MainMenuButtonsStyle.tres" id="19_0dwat"]
 [ext_resource type="Texture2D" uid="uid://oc870uq76k6" path="res://Models/Escenario_final_final/escenario_BALDOZAP_FLAT.png" id="19_p6kpi"]
+[ext_resource type="StyleBox" uid="uid://ddqax5hgwkbig" path="res://assets/UI/pauseButtonsStyle.tres" id="20_jaxpi"]
 [ext_resource type="Texture2D" uid="uid://b0j474b7yvfap" path="res://Models/Escenario_final_final/escenario_columna_caliza.png" id="20_mjm1s"]
 [ext_resource type="Script" uid="uid://dnwa4brchrfbp" path="res://scripts/game_logic/kill_trigger.gd" id="20_rp2rq"]
 [ext_resource type="Texture2D" uid="uid://ddqqkhj5q12fl" path="res://Models/Escenario_final_final/escenario_columnatop_caliza.png" id="21_0dwat"]
@@ -99,9 +100,11 @@ texture = ExtResource("17_41n7x")
 expand_margin_top = 20.0
 expand_margin_bottom = 20.0
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ou34x"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2hogp"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mrrm1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_djanm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0iyhh"]
 radius = 100.0
@@ -2845,17 +2848,29 @@ uppercase = true
 texture_filter = 1
 custom_minimum_size = Vector2(500, 0.09)
 custom_maximum_size = Vector2(500, 1200)
-clip_contents = true
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -250.0
 offset_right = 250.0
-offset_bottom = 986.0
+offset_bottom = 1200.0
 grow_horizontal = 2
 size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxEmpty_kcs3t")
 script = ExtResource("15_jaxpi")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="CanvasLayer/Pause" unique_id=1464071105]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Pause/CanvasLayer2" unique_id=133452609]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -858.9475
+offset_right = 858.94727
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("16_41n7x")
+expand_mode = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Pause" unique_id=552585759]
 custom_maximum_size = Vector2(-1, 970.785)
@@ -2973,7 +2988,8 @@ alignment = 1
 
 [node name="resume" type="Button" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer" unique_id=2047454085]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.51695883, 0.502844, 0.5075411, 1)
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0.84313726, 0.91764706, 1)
 theme_override_colors/font_hover_color = Color(0.9490196, 0.9490196, 0.9490196, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -2981,15 +2997,18 @@ theme_override_colors/icon_hover_pressed_color = Color(0, 1, 1, 1)
 theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("18_3gejo")
 theme_override_font_sizes/font_size = 60
-theme_override_styles/normal = SubResource("StyleBoxEmpty_ou34x")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_2hogp")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_mrrm1")
-theme_override_styles/hover = ExtResource("19_0dwat")
+theme_override_styles/hover = ExtResource("20_jaxpi")
 toggle_mode = true
 text = "RESUME"
 
 [node name="options" type="Button" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer" unique_id=738111504]
+texture_filter = 1
+texture_repeat = 1
 layout_mode = 2
-theme_override_colors/font_color = Color(0.51695883, 0.502844, 0.5075411, 1)
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0.84313726, 0.91764706, 1)
 theme_override_colors/font_hover_color = Color(0.9490196, 0.9490196, 0.9490196, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -2997,9 +3016,9 @@ theme_override_colors/icon_hover_pressed_color = Color(0, 1, 1, 1)
 theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("18_3gejo")
 theme_override_font_sizes/font_size = 60
-theme_override_styles/normal = SubResource("StyleBoxEmpty_ou34x")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_djanm")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_mrrm1")
-theme_override_styles/hover = ExtResource("19_0dwat")
+theme_override_styles/hover = ExtResource("20_jaxpi")
 toggle_mode = true
 text = "MAIN MENU"
 

@@ -1,11 +1,10 @@
 extends PanelContainer
 
-@onready var sound_slider: HSlider = $VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sound
-@onready var music_slider: HSlider = $VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/music
-@onready var sensitivity_slider: HSlider = $VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sensitivity
+@onready var sound_slider: HSlider = $CanvasLayer/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sound
+@onready var music_slider: HSlider = $CanvasLayer/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/music
+@onready var sensitivity_slider: HSlider = $CanvasLayer/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sensitivity
 
-@onready var resume_button: Button = $VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer/resume
-
+@onready var resume_button: Button = $CanvasLayer/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer/resume
 var paused : bool = false
 var main_core : MainCore
 

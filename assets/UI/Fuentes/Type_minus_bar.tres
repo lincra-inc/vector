@@ -3,7 +3,7 @@
 [ext_resource type="FontFile" uid="uid://cm7dibp6efayt" path="res://assets/UI/Fuentes/3x5 MT Pixel.ttf" id="1_l6i71"]
 
 [resource]
-line_spacing = 8.0
+line_spacing = 2.0
 font = ExtResource("1_l6i71")
 stacked_shadow_count = 4
 stacked_shadow_0/color = Color(0.13725491, 0.14509805, 0.12156863, 1)

@@ -410,7 +410,7 @@ func _process(delta):
 	
 	ui_health_text.text = str(int(network_state.health)) +"/"+ str(int(network_state.max_health))
 	if network_state.health > network_state.max_health:
-		health_bar.color = Color.GOLD
+		health_bar.color = Color("00fbffff")
 	else:
 		health_bar.color = Color("5fbf00")
 	
