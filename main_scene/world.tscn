@@ -95,16 +95,20 @@ size = Vector3(0.956, 0.001, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kcs3t"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_war3b"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_41n7x"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3gejo"]
 texture = ExtResource("17_41n7x")
 expand_margin_top = 20.0
 expand_margin_bottom = 20.0
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2hogp"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uevue"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mrrm1"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ou34x"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_djanm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mrrm1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0iyhh"]
 radius = 100.0
@@ -2859,28 +2863,37 @@ size_flags_horizontal = 4
 theme_override_styles/panel = SubResource("StyleBoxEmpty_kcs3t")
 script = ExtResource("15_jaxpi")
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="CanvasLayer/Pause" unique_id=1464071105]
+[node name="Control" type="Control" parent="CanvasLayer/Pause" unique_id=1336404397]
+layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Pause/CanvasLayer2" unique_id=133452609]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -858.9475
-offset_right = 858.94727
-grow_horizontal = 2
-grow_vertical = 2
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Pause/Control" unique_id=952208149]
+layout_mode = 0
+offset_left = -714.0
+offset_right = 1220.0
+offset_bottom = 1097.0
 texture = ExtResource("16_41n7x")
-expand_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Pause" unique_id=552585759]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Pause" unique_id=678184821]
+layout_mode = 2
+
+[node name="Options" type="PanelContainer" parent="CanvasLayer/Pause/PanelContainer" unique_id=1186153957]
+texture_filter = 1
+custom_minimum_size = Vector2(500, 0.09)
+custom_maximum_size = Vector2(500, 1200)
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_41n7x")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Pause/PanelContainer/Options" unique_id=643881792]
 custom_maximum_size = Vector2(-1, 970.785)
 layout_mode = 2
 
-[node name="Header" type="VBoxContainer" parent="CanvasLayer/Pause/VBoxContainer" unique_id=302994281]
+[node name="Header" type="VBoxContainer" parent="CanvasLayer/Pause/PanelContainer/Options/VBoxContainer" unique_id=2091264982]
 layout_mode = 2
 offset_transform_enabled = true
 
-[node name="Vector3" type="TextureRect" parent="CanvasLayer/Pause/VBoxContainer/Header" unique_id=132934076]
+[node name="Vector3" type="TextureRect" parent="CanvasLayer/Pause/PanelContainer/Options/VBoxContainer/Header" unique_id=751276663]
 texture_filter = 1
 custom_minimum_size = Vector2(300, 300)
 custom_maximum_size = Vector2(300, 300)
@@ -2891,13 +2904,13 @@ offset_transform_scale = Vector2(0.79, 0.79)
 texture = ExtResource("13_ocgrq")
 expand_mode = 5
 
-[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/Pause/VBoxContainer" unique_id=439322527]
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/Pause/PanelContainer/Options/VBoxContainer" unique_id=451858715]
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("15_0dwat")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2" unique_id=1541069053]
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Pause/PanelContainer/Options/VBoxContainer/TextureRect2" unique_id=1870178908]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2905,7 +2918,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label2" type="Label" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2" unique_id=1688900211]
+[node name="Label2" type="Label" parent="CanvasLayer/Pause/PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2" unique_id=1174478752]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.34
@@ -2917,12 +2930,12 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2" unique_id=186444788]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Pause/PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2" unique_id=942509602]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 4.03
 
-[node name="sfc" type="Label" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=317178257]
+[node name="sfc" type="Label" parent="CanvasLayer/Pause/PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=1377473924]
 layout_mode = 2
 size_flags_vertical = 6
 offset_transform_enabled = true
@@ -2933,15 +2946,17 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
-[node name="sound" type="HSlider" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=1002745243]
+[node name="sound" type="HSlider" parent="CanvasLayer/Pause/PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=2100338599]
 custom_minimum_size = Vector2(419.175, 60.1)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 2
 theme_override_icons/grabber = ExtResource("16_jaxpi")
-theme_override_styles/slider = SubResource("StyleBoxTexture_war3b")
+theme_override_icons/grabber_highlight = ExtResource("16_jaxpi")
+theme_override_icons/grabber_disabled = ExtResource("16_jaxpi")
+theme_override_styles/slider = SubResource("StyleBoxTexture_3gejo")
 
-[node name="musica" type="Label" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=1026481690]
+[node name="musica" type="Label" parent="CanvasLayer/Pause/PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=336426800]
 layout_mode = 2
 size_flags_vertical = 6
 offset_transform_enabled = true
@@ -2952,15 +2967,17 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
-[node name="music" type="HSlider" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=718634874]
+[node name="music" type="HSlider" parent="CanvasLayer/Pause/PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=1315909586]
 custom_minimum_size = Vector2(419.175, 60.1)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 2
 theme_override_icons/grabber = ExtResource("16_jaxpi")
-theme_override_styles/slider = SubResource("StyleBoxTexture_war3b")
+theme_override_icons/grabber_highlight = ExtResource("16_jaxpi")
+theme_override_icons/grabber_disabled = ExtResource("16_jaxpi")
+theme_override_styles/slider = SubResource("StyleBoxTexture_3gejo")
 
-[node name="SENSIBILITY" type="Label" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=2144572957]
+[node name="SENSIBILITY" type="Label" parent="CanvasLayer/Pause/PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=813609916]
 layout_mode = 2
 size_flags_vertical = 6
 offset_transform_enabled = true
@@ -2971,24 +2988,25 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
-[node name="sensitivity" type="HSlider" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=521045516]
+[node name="sensitivity" type="HSlider" parent="CanvasLayer/Pause/PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=1996974210]
 custom_minimum_size = Vector2(419.175, 60.1)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 2
 theme_override_icons/grabber = ExtResource("16_jaxpi")
-theme_override_styles/slider = SubResource("StyleBoxTexture_war3b")
+theme_override_icons/grabber_highlight = ExtResource("16_jaxpi")
+theme_override_icons/grabber_disabled = ExtResource("16_jaxpi")
+theme_override_styles/slider = SubResource("StyleBoxTexture_3gejo")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=1911481722]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Pause/PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=1694723789]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.34
 theme_override_constants/separation = 52
 alignment = 1
 
-[node name="resume" type="Button" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer" unique_id=2047454085]
+[node name="resume" type="Button" parent="CanvasLayer/Pause/PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer" unique_id=559710344]
 layout_mode = 2
-size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0.84313726, 0.91764706, 1)
 theme_override_colors/font_hover_color = Color(0.9490196, 0.9490196, 0.9490196, 1)
@@ -2997,13 +3015,12 @@ theme_override_colors/icon_hover_pressed_color = Color(0, 1, 1, 1)
 theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("18_3gejo")
 theme_override_font_sizes/font_size = 60
-theme_override_styles/normal = SubResource("StyleBoxEmpty_2hogp")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_mrrm1")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_uevue")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ou34x")
 theme_override_styles/hover = ExtResource("20_jaxpi")
-toggle_mode = true
-text = "RESUME"
+text = "  CONFIRM"
 
-[node name="options" type="Button" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer" unique_id=738111504]
+[node name="options" type="Button" parent="CanvasLayer/Pause/PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer" unique_id=1892574347]
 texture_filter = 1
 texture_repeat = 1
 layout_mode = 2
@@ -3747,9 +3764,5 @@ _spawnable_scenes = PackedStringArray("uid://cmn0huj8lismy")
 spawn_path = NodePath("../SubViewportContainer/SubViewport/World/Loots")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1667904332]
-_spawnable_scenes = PackedStringArray("uid://y6pvp6n81jev", "uid://e7tkrxwldqof", "uid://b4dhqr6as5ta4")
+_spawnable_scenes = PackedStringArray("uid://e7tkrxwldqof", "uid://b4dhqr6as5ta4", "uid://y6pvp6n81jev")
 spawn_path = NodePath("../SubViewportContainer/SubViewport/World/Players")
-
-[connection signal="changed" from="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sound" to="CanvasLayer/Pause" method="_on_sound_changed"]
-[connection signal="changed" from="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/music" to="CanvasLayer/Pause" method="_on_music_changed"]
-[connection signal="changed" from="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sensitivity" to="CanvasLayer/Pause" method="_on_sensitivity_changed"]

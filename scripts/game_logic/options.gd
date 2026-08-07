@@ -1,11 +1,11 @@
-extends PanelContainer
+extends Control
 
-@onready var sound_slider: HSlider = $CanvasLayer/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sound
-@onready var music_slider: HSlider = $CanvasLayer/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/music
-@onready var sensitivity_slider: HSlider = $CanvasLayer/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sensitivity
+@onready var sound_slider : HSlider = $PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sound
+@onready var music_slider : HSlider = $PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/music
+@onready var sensitivity_slider : HSlider = $PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sensitivity
 
-@onready var resume_button: Button = $CanvasLayer/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer/resume
-var paused : bool = false
+@onready var resume_button : Button = $PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer/resume
+
 var main_core : MainCore
 
 func _ready():
@@ -14,8 +14,8 @@ func _ready():
 	
 	var main_node = get_tree().current_scene
 	main_core = main_node as MainCore
-	visible = false
 
+	$PanelContainer.visible = false
 	sound_slider.min_value = 0
 	sound_slider.max_value = 100
 	sound_slider.step = 1
@@ -39,12 +39,10 @@ func _ready():
 	resume_button.pressed.connect(resume_game)
 
 func pause_game():
-	paused = true
-	visible = true
+	$PanelContainer.visible = true
 
 func resume_game():
-	paused = false
-	visible = false
+	$PanelContainer.visible = false
 
 func _on_sound_changed(value: float):
 	AudioServer.set_bus_volume_db(

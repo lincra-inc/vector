@@ -1,12 +1,12 @@
 extends PanelContainer
 class_name PauseMenu
 
-@onready var sound_slider: HSlider = $VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sfc
-@onready var music_slider: HSlider = $VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/music
-@onready var sensitivity_slider: HSlider = $VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sensitivity
+@onready var sound_slider: HSlider = $PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sound
+@onready var music_slider: HSlider = $PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/music
+@onready var sensitivity_slider: HSlider = $PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/sensitivity
 
-@onready var resume_button: Button = $VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer/resume
-@onready var main_menu_button: Button = $VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer/options
+@onready var resume_button: Button = $PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer/resume
+@onready var main_menu_button: Button = $PanelContainer/Options/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer/options
 
 var paused : bool = false
 var main_core : MainCore

@@ -145,7 +145,7 @@ var last_position: Vector3
 #
 @onready var ui_player: Control = $CanvasLayer/UI
 @onready var ui_info :  Control = $CanvasLayer/INFO
-@onready var ui_death :  Label = $CanvasLayer/INFO/Killer
+@onready var ui_death :  Label = $CanvasLayer/INFO/VBoxContainer/CenterContainer/TextureRect3/Killer
 
 @onready var hurt_effect: ColorRect = $CanvasLayer/UI/HurtEffect
 @onready var fade_rect: ColorRect = $CanvasLayer/INFO/FadeEffect
@@ -339,7 +339,7 @@ func _process(delta):
 				camera.current = false
 				
 				if death_target:
-					ui_death.text = death_target.network_state.player_name
+					ui_death.text = "BY " + death_target.network_state.player_name
 					
 					var target_camera: Camera3D = death_target.get_node("Head/Camera3D")
 					target_camera.current = true
