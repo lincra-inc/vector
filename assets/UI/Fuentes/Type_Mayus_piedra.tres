@@ -4,7 +4,8 @@
 
 [resource]
 font = ExtResource("1_mhw3s")
-font_size = 32
+font_size = 49
+font_color = Color(0.050980393, 0.047058824, 0.039215688, 1)
 stacked_shadow_count = 3
 stacked_shadow_0/offset = Vector2(-0.685, -1)
 stacked_shadow_0/color = Color(0.25882354, 0.24313726, 0.22352941, 1)

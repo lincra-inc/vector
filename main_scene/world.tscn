@@ -12,20 +12,25 @@
 [ext_resource type="Shader" uid="uid://d4j1bh41iat1" path="res://Shaders/fuego.tres" id="8_s326q"]
 [ext_resource type="Texture2D" uid="uid://cih0q135iyrp0" path="res://Models/Fondo/antorcha.png" id="9_cteo7"]
 [ext_resource type="Environment" uid="uid://dx0qvwfaoxq62" path="res://Shaders/world_environment.tres" id="9_nghjj"]
-[ext_resource type="Texture2D" uid="uid://ce05yl8b3k8rt" path="res://assets/UI/BACKGROUND.png" id="10_hnkpq"]
-[ext_resource type="Texture2D" uid="uid://bbxxswe3gc780" path="res://assets/UI/vector3.png" id="12_emm7u"]
+[ext_resource type="LabelSettings" uid="uid://chp0nb2liyvb8" path="res://assets/UI/Fuentes/Type_Mayus_piedra.tres" id="12_v0vsi"]
 [ext_resource type="Texture2D" uid="uid://csxdii0ksbuny" path="res://assets/UI/tab_block.png" id="13_hloe5"]
-[ext_resource type="LabelSettings" uid="uid://bkyrjtl3ayc1w" path="res://assets/UI/Fuentes/Type_minus_piedra.tres" id="13_k74rm"]
+[ext_resource type="Texture2D" uid="uid://dbminlc7xqqcu" path="res://assets/UI/text_block.png" id="13_k74rm"]
 [ext_resource type="Texture2D" uid="uid://bvv86tcwub1ij" path="res://assets/UI/v3.png" id="13_ocgrq"]
 [ext_resource type="Texture2D" uid="uid://boo72usgl8alk" path="res://Models/Escenario_final_final/escenario_TRIMSHEE.png" id="14_45rnh"]
+[ext_resource type="LabelSettings" uid="uid://cndnd13l6wnky" path="res://assets/UI/Fuentes/Type_minus_bar.tres" id="14_sowr8"]
+[ext_resource type="Texture2D" uid="uid://piy1jq3gnthk" path="res://assets/UI/big_block.png" id="15_0dwat"]
 [ext_resource type="Texture2D" uid="uid://cl556rrbjv0ju" path="res://Models/Escenario_final_final/escenario_trimsheet_metal.png" id="15_vewc6"]
 [ext_resource type="Material" uid="uid://bk87r21kkqeln" path="res://Shaders/ParedInvisiblematerial.tres" id="15_yc2d1"]
 [ext_resource type="Texture2D" uid="uid://ccwc4vgb1wunq" path="res://Models/Escenario_final_final/escenario_PARED_CA.png" id="16_hnkpq"]
+[ext_resource type="Texture2D" uid="uid://banqykrs3x8li" path="res://assets/UI/slide_handle.png" id="16_jaxpi"]
 [ext_resource type="Texture2D" uid="uid://c81eih3a1fll4" path="res://Models/Escenario_final_final/escenario_LADRILLO_FLAT.png" id="16_v0vsi"]
+[ext_resource type="Texture2D" uid="uid://ne43r6mhvph8" path="res://assets/UI/slide_bar.png" id="17_41n7x"]
 [ext_resource type="Texture2D" uid="uid://pfv5kjrn5ltl" path="res://Models/Escenario_final_final/escenario_FLATMARM.png" id="17_emm7u"]
 [ext_resource type="Texture2D" uid="uid://dcexbv0ssxfcb" path="res://Models/Escenario_final_final/escenario_Tejas.png" id="17_k74rm"]
+[ext_resource type="FontFile" uid="uid://3rqdwxe03qyn" path="res://assets/UI/Fuentes/mini_pixel-7.ttf" id="18_3gejo"]
 [ext_resource type="Texture2D" uid="uid://b2gse6sc8cf0d" path="res://Models/Escenario_final_final/escenario_BALDOZA__FLAT.png" id="18_hloe5"]
 [ext_resource type="Texture2D" uid="uid://bc0t1f8d1xxx7" path="res://Models/Escenario_final_final/escenario_BRICKSST_FLAT.png" id="18_sowr8"]
+[ext_resource type="StyleBox" uid="uid://6qxwltcvqc2y" path="res://assets/UI/MainMenuButtonsStyle.tres" id="19_0dwat"]
 [ext_resource type="Texture2D" uid="uid://oc870uq76k6" path="res://Models/Escenario_final_final/escenario_BALDOZAP_FLAT.png" id="19_p6kpi"]
 [ext_resource type="Texture2D" uid="uid://b0j474b7yvfap" path="res://Models/Escenario_final_final/escenario_columna_caliza.png" id="20_mjm1s"]
 [ext_resource type="Script" uid="uid://dnwa4brchrfbp" path="res://scripts/game_logic/kill_trigger.gd" id="20_rp2rq"]
@@ -83,11 +88,16 @@ size = Vector3(6.7662964, 0.001, 6.3634033)
 [sub_resource type="BoxShape3D" id="BoxShape3D_jtdu8"]
 size = Vector3(7.7061157, 0.001, 7.902405)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rm3d5"]
-content_margin_bottom = 12.0
-texture = ExtResource("10_hnkpq")
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kcs3t"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_war3b"]
+texture = ExtResource("17_41n7x")
+expand_margin_top = 20.0
+expand_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ou34x"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mrrm1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0iyhh"]
 radius = 100.0
@@ -2515,43 +2525,246 @@ debug_color = Color(1, 0.61960787, 0.58431375, 0.94509804)
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1971614241]
 
 [node name="Scoreboard" type="PanelContainer" parent="CanvasLayer" unique_id=2021139681]
+visible = false
 texture_filter = 1
-offset_right = 256.0
-offset_bottom = 144.0
-theme_override_styles/panel = SubResource("StyleBoxTexture_rm3d5")
+custom_maximum_size = Vector2(-1, 1200)
+clip_contents = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_right = 150.0
+offset_bottom = 767.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kcs3t")
 script = ExtResource("8_nghjj")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scoreboard" unique_id=1945856018]
+custom_maximum_size = Vector2(-1, 800)
 layout_mode = 2
 
 [node name="Header" type="VBoxContainer" parent="CanvasLayer/Scoreboard/VBoxContainer" unique_id=702580491]
-custom_minimum_size = Vector2(0.16, 0)
 layout_mode = 2
+offset_transform_enabled = true
 
 [node name="Vector3" type="TextureRect" parent="CanvasLayer/Scoreboard/VBoxContainer/Header" unique_id=994964558]
 texture_filter = 1
+custom_minimum_size = Vector2(300, 300)
+custom_maximum_size = Vector2(300, 300)
 layout_mode = 2
+size_flags_horizontal = 4
 offset_transform_enabled = true
 offset_transform_scale = Vector2(0.79, 0.79)
-texture = ExtResource("12_emm7u")
+texture = ExtResource("13_ocgrq")
+expand_mode = 5
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/Scoreboard/VBoxContainer/Header" unique_id=127701036]
+texture_filter = 1
+custom_minimum_size = Vector2(60, 74.915)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("13_hloe5")
+
+[node name="Label2" type="Label" parent="CanvasLayer/Scoreboard/VBoxContainer/Header/TextureRect2" unique_id=475150231]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.6, 1.6)
+text = "SCORE"
+label_settings = ExtResource("12_v0vsi")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
 
 [node name="Players" type="VBoxContainer" parent="CanvasLayer/Scoreboard/VBoxContainer" unique_id=2137991375]
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/Scoreboard/VBoxContainer/Players" unique_id=1513239122]
 texture_filter = 1
+custom_minimum_size = Vector2(60, 40)
 layout_mode = 2
-texture = ExtResource("13_hloe5")
+size_flags_horizontal = 4
+texture = ExtResource("13_k74rm")
 
 [node name="Label" type="Label" parent="CanvasLayer/Scoreboard/VBoxContainer/Players/TextureRect" unique_id=1121174569]
-layout_mode = 0
-offset_right = 255.0
-offset_bottom = 23.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "NAME %/%"
-label_settings = ExtResource("13_k74rm")
+label_settings = ExtResource("14_sowr8")
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
+
+[node name="Pause" type="PanelContainer" parent="CanvasLayer" unique_id=1918852049]
+texture_filter = 1
+custom_minimum_size = Vector2(500, 0.09)
+custom_maximum_size = Vector2(500, 1200)
+clip_contents = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_right = 250.0
+offset_bottom = 986.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kcs3t")
+script = ExtResource("8_nghjj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Pause" unique_id=552585759]
+custom_maximum_size = Vector2(-1, 970.785)
+layout_mode = 2
+
+[node name="Header" type="VBoxContainer" parent="CanvasLayer/Pause/VBoxContainer" unique_id=302994281]
+layout_mode = 2
+offset_transform_enabled = true
+
+[node name="Vector3" type="TextureRect" parent="CanvasLayer/Pause/VBoxContainer/Header" unique_id=132934076]
+texture_filter = 1
+custom_minimum_size = Vector2(300, 300)
+custom_maximum_size = Vector2(300, 300)
+layout_mode = 2
+size_flags_horizontal = 4
+offset_transform_enabled = true
+offset_transform_scale = Vector2(0.79, 0.79)
+texture = ExtResource("13_ocgrq")
+expand_mode = 5
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/Pause/VBoxContainer" unique_id=439322527]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("15_0dwat")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2" unique_id=1541069053]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label2" type="Label" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2" unique_id=1688900211]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.34
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.6, 1.6)
+text = "pAUSE"
+label_settings = ExtResource("12_v0vsi")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2" unique_id=186444788]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 4.03
+
+[node name="sfc" type="Label" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=317178257]
+layout_mode = 2
+size_flags_vertical = 6
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.2, 1.2)
+text = "sOUND FX"
+label_settings = ExtResource("12_v0vsi")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="HSlider2" type="HSlider" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=1002745243]
+custom_minimum_size = Vector2(419.175, 60.1)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+theme_override_icons/grabber = ExtResource("16_jaxpi")
+theme_override_styles/slider = SubResource("StyleBoxTexture_war3b")
+
+[node name="musica" type="Label" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=1026481690]
+layout_mode = 2
+size_flags_vertical = 6
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.2, 1.2)
+text = "music"
+label_settings = ExtResource("12_v0vsi")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=718634874]
+custom_minimum_size = Vector2(419.175, 60.1)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+theme_override_icons/grabber = ExtResource("16_jaxpi")
+theme_override_styles/slider = SubResource("StyleBoxTexture_war3b")
+
+[node name="SENSIBILITY" type="Label" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=2144572957]
+layout_mode = 2
+size_flags_vertical = 6
+offset_transform_enabled = true
+offset_transform_scale = Vector2(1.2, 1.2)
+text = "MOUSE sensibilitY"
+label_settings = ExtResource("12_v0vsi")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="HSlider3" type="HSlider" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=521045516]
+custom_minimum_size = Vector2(419.175, 60.1)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+theme_override_icons/grabber = ExtResource("16_jaxpi")
+theme_override_styles/slider = SubResource("StyleBoxTexture_war3b")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer" unique_id=1911481722]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.34
+theme_override_constants/separation = 52
+alignment = 1
+
+[node name="options2" type="Button" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer" unique_id=2047454085]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.51695883, 0.502844, 0.5075411, 1)
+theme_override_colors/font_pressed_color = Color(0, 0.84313726, 0.91764706, 1)
+theme_override_colors/font_hover_color = Color(0.9490196, 0.9490196, 0.9490196, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 1, 1, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("18_3gejo")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ou34x")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_mrrm1")
+theme_override_styles/hover = ExtResource("19_0dwat")
+toggle_mode = true
+text = "RESUME"
+
+[node name="options" type="Button" parent="CanvasLayer/Pause/VBoxContainer/TextureRect2/VBoxContainer2/VBoxContainer/HBoxContainer" unique_id=738111504]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.51695883, 0.502844, 0.5075411, 1)
+theme_override_colors/font_pressed_color = Color(0, 0.84313726, 0.91764706, 1)
+theme_override_colors/font_hover_color = Color(0.9490196, 0.9490196, 0.9490196, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 1, 1, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("18_3gejo")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ou34x")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_mrrm1")
+theme_override_styles/hover = ExtResource("19_0dwat")
+toggle_mode = true
+text = "MAIN MENU"
 
 [node name="MoveJoystick" type="VirtualJoystick" parent="CanvasLayer" unique_id=1689296869]
 offset_left = 116.0

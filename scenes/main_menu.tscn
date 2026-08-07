@@ -3,27 +3,30 @@
 [ext_resource type="Script" uid="uid://cb3rqtq2pntq" path="res://scripts/game_logic/main_menu.gd" id="1_l6cm7"]
 [ext_resource type="Material" uid="uid://c0ypnogowxjch" path="res://Models/Arma/ArmaMaterial.tres" id="2_bqqt6"]
 [ext_resource type="Texture2D" uid="uid://bbxxswe3gc780" path="res://assets/UI/vector3.png" id="2_oa1go"]
+[ext_resource type="FontFile" uid="uid://3rqdwxe03qyn" path="res://assets/UI/Fuentes/mini_pixel-7.ttf" id="3_5dd4i"]
 [ext_resource type="Texture2D" uid="uid://dbminlc7xqqcu" path="res://assets/UI/text_block.png" id="3_jk1qb"]
-[ext_resource type="Texture2D" uid="uid://ciagl1n0fld4w" path="res://assets/UI/cabeza.png" id="3_tbmy8"]
 [ext_resource type="Material" uid="uid://bdv25ty3mqddg" path="res://Shaders/ShaderMaterial_Character.tres" id="3_wu84c"]
 [ext_resource type="LabelSettings" uid="uid://cndnd13l6wnky" path="res://assets/UI/Fuentes/Type_minus_bar.tres" id="4_jk1qb"]
 [ext_resource type="Shader" uid="uid://d4j1bh41iat1" path="res://Shaders/fuego.tres" id="4_wu84c"]
+[ext_resource type="StyleBox" uid="uid://6qxwltcvqc2y" path="res://assets/UI/MainMenuButtonsStyle.tres" id="5_5dd4i"]
 [ext_resource type="Texture2D" uid="uid://d0r6xi5wucs0t" path="res://assets/UI/BACKGROUND2.png" id="6_tbmy8"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wfv3s"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yv41p"]
 texture = ExtResource("3_jk1qb")
-expand_margin_top = 30.0
-expand_margin_bottom = 30.0
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_awdws"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rm3d5"]
-texture = ExtResource("3_tbmy8")
-texture_margin_left = 65.0
-texture_margin_top = 62.0
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
 texture_margin_bottom = 4.0
+expand_margin_left = 20.0
+region_rect = Rect2(0.031848907, 0.15196753, 255.68825, 31.404345)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4tynv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5dd4i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rcqid"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_wfv3s"]
 size = Vector2(1.19, 0.85)
@@ -315,59 +318,140 @@ follow_viewport_scale = 0.001
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2110209007]
 layout_mode = 1
-offset_left = 133.0
-offset_top = 19.0
-offset_right = 935.0
-offset_bottom = 1044.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 92.0
+offset_top = 66.0
+offset_right = 769.0
+offset_bottom = 1001.0
+grow_horizontal = 2
+grow_vertical = 2
 alignment = 1
 
 [node name="Label" type="TextureRect" parent="VBoxContainer" unique_id=1336832087]
 texture_filter = 1
-custom_minimum_size = Vector2(0, 180)
+custom_minimum_size = Vector2(0, 352.6)
 layout_mode = 2
 texture = ExtResource("2_oa1go")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="VSeparator2" type="VSeparator" parent="VBoxContainer" unique_id=353055575]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(40, 25)
+custom_maximum_size = Vector2(-1, 56.56)
 layout_mode = 2
+size_flags_vertical = 3
 offset_transform_enabled = true
 theme_override_styles/separator = SubResource("StyleBoxEmpty_wfv3s")
 
 [node name="LineEdit" type="LineEdit" parent="VBoxContainer" unique_id=913414606]
 texture_filter = 1
-layout_mode = 2
-offset_transform_enabled = true
-theme_override_styles/normal = SubResource("StyleBoxTexture_yv41p")
-placeholder_text = "NAME"
-alignment = 1
-
-[node name="Button" type="Button" parent="VBoxContainer" unique_id=1060992929]
-texture_filter = 1
 texture_repeat = 1
 layout_mode = 2
+size_flags_vertical = 3
 offset_transform_enabled = true
-theme_override_styles/normal = SubResource("StyleBoxEmpty_awdws")
-theme_override_styles/hover = SubResource("StyleBoxTexture_rm3d5")
+offset_transform_position = Vector2(19.875, 0)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_5dd4i")
+theme_override_font_sizes/font_size = 58
+theme_override_styles/normal = SubResource("StyleBoxTexture_yv41p")
+placeholder_text = "NAME"
+
+[node name="VSeparator5" type="VSeparator" parent="VBoxContainer" unique_id=2098975220]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 0
+offset_transform_enabled = true
+theme_override_styles/separator = SubResource("StyleBoxEmpty_wfv3s")
+
+[node name="start" type="Button" parent="VBoxContainer" unique_id=536216053]
+texture_filter = 1
+texture_repeat = 1
+custom_minimum_size = Vector2(400, 0)
+custom_maximum_size = Vector2(400, 64)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.14509805, 0.75686276, 0.9764706, 1)
+theme_override_colors/font_hover_color = Color(0.9490196, 0.9490196, 0.9490196, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 1, 1, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("3_5dd4i")
+theme_override_font_sizes/font_size = 84
+theme_override_styles/normal = SubResource("StyleBoxEmpty_4tynv")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_5dd4i")
+theme_override_styles/hover = ExtResource("5_5dd4i")
 toggle_mode = true
-text = "Unirse"
+text = "START"
+alignment = 0
 vertical_icon_alignment = 2
 
-[node name="Button2" type="Button" parent="VBoxContainer" unique_id=800070452]
+[node name="VSeparator4" type="VSeparator" parent="VBoxContainer" unique_id=2072270539]
+custom_maximum_size = Vector2(-1, 0)
 layout_mode = 2
+size_flags_vertical = 3
+offset_transform_enabled = true
+theme_override_styles/separator = SubResource("StyleBoxEmpty_wfv3s")
+
+[node name="options" type="Button" parent="VBoxContainer" unique_id=800070452]
+custom_minimum_size = Vector2(400, 0)
+custom_maximum_size = Vector2(400, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.51695883, 0.502844, 0.5075411, 1)
+theme_override_colors/font_pressed_color = Color(0, 0.84313726, 0.91764706, 1)
+theme_override_colors/font_hover_color = Color(0.9490196, 0.9490196, 0.9490196, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 1, 1, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("3_5dd4i")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxEmpty_rcqid")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_5dd4i")
+theme_override_styles/hover = ExtResource("5_5dd4i")
 toggle_mode = true
-text = "Unirse"
+text = "OPTIONS"
+alignment = 0
 vertical_icon_alignment = 2
 
-[node name="Button3" type="Button" parent="VBoxContainer" unique_id=373962223]
+[node name="VSeparator3" type="VSeparator" parent="VBoxContainer" unique_id=1219051207]
+custom_maximum_size = Vector2(-1, 0)
 layout_mode = 2
-text = "Unirse"
+size_flags_vertical = 3
+offset_transform_enabled = true
+theme_override_styles/separator = SubResource("StyleBoxEmpty_wfv3s")
+
+[node name="QUIT" type="Button" parent="VBoxContainer" unique_id=2020570419]
+custom_minimum_size = Vector2(400, 0)
+custom_maximum_size = Vector2(400, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.51695883, 0.502844, 0.5075411, 1)
+theme_override_colors/font_pressed_color = Color(0, 0.84313726, 0.91764706, 1)
+theme_override_colors/font_hover_color = Color(0.9490196, 0.9490196, 0.9490196, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 1, 1, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("3_5dd4i")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxEmpty_rcqid")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_5dd4i")
+theme_override_styles/hover = ExtResource("5_5dd4i")
+toggle_mode = true
+text = "QUIT"
+alignment = 0
 vertical_icon_alignment = 2
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer" unique_id=1489529052]
 custom_minimum_size = Vector2(40, 40)
+custom_maximum_size = Vector2(-1, 100)
 layout_mode = 2
+size_flags_vertical = 3
 offset_transform_enabled = true
 theme_override_styles/separator = SubResource("StyleBoxEmpty_wfv3s")
 
@@ -376,10 +460,11 @@ layout_mode = 2
 text = "
 
 CREDITOS
-ARTE: FRANCO PONCE
-PROGRAMACION: TOMAS GULLARI 
+
 PROGRAMACION: LUIS MONTEZA
+PROGRAMACION: TOMAS GULLARI 
 LEVEL-DESIGN: LUCA CIRIACO
+ARTE: FRANCO PONCE
 ARTE 3D: FRANCO BIAGIOLI "
 label_settings = ExtResource("4_jk1qb")
 vertical_alignment = 1
@@ -432,7 +517,7 @@ environment = SubResource("Environment_wfv3s")
 fov = 20.0
 
 [node name="Player" type="CharacterBody3D" parent="Node3D" unique_id=986923867]
-transform = Transform3D(0.9416219, 8.682271e-10, -0.33667204, 0.03626953, 0.9941802, 0.10144052, 0.33471268, -0.10772957, 0.9361419, -0.25289336, -0.06921178, 0.73691773)
+transform = Transform3D(0.9126925, 0.056829438, -0.43370795, 0.03640737, 0.96353686, 0.20449604, 0.44259664, -0.19644895, 0.8775413, -0.238, -0.119, 0.622)
 collision_layer = 2
 wall_min_slide_angle = 1.4835298
 
@@ -755,6 +840,4 @@ skeleton = NodePath("..")
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Node3D/Player" unique_id=884271565]
 
 [connection signal="text_submitted" from="VBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
-[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/Button3" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/options" to="." method="_on_button_pressed"]

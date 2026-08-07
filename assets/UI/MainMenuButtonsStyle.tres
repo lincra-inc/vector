@@ -1,0 +1,8 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://6qxwltcvqc2y"]
+
+[ext_resource type="Texture2D" uid="uid://cnxs8625v0efr" path="res://assets/UI/señalador.png" id="1_4tynv"]
+
+[resource]
+content_margin_left = 100.0
+texture = ExtResource("1_4tynv")
+region_rect = Rect2(-8.655958, -6.0960083, 213.52956, 36.08692)
