@@ -1,4 +1,5 @@
 extends Node3D
+class_name MainCore
 
 @export var player_scene: PackedScene
 @export var projectile_scene: PackedScene
@@ -7,22 +8,21 @@ extends Node3D
 @export var hit_wall_scene: PackedScene
 @export var play_at_scene: PackedScene
 
-@onready var players: Node3D = $SubViewportContainer/SubViewport/World/Players
-@onready var spawns_pool: Node3D = $SubViewportContainer/SubViewport/World/SpawnPools
-@onready var loots: Node3D = $SubViewportContainer/SubViewport/World/Loots
-@onready var loots_pool: Node3D = $SubViewportContainer/SubViewport/World/LootsPools
-@onready var scoreboard: PanelContainer = $CanvasLayer/Scoreboard
+@onready var players     : Node3D = $SubViewportContainer/SubViewport/World/Players
+@onready var spawns_pool : Node3D = $SubViewportContainer/SubViewport/World/SpawnPools
+@onready var loots       : Node3D = $SubViewportContainer/SubViewport/World/Loots
+@onready var loots_pool  : Node3D = $SubViewportContainer/SubViewport/World/LootsPools
+@onready var scoreboard  : PanelContainer = $CanvasLayer/Scoreboard
 
 @onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
 @onready var spawner_loots: MultiplayerSpawner = $MultiplayerSpawnerLoots
-
 
 var entity_scenes: Dictionary = {}
 
 @onready var fps_label : Label = $CanvasLayer/FPS
 
 func _ready() -> void:
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	#DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	players = $SubViewportContainer/SubViewport/World/Players
 	
 	spawner.spawn_function = _spawn_entity

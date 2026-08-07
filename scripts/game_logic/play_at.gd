@@ -1,11 +1,10 @@
 extends Node3D
 
-var lifetime: float = 3.0
-var timer := 0.0
+var lifetime : float = 3.0
+var timer    : float = 0.0
+var stream   : AudioStream
 
 @onready var audio_pick: AudioStreamPlayer3D = $AudioStreamPlayer3D
-
-var stream : AudioStream
 
 func setup(path: String) -> void:
 	stream = ResourceLoader.load(path) as AudioStream
@@ -21,5 +20,5 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	timer += delta
 	
-	if timer >= lifetime:
-		queue_free()
+	#if timer >= lifetime:
+		#queue_free()

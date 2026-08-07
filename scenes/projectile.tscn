@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://e7tkrxwldqof"]
 
 [ext_resource type="Script" uid="uid://br62bk7xw8b7h" path="res://scripts/game_logic/projectile.gd" id="1_c8fcr"]
+[ext_resource type="AudioStream" uid="uid://dgtive4swmtxs" path="res://sounds/alienshoot2.ogg" id="3_6q2a6"]
 [ext_resource type="AudioStream" uid="uid://7kqnsbk384v1" path="res://sounds/alienshoot1.ogg" id="3_softn"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gyb6n"]
@@ -83,7 +84,5 @@ color_ramp = SubResource("Gradient_qfhx1")
 hue_variation_max = 0.36
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1712433021]
+stream = ExtResource("3_6q2a6")
 autoplay = true
-
-[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1701943733]
-light_color = Color(0, 0.47058824, 1, 1)

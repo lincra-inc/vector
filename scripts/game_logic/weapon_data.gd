@@ -103,13 +103,13 @@ func apply_modifier(modifier: LootModifier) -> void:
 	var player := get_parent().get_parent() as Player
 	
 	# Vida
-	var player_state := player.player_state
+	var player_state := player.network_state
 	if player_state:
 		player_state.max_health = player_state.max_health + modifier.health
-		player_state.health += modifier.health
+		player_state.health    += modifier.health
 		
-		player_state.set_health.rpc(player_state.health)
-		player_state.set_max_health.rpc(player_state.max_health)
+		# player_state.set_health.rpc(player_state.health)
+		# player_state.set_max_health.rpc(player_state.max_health)
 	
 	if player:
 		sync_stats.rpc_id(
@@ -172,4 +172,4 @@ func sync_stats(
 	var player := get_parent().get_parent() as Player
 	player.move_speed     += p_speed
 	player.run_multiplier += p_speed_multiplier
-	player.JUMP_FORCE     += p_jump_force
+	player.jump_force     += p_jump_force

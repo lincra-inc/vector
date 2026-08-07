@@ -1,82 +1,152 @@
 extends CharacterBody3D
 class_name Player
 
+
+
+#
+#   PLAYER SETTINGS - CONFIG
+#
 @export var gamepad_look_sensitivity := 3.0
 @export var gamepad_deadzone         := 0.15
 @export var mouse_look_sensitivity   := 0.003
 
-@export var run_lerp_speed: float = 8.0
+@export var hurt_fade_speed := 0.5
+@export var hurt_hit_strength := 1.5
+var hurt_alpha := 0.0
 
-@export var step_distance := 0.85
-@export var step_height: float = 0.45
-@export var step_forward_distance: float = 0.15
-@export var step_check_distance: float = 0.5
-@export var step_speed: float = 12.0
 
-const MAX_SPEED    := 10.0
-const ACCEL        := 70.0
-const AIR_ACCEL    := 35.0
-const FRICTION     := 10.0
-const GRAVITY      := 18.0
-const FALL_GRAVITY := 45.0
 
-@export var JUMP_FORCE   := 9.0
-@export var move_speed:    float = 6.0
-@export var run_multiplier: float = 1.8
+#
+#   GAMEPLAY-MOVEMENT-SETTINGS 
+#
+@export var step_distance         : float= 0.85
+@export var step_height           : float = 0.45
+@export var step_forward_distance : float = 0.15
+@export var step_check_distance   : float = 0.5
+@export var step_speed            : float = 12.0
 
-@onready var step_ray_low: RayCast3D = $StepRayLow
-@onready var step_ray_high: RayCast3D = $StepRayHigh
+@onready var step_ray_low  : RayCast3D = $StepRayLow
+@onready var step_ray_high : RayCast3D = $StepRayHigh
 
-@onready var camera:       Camera3D = $Head/Camera3D
-@onready var input_state:  PlayerInputState = $InputState
-@onready var player_state: PlayerState = $PlayerState
 
-@onready var camera_shake: CameraShake  = $Head/CameraShake
-@onready var camera_bob:   CameraBob    = $Head/CameraBob
-@onready var recoil:       CameraRecoil = $Head/CameraRecoil
 
-@onready var head: Node3D = $Head
-#@onready var head_mesh: Node3D = $Head/MeshInstance3D
+#
+# PLAYER-MOVEMENT 
+#
+@export var jump_force : float = 9.0
 
+@export var max_speed        : float = 10.0
+@export var acceleration     : float = 12.0
+@export var air_acceleration : float = 3.5
+@export var gravity          : float = 18.0
+
+@export var aim_speed  : float = 12.0
+@export var move_speed : float = 6.0
+
+@export var run_multiplier   : float = 1.6
+@export var run_lerp_speed   : float = 8.0
+var current_speed_multiplier : float = 1.0
+
+
+
+#
+# PLAYER-RELATED MOVEMENT
+#
+@export var coyote_time_amount := 0.2
+var coyote_timer := 0.0
+
+@export var footstep_interval := 0.35
+var footstep_timer := 0.0
+
+
+
+#
+# INPUT-DATA
+#
+var spawn_position: Vector3
+var pitch := 0.0
+var yaw   := 0.0
+
+
+
+#
+# PLAYER-UNIQUE-DATA REFERENCES
+#
+@onready var input_state   : InputState  = $InputState
+@onready var network_state : NetworkState  = $NetworkState
+@onready var weapon_data   : WeaponData  = $Head/WeaponPivot
+# @onready var player_state  : PlayerState = $PlayerState
+
+@onready var input_sync = $InputState/MultiplayerSynchronizer
+@onready var network_sync = $NetworkState/MultiplayerSynchronizer
+
+
+#
+# NODE REFERENCES
+#
+@onready var head          : Node3D = $Head
+@onready var camera        : Camera3D = $Head/Camera3D
+@onready var camera_shake  : CameraShake = $Head/CameraShake
+@onready var camera_bob    : CameraBob = $Head/CameraBob
+@onready var camera_recoil : CameraRecoil = $Head/CameraRecoil
+@onready var anim_tree     : AnimationTree = $Body/Character2/AnimationTree
+
+@onready var player_model        : MeshInstance3D =  $Body/Character2/Armature_003/Skeleton3D/QuakeGuy_001
+@onready var player_model_weapon : MeshInstance3D =  $Body/Character2/Armature_003/Skeleton3D/BoneAttachment3D/Weapon
+@onready var player_pov_model    : Node3D =  $Head/WeaponPivot/Weapon/ArmaPlaceholder
+
+
+#
+# NODE-PIVOT REFERENCES
+#
 @onready var run_pivot:    Node3D = $Head/Camera3D/RunPivot
 @onready var aim_pivot:    Node3D = $Head/Camera3D/AimPivot
 @onready var weapon_pivot: Node3D = $Head/WeaponPivot
 @onready var weapon_model: Node3D = $Head/WeaponPivot/Weapon
 @onready var shoot_pivot:  Node3D = $Head/WeaponPivot/Weapon/ShootPivot
+
+
+
+#
+# NODE-UTILITIES REFERENCES
+#
 @onready var raycast:   RayCast3D = $Head/RayCast3D
-
 @onready var canvas_layer: CanvasLayer = $CanvasLayer
-@onready var weapon_data: WeaponData   = $Head/WeaponPivot
-@onready var anim_tree: AnimationTree   = $Body/Character2/AnimationTree
+var main_core : MainCore
 
-@export var aim_speed: float = 12.0
 
-var coyote_timer := 0.0
-@export var coyote_time_amount := 0.2
+#
+# NETWORK-DATA-INFO
+#
+@onready var display_name: Label3D = $Name
+var peer_id : int = 0
 
-var footstep_timer := 0.0
-@export var footstep_interval := 0.35
-
-var peer_id: int
-var direction := Vector2.ZERO
-var view_rotation := Vector2.ZERO
-var origin_weapon_position := Vector3.ZERO
-var current_speed_multiplier: float = 1.0
-
-var pitch := 0.0
-var yaw   := 0.0
-var dead  := false
-
-var spawn_position: Vector3
-
-@onready var ui_player: Control = $CanvasLayer/UI
-@onready var ui_info: Control = $CanvasLayer/INFO
-
+# @NOTE(Liman1): This is use for the online-animations, when stopper_timer is <= 0 the animation is set to idle.
+#                Cause we do not share animations states, we build it on the fly based on the motion and position on world.
+var stopped_time_amount : float = 0.2
+var stopped_timer := 0.0 
 var last_position: Vector3
-var stopped_time := 0.0
-var target: Vector3
 
-# UI Stuff!!
+
+
+#
+# USER-INTERFACE REFERENCES
+#
+@onready var ui_player: Control = $CanvasLayer/UI
+@onready var ui_info :  Control = $CanvasLayer/INFO
+@onready var ui_death :  Label = $CanvasLayer/INFO/Killer
+
+@onready var hurt_effect: ColorRect = $CanvasLayer/UI/HurtEffect
+@onready var fade_rect: ColorRect = $CanvasLayer/INFO/FadeEffect
+var fading := false
+var fade_target := 0.0
+var fade_speed := 0.0
+
+var death_sequence := false
+var death_timer := 0.0
+var death_phase := 0
+var death_target: Player = null
+
 var health_width : float = 0
 var energy_width : float = 0
 var delayed_health := 0.0
@@ -85,6 +155,11 @@ var damage_timer := 0.0
 var delayed_energy := 0.0
 var energy_timer := 0.0
 var energy_delay := 1.0
+
+@onready var player_name  : Label = $CanvasLayer/UI/name_text
+@onready var player_score : Label = $CanvasLayer/UI/Score
+@onready var ui_health_text : Label = $CanvasLayer/UI/health_text
+@onready var ui_energy_text : Label = $CanvasLayer/UI/energy_text
 
 @onready var health_bar : ColorRect = $CanvasLayer/UI/HealthBar
 @onready var shadow_bar : ColorRect = $CanvasLayer/UI/ShadowHealthBar
@@ -121,96 +196,163 @@ var health_template := ""
 var jump_template   := ""
 var run_template    := ""
 
+#
+# CODE STARTS HERE :)
+#
+
 func _enter_tree():
-	set_multiplayer_authority(int(name))
+	pass
 
 func setup(id: int) -> void:
 	peer_id = id;
+	set_multiplayer_authority(peer_id)
+	$InputState.set_multiplayer_authority(peer_id)
+	$InputState/MultiplayerSynchronizer.set_multiplayer_authority(peer_id)
+	$NetworkState.set_multiplayer_authority(1)
+	$NetworkState/MultiplayerSynchronizer.set_multiplayer_authority(1)
+
+@rpc("any_peer", "reliable")
+func set_player_name(name: String):
+	network_state.player_name = name
 
 func _ready():
-	$CanvasLayer/UI.set_anchors_preset(Control.PRESET_FULL_RECT)
-	
-	Input.use_accumulated_input = false
-	# UI Inits!
-	damage_template   = damage_label.text
-	headshot_template = headshot_label.text
-	firerate_template = firerate_label.text
-	recoil_template   = recoil_label.text
-	
-	extra_template  = extra_label.text
-	cost_template   = cost_label.text
-	refill_template = refill_label.text
-	
-	amount_template = amount_label.text
-	vel_template    = vel_label.text
-	size_template   = size_label.text
-	
-	health_template = health_label.text
-	jump_template   = jump_label.text
-	run_template    = run_label.text
-	
-	delayed_health = player_state.health
-	delayed_energy = weapon_data.energy
-	
-	health_width = health_bar.size.x
-	energy_width = energy_bar.size.x
-	
+	hurt_effect.material = hurt_effect.material.duplicate()
 	anim_tree.tree_root.resource_local_to_scene = true
-	floor_snap_length = 0.5
-	floor_max_angle = deg_to_rad(50)
-	wall_min_slide_angle = deg_to_rad(88)
-	
-	floor_block_on_wall = false
-	floor_snap_length = 0.1
-	wall_min_slide_angle = deg_to_rad(15)
-	
-	if multiplayer.is_server():
-		$PlayerState.set_multiplayer_authority(1)
-		player_state.health = player_state.max_health
+	anim_tree.set("parameters/StateMachine/conditions/dead", false)
+	anim_tree.set("parameters/StateMachine/conditions/not_dead", true)
+	fade_rect.modulate.a = 0
 	
 	if is_multiplayer_authority():
-		origin_weapon_position = weapon_pivot.global_position
+		#@NOTE(Liman1): World dependant initialization
+		var main_node = get_tree().current_scene
+		main_core = main_node as MainCore
 		
-		$Name.text = Globals.player_name
-		input_state.player_name = Globals.player_name
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		set_player_name.rpc_id(1, Globals.player_name)
+		display_name.text = Globals.player_name.to_upper()
 		
+		display_name.hide()
 		ui_player.show()
 		ui_info.hide()
-		$Name.visible = false
-		$Body/Character2/Armature_003/Skeleton3D/QuakeGuy_001.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
-		$Body/Character2/Armature_003/Skeleton3D/BoneAttachment3D/Weapon.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+		
+		ui_player.set_anchors_preset(Control.PRESET_FULL_RECT)
+		Input.use_accumulated_input = false
+		
+		player_model.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+		player_model_weapon.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+		
+		#@NOTE(Liman1): Weird movement initialization
+		floor_snap_length    = 0.5
+		floor_max_angle      = deg_to_rad(50)
+		wall_min_slide_angle = deg_to_rad(88)
+		
+		floor_block_on_wall  = false
+		floor_snap_length    = 0.1
+		wall_min_slide_angle = deg_to_rad(15)
+		
+		spawn_position = global_position
 		camera.current = true
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		camera.make_current()
+		
+		damage_template   = damage_label.text
+		headshot_template = headshot_label.text
+		firerate_template = firerate_label.text
+		recoil_template   = recoil_label.text
+		
+		extra_template  = extra_label.text
+		cost_template   = cost_label.text
+		refill_template = refill_label.text
+		
+		amount_template = amount_label.text
+		vel_template    = vel_label.text
+		size_template   = size_label.text
+		
+		health_template = health_label.text
+		jump_template   = jump_label.text
+		run_template    = run_label.text
+		
+		delayed_health = network_state.health
+		delayed_energy = weapon_data.energy
+		
+		health_width = health_bar.size.x
+		energy_width = energy_bar.size.x
 	else:
-		camera.current = false
-		$Head/WeaponPivot/Weapon/ArmaPlaceholder.hide()
+		spawn_position = global_position
 		
 		canvas_layer.hide()
-	spawn_position = global_position
+		player_pov_model.hide()
+		
+		camera.current = false
+
 
 func _process(delta):
-	
 	if multiplayer.get_unique_id() != int(name):
 		return
 	
-	if dead:
-		return
+	#
+	#@NOTE(Liman1): UI Updates.
+	#
+	if fading:
+		var current := fade_rect.modulate.a
+		current = move_toward(
+			current,
+			fade_target,
+			fade_speed * delta
+		)
+		
+		fade_rect.modulate.a = current
+		if is_equal_approx(current, fade_target):
+			fading = false
 	
-	var main = get_tree().current_scene
-	if Input.is_action_pressed("scoreboard"):
-		main.scoreboard.show_scoreboard()
-	else:
-		main.scoreboard.hide_scoreboard()
+	if hurt_alpha > 0.0:
+		hurt_alpha = hurt_alpha - (delta * hurt_fade_speed)
+	hurt_effect.material.set_shader_parameter("hurt_amount", hurt_alpha)
 	
-	update_shoot_input()
+	if death_sequence:
+		death_timer += delta
+		# Esperar que termine el fade a negro
+		if death_phase == 0:
+			if fade_rect.modulate.a >= 0.99:
+				death_phase = 1
+				camera.current = false
+				
+				if death_target:
+					ui_death.text = death_target.network_state.player_name
+					
+					var target_camera: Camera3D = death_target.get_node("Head/Camera3D")
+					target_camera.current = true
+					
+					var body := death_target.get_node("Body/Character2")
+					body.hide()
+					
+					var hand := death_target.get_node("Head/WeaponPivot")
+					hand.show()
+					
+					var pov_hand := death_target.get_node("Head/WeaponPivot/Weapon/ArmaPlaceholder")
+					pov_hand.show()
+				else:
+					print("No hay jugador para espectar")
+				
+				# si hay cámara nueva quitar negro
+				if death_target:
+					fade_screen(0.0, 0.4)
 	
-	# UI! Temporary
-	$CanvasLayer/UI/name_text.text = Globals.player_name;
-	$CanvasLayer/UI/Score.text = str(input_state.kills, "/", input_state.deaths)
+	# terminado
+	elif death_phase == 1:
+		if fade_rect.modulate.a <= 0.01:
+			death_sequence = false
+	#
+	#
+	#
 	
-	var current_health = player_state.health
-	health_bar.size.x = health_width * (current_health / player_state.max_health)
+	player_name.text  = network_state.player_name;
+	player_score.text = str(network_state.kills, "/", network_state.deaths)
+	# display_name.text  = network_state.player_name
+	
+	var current_health = network_state.health
+	var health_percent : float = (current_health / network_state.max_health)
+	
+	health_bar.size.x  = health_width * health_percent
 	if current_health < delayed_health:
 		damage_timer += delta
 		
@@ -219,14 +361,15 @@ func _process(delta):
 			
 			if abs(delayed_health - current_health) < 0.1:
 				delayed_health = current_health
-				
 	else:
 		delayed_health = current_health
 		damage_timer = 0.0
-	shadow_bar.size.x = health_width * (delayed_health / player_state.max_health)
+	shadow_bar.size.x = health_width * (delayed_health / network_state.max_health)
 	
 	var current_energy = weapon_data.energy
-	energy_bar.size.x = energy_width * (current_energy / weapon_data.max_energy)
+	var energy_percent : float = (current_energy / weapon_data.max_energy)
+	
+	energy_bar.size.x = energy_width * energy_percent
 	if current_energy < delayed_energy:
 		energy_timer += delta
 		
@@ -242,14 +385,12 @@ func _process(delta):
 		energy_timer = 0.0
 	energy_shadow_bar.size.x = energy_width * (delayed_energy / weapon_data.max_energy)
 	
-	var ui_health_text : Label = $CanvasLayer/UI/health_text
-	ui_health_text.text = str(int(player_state.health)) +"/"+ str(int(player_state.max_health))
+	ui_health_text.text = str(int(network_state.health)) +"/"+ str(int(network_state.max_health))
 	
-	var ui_energy_text : Label = $CanvasLayer/UI/energy_text
 	ui_energy_text.text = str(int(weapon_data.energy)) +"/"+ str(int(weapon_data.max_energy))
 	
-	health_label.text = health_template.replace("{HEALTH}", str("+", (int)(player_state.max_health-100.0)))
-	jump_label.text   = jump_template.replace("{JUMP}", str("%.1f" % JUMP_FORCE))
+	health_label.text = health_template.replace("{HEALTH}", str("+", (int)(network_state.max_health-100.0)))
+	jump_label.text   = jump_template.replace("{JUMP}", str("%.1f" % jump_force))
 	run_label.text    = run_template.replace("{RUN}", str("%.1f" % run_multiplier))
 	
 	extra_label.text  = extra_template.replace("{EXTRA}", str("+", (int)(weapon_data.max_energy-100.0)))
@@ -267,53 +408,145 @@ func _process(delta):
 	
 	#ui_health.add_theme_color_override("font_color", Color.GOLD)
 	
-	rotation.y = yaw + recoil.rotation_offset.y + camera_bob.position_offset.x
-	head.rotation.x = pitch + recoil.rotation_offset.x  + camera_bob.position_offset.y
+	if network_state.dead:
+		return
+	
+	#@NOTE(Liman1): This is for joystick and mouse rotation.
+	rotation.y      = yaw + camera_recoil.rotation_offset.y + camera_bob.position_offset.x
+	head.rotation.x = pitch + camera_recoil.rotation_offset.x  + camera_bob.position_offset.y
+
+
 
 func _input(event):
 	if !is_multiplayer_authority():
 		return
 	
-	if event.is_action_pressed("ui_cancel"): # Typically the Escape key
+	if event.is_action_pressed("ui_cancel"): 
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		#get_tree().quit()
 	
-	if dead:
-		return
+	if Input.is_action_pressed("scoreboard"):
+		main_core.scoreboard.show_scoreboard()
+	else:
+		main_core.scoreboard.hide_scoreboard()
 	
-	if event is InputEventMouseMotion:
-		rotate_y(-event.relative.x * mouse_look_sensitivity)
-		
-		yaw -= event.relative.x * mouse_look_sensitivity
-		
-		pitch -= event.relative.y * mouse_look_sensitivity
-		pitch  = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
+	if network_state.dead:
+		if Input.is_action_just_pressed("restart"):
+			request_respawn()
+	else:
+		if event is InputEventMouseMotion:
+			rotate_y(-event.relative.x * mouse_look_sensitivity)
+			
+			yaw   -= event.relative.x * mouse_look_sensitivity
+			pitch -= event.relative.y * mouse_look_sensitivity
+			pitch  = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
 
-func update_footsteps(delta: float):
-	if !is_multiplayer_authority():
-		return
+func request_respawn():
+	input_state.respawn_request = true
+
+
+@rpc("any_peer", "call_local", "reliable")
+func respawn_player():
+	input_state.respawn_request = false
 	
-	var input := Input.get_vector(
-		"ui_left",
-		"ui_right",
-		"ui_up",
-		"ui_down"
+	for it in main_core.players.get_children():
+		if it is Player:
+			if it.peer_id != peer_id:
+				var body : Node3D = it.get_node("Body/Character2")
+				body.show()
+				var hand : Node3D= it.get_node("Head/WeaponPivot")
+				hand.hide()
+				it.player_pov_model.hide()
+				camera.current = false
+	
+	var spawn := Network._find_spawn_position(
+		main_core.spawns_pool,
+		main_core.players,
+		5.0
 	)
 	
-	var moving := input.length() > 0.1 and is_on_floor()
+	if spawn == Vector3.INF:
+		spawn = spawn_position
 	
-	footstep_timer -= delta
+	global_position = spawn
+	velocity = Vector3.DOWN
 	
-	if moving and footstep_timer <= 0:
-		footstep_timer = (
-			0.22 if Input.is_action_pressed("run")
-			else 0.35
-		)
+	ui_player.show()
+	ui_info.hide()
 	
-		input_state.footstep_sequence += 1
+	camera.current = true
+	yaw = randf_range(0.0, TAU)
+	pitch = 0
+	hurt_alpha = 0
+	
+	player_model.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+	player_model_weapon.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+	weapon_pivot.show()
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _physics_process(delta):
 	if multiplayer.is_server():
+		if input_state.respawn_request:
+			network_state.dead = false
+			network_state.health = network_state.max_health
+			network_state.respawn_player = !network_state.respawn_player
+			
+			respawn_player.rpc_id(peer_id)
+		return
+	
+	var is_dead = network_state.dead
+	
+	anim_tree.set("parameters/StateMachine/conditions/dead", is_dead)
+	anim_tree.set("parameters/StateMachine/conditions/not_dead", !is_dead)
+	
+	# @TODO: REFACTOR ALL THIS CODE.
+	if is_dead:
+		if not is_on_floor():
+			velocity.y -= gravity * delta
+		
+		move_and_slide()
+		display_name.hide()
+		return
+	else:
+		display_name.show()
+	
+	if not is_dead:
+		var jumping := !is_on_floor()
+		var movement := global_position - last_position
+		var speed = movement.length() / delta
+		last_position = global_position
+		
+		var moving_backwards := false
+		if movement.length() > 0.01:
+			movement = movement.normalized()
+			var forward := -global_transform.basis.z.normalized()
+			moving_backwards = movement.dot(forward) < 0.0
+			if moving_backwards:
+				anim_tree.set("parameters/TimeScale/scale", -1.75)
+			else:
+				anim_tree.set("parameters/TimeScale/scale", 2.0)
+		
+		if jumping:
+			anim_tree.set("parameters/StateMachine/conditions/run", false)
+			anim_tree.set("parameters/StateMachine/conditions/idle", true)
+		else:
+			var is_moving: bool
+			if speed > 0.05:
+				stopped_timer = 0.0
+				is_moving = true
+			else:
+				stopped_timer += delta
+				is_moving = stopped_timer < stopped_time_amount
+			
+			anim_tree.set("parameters/StateMachine/playback", is_moving)
+			anim_tree.set("parameters/StateMachine/conditions/run", is_moving)
+			anim_tree.set("parameters/StateMachine/conditions/idle", !is_moving)
+		
+		anim_tree.set("parameters/StateMachine/conditions/jump", jumping)
+		anim_tree.set("parameters/StateMachine/conditions/walk", !jumping)
+	
+	if !is_multiplayer_authority():
+		move_and_slide()
 		return
 	
 	var look := Input.get_vector(
@@ -324,114 +557,41 @@ func _physics_process(delta):
 		gamepad_deadzone
 	)
 	
-	yaw   -= look.x * gamepad_look_sensitivity * delta
-	pitch -= look.y * gamepad_look_sensitivity * delta
-	pitch = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
-	
-	update_autoaim(delta)
-	
-	var is_dead = player_state.health <= 0
-	anim_tree.set("parameters/StateMachine/conditions/dead", is_dead)
-	
-	# @TODO: EXTREME TEMPORARY!
-	if is_dead:
-		$Name.visible = false
-	
-	anim_tree.set("parameters/StateMachine/conditions/not_dead", !is_dead)
-	if not is_dead:
-		var jumping := !is_on_floor()
-		
-		var movement := global_position - last_position
-		var speed = movement.length() / delta
-		last_position = global_position
-		
-		var moving_backwards := false
-		if movement.length() > 0.001:
-			movement = movement.normalized()
-			var forward := -global_transform.basis.z.normalized()
-			moving_backwards = movement.dot(forward) < 0.0
-			if moving_backwards:
-				anim_tree.set("parameters/TimeScale/scale", -1.75 )
-			else:
-				anim_tree.set("parameters/TimeScale/scale", 2.0 )
-		
-		if jumping:
-			anim_tree.set("parameters/StateMachine/conditions/run", false)
-			anim_tree.set("parameters/StateMachine/conditions/idle", true)
-		else:
-			var is_moving: bool
-			if speed > 0.1:
-				stopped_time = 0.0
-				is_moving = true
-			else:
-				stopped_time += delta
-				is_moving = stopped_time < 0.02
-			
-			anim_tree.set("parameters/StateMachine/playback", is_moving)
-			anim_tree.set("parameters/StateMachine/conditions/run", is_moving)
-			anim_tree.set("parameters/StateMachine/conditions/idle", !is_moving)
-		anim_tree.set("parameters/StateMachine/conditions/jump", jumping)
-		anim_tree.set("parameters/StateMachine/conditions/walk", !jumping)
-	
-	if !is_multiplayer_authority():
-		move_and_slide()
-		return
-	
-	if dead:
-		if Input.is_action_just_pressed("restart"):
-			var main = get_tree().current_scene
-			for it in main.players.get_children():
-				if it is Player:
-					if it.peer_id != peer_id:
-						var body : Node3D = it.get_node("Body/Character2")
-						body.show()
-						var hand : Node3D= it.get_node("Head/WeaponPivot")
-						hand.hide()
-			
-			var spawn := Network._find_spawn_position(
-				main.spawns_pool,
-				main.players,
-				10.0
-			)
-			
-			if spawn == Vector3.INF:
-				spawn = spawn_position
-			
-			global_position = spawn
-			velocity = Vector3.ZERO
-			
-			ui_player.show()
-			ui_info.hide()
-			
-			dead = false
-			camera.current = true
-			yaw = randf_range(0.0, TAU)
-			pitch = 0
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-			
-			$Body/Character2/Armature_003/Skeleton3D/QuakeGuy_001.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
-			$Body/Character2/Armature_003/Skeleton3D/BoneAttachment3D/Weapon.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
-			
-			var my_hand := get_node("Head/WeaponPivot")
-			my_hand.show()
-			
-			player_state.health = player_state.max_health
-			player_state.set_health.rpc(player_state.health)
-		return
-	
 	if !is_on_floor():
 		coyote_timer -= delta
 	else:
 		coyote_timer = coyote_time_amount
 	
+	yaw   -= look.x * gamepad_look_sensitivity * delta
+	pitch -= look.y * gamepad_look_sensitivity * delta
+	pitch  = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
+	
+	update_autoaim(delta)
+	update_shoot_input()
+	
 	update_footsteps(delta)
 	move_player(delta)
+
+func update_footsteps(delta: float):
+	var input := Input.get_vector(
+		"ui_left",
+		"ui_right",
+		"ui_up",
+		"ui_down"
+	)
+	
+	var moving := input.length() > 0.1 and is_on_floor()
+	
+	footstep_timer -= delta
+	if moving and footstep_timer <= 0:
+		footstep_timer = (0.22 if Input.is_action_pressed("run") else 0.35)
+		input_state.footstep_sequence += 1
 
 func move_player(delta):
 	if !is_multiplayer_authority():
 		return
 	
-	if dead:
+	if network_state.dead:
 		return
 	
 	var input := Input.get_vector(
@@ -450,7 +610,7 @@ func move_player(delta):
 	if is_on_floor() or coyote_timer > 0:
 		if Input.is_action_just_pressed("jump"):
 			coyote_timer = 0
-			velocity.y = JUMP_FORCE
+			velocity.y = jump_force
 			input_state.jump_sequence += 1
 	
 	var dir := (transform.basis.x * input.x - -transform.basis.z * input.y).normalized()
@@ -468,7 +628,7 @@ func move_player(delta):
 	
 	var target_velocity := dir * move_speed * current_speed_multiplier
 	
-	var accel := 12.0 if is_on_floor() else 3.5
+	var accel := acceleration if is_on_floor() else air_acceleration
 	
 	velocity.x = lerpf(
 		velocity.x,
@@ -483,7 +643,7 @@ func move_player(delta):
 	)
 	
 	if not is_on_floor():
-		velocity.y -= GRAVITY * delta
+		velocity.y -= gravity * delta
 	
 	var target_position: Vector3
 	
@@ -586,17 +746,12 @@ func update_shoot_input():
 		
 		camera_shake.add_shake(weapon_data.camera_shake)
 		#recoil.add_recoil(deg_to_rad(randf_range(11.6, 12.3)), deg_to_rad(10.7))
-		recoil.add_recoil(deg_to_rad(randf_range(weapon_data.recoil_pitch, weapon_data.recoil_pitch+1)), deg_to_rad(weapon_data.recoil_yaw))
+		camera_recoil.add_recoil(deg_to_rad(randf_range(weapon_data.recoil_pitch, weapon_data.recoil_pitch+1)), deg_to_rad(weapon_data.recoil_yaw))
 
 func die(killer_id: int) -> void:
 	if !multiplayer.is_server():
 		return
 	
-	if dead:
-		return
-	dead = true
-	
-	player_state.health = 0.0
 	print("Murió: " + str(peer_id) + " por " + str(killer_id))
 	
 	Network.spawn_play_at(
@@ -607,73 +762,48 @@ func die(killer_id: int) -> void:
 	if killer_id != -1:
 		var killer := get_player_by_peer_id(killer_id)
 		if killer:
-			killer.add_kill.rpc()
-	die_client.rpc_id(peer_id, killer_id)
+			killer.network_state.kills += 1
+			#killer.add_kill.rpc()
+	
+	die_local.rpc_id(peer_id, killer_id)
 
 @rpc("any_peer", "call_local", "reliable")
 func add_kill():
 	input_state.kills += 1
 
 @rpc("any_peer", "call_local", "reliable")
-func die_client(killer_id: int):
-	if dead:
-		return
+func die_local(killer_id: int):
+	# camera.current = false
 	
-	dead = true
-	camera.current = false
-	
-	input_state.deaths += 1
 	ui_player.hide()
 	ui_info.show()
 	
-	$Body/Character2/Armature_003/Skeleton3D/QuakeGuy_001.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
-	$Body/Character2/Armature_003/Skeleton3D/BoneAttachment3D/Weapon.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+	weapon_pivot.hide()
 	
-	var my_hand := get_node("Head/WeaponPivot")
-	my_hand.hide()
+	velocity = Vector3.ZERO
 	
-	$Body/Character2/AnimationPlayer.current_animation = "mixamo_com"
-	# global_position = spawn_position
-	# global_position.y -= 10
+	death_sequence = true
+	death_phase = 0
+	death_timer = 0.0
 	
 	if killer_id != -1:
-		var killer_data := get_player_by_peer_id(killer_id) as Player
-		
-		if killer_data != null:
-			$CanvasLayer/INFO/Killer.text = killer_data.input_state.player_name;
-		
-		velocity = Vector3.ZERO
-		
-		var players := get_tree().current_scene.get_node("World/Players")
-		var killer := players.get_node_or_null(str(killer_id))
-		
-		var target := get_spectator_target(killer_id)
-		
-		if target:
-			var target_camera: Camera3D = target.get_node("Head/Camera3D")
-			target_camera.current = true
-			
-			if target:
-				var body := target.get_node("Body/Character2")
-				body.hide()
-				var hand := target.get_node("Head/WeaponPivot")
-				hand.show()
-			
-			print("Ahora espectando a: ", target.peer_id)
-		else:
-			print("No hay jugadores vivos para espectar")
+		death_target = get_spectator_target(killer_id)
+	else:
+		death_target = null
+	fade_screen(1.0, 1)
 
 func get_player_by_peer_id(peer_id: int) -> Player:
-	var players := get_tree().current_scene.get_node("World/Players")
+	var main = get_tree().current_scene
+	var players : Node3D = main.players
 	return players.get_node_or_null(str(peer_id))
 	
 func get_spectator_target(killer_id: int) -> Player:
-	var players := get_tree().current_scene.get_node("World/Players")
+	var players : Node3D = main_core.players
 	
 	# Primero intentar seguir al killer
 	var killer := players.get_node_or_null(str(killer_id))
 	
-	if killer and killer.player_state.health > 0 && !killer.dead:
+	if killer and killer.network_state.health > 0 && !killer.network_state.dead:
 		return killer
 	
 	# Buscar otro jugador vivo aleatorio
@@ -687,10 +817,10 @@ func get_spectator_target(killer_id: int) -> Player:
 		if player == self:
 			continue
 		
-		if player.player_state == null:
+		if player.network_state == null:
 			continue
 		
-		if !player.dead && player.player_state.health > 0:
+		if !player.network_state.dead && player.network_state.health > 0:
 			alive_players.append(player)
 	
 	if alive_players.is_empty():
@@ -698,24 +828,92 @@ func get_spectator_target(killer_id: int) -> Player:
 	
 	return alive_players.pick_random()
 
-func take_damage(killer: int, amount: float) -> void:
-	if !multiplayer.is_server():
+func take_damage(killer: int, amount: float, hit_direction: Vector3) -> void:
+	if network_state.dead:
 		return
 	
-	if dead:
-		return
+	if multiplayer.is_server():
+		network_state.health -= amount
+		
+		if network_state.health <= 0:
+			network_state.health = 0
+			network_state.dead = true
+			network_state.deaths += 1
+			if killer == -1:
+				network_state.kills -= 1
+			die(killer)
 	
-	player_state.health = max(player_state.health - amount, 0.0)
-	player_state.set_health.rpc(player_state.health)
+	if killer != -1:
+		hit_client.rpc_id(peer_id, hit_direction, amount)
+
+func show_damage_direction(hit_direction: Vector3):
+
+	var cam := $Head/Camera3D
+
+	var incoming := hit_direction.normalized()
+	var forward : Vector3 = -cam.global_transform.basis.z.normalized()
+
+	# 1 = viene de frente
+	# 0 = lateral
+	# -1 = detrás
+	var facing := forward.dot(incoming)
+
+
+	var shader := hurt_effect.material
+
+
+	# Siempre dejamos la mancha roja
+	shader.set_shader_parameter(
+		"intensity",
+		1.0
+	)
+
+
+	# Si viene de frente no mostrar flecha
+	var arrow := 1.0
+
+	if facing > 0.65:
+		arrow = 0.0
+
+
+	shader.set_shader_parameter(
+		"arrow_visibility",
+		arrow
+	)
 	
-	hit_client.rpc_id(peer_id, amount)
-	
-	if player_state.health <= 0.0:
-		die(killer)
+
+
+	if arrow > 0.0:
+
+		var right : Vector3 = cam.global_transform.basis.x
+		var up : Vector3 = cam.global_transform.basis.y
+
+
+		var dir2d := Vector2(
+			incoming.dot(right),
+			-incoming.dot(up)
+		)
+
+
+		dir2d = dir2d.normalized()
+
+
+		shader.set_shader_parameter(
+			"damage_dir",
+			dir2d
+		)
 
 @rpc("any_peer", "call_local", "reliable")
-func hit_client(amount: int):
+func hit_client(hit_position: Vector3, amount: int):
 	camera_shake.add_shake(amount * 0.25)
+	var strength := hurt_hit_strength * (float(amount) / 25.0)
+	hurt_alpha = clamp(
+		hurt_alpha + strength,
+		0.0,
+		1.0
+	)
+	
+	show_damage_direction(hit_position)
 
 func try_step_up(dir: Vector3):
 	if not is_on_floor():
@@ -753,21 +951,6 @@ func try_step_up(dir: Vector3):
 		global_position += motion
 
 
-func is_inside_concave(other: CollisionShape3D, concave_body: CollisionShape3D) -> bool:
-	var query := PhysicsShapeQueryParameters3D.new()
-	query.shape = other.shape
-	query.transform = other.global_transform
-	query.collide_with_bodies = true
-	query.collide_with_areas = false
-	
-	var results = get_world_3d().direct_space_state.intersect_shape(query)
-	
-	for r in results:
-		if r.collider == concave_body:
-			return true
-	
-	return false
-
 @export var autoaim_angle := 36.0 # grados
 
 func get_autoaim_target() -> Player:
@@ -785,7 +968,7 @@ func get_autoaim_target() -> Player:
 
 		var player := p as Player
 		
-		if player.dead:
+		if player == null or player.dead:
 			continue
 
 		if player.player_state.health <= 0:
@@ -824,3 +1007,12 @@ func update_autoaim(delta: float):
 		clamp(target_pitch, deg_to_rad(-89), deg_to_rad(89)),
 		autoaim_speed * delta
 	)
+
+func fade_screen(value: float, duration: float = 0.5):
+	fade_target = value
+	if duration <= 0.0:
+		fade_rect.modulate.a = value
+		fading = false
+		return
+	fade_speed = 1.0 / duration
+	fading = true

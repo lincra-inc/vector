@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cqhdp484ikd8u"]
 
 [ext_resource type="Script" uid="uid://b5wu6x7u7rk3w" path="res://scripts/player.gd" id="1_8b1co"]
-[ext_resource type="Script" uid="uid://c1ae4cus4gfla" path="res://scripts/protocol/PlayerInputState.gd" id="2_6nmcj"]
+[ext_resource type="Script" uid="uid://c1ae4cus4gfla" path="res://scripts/protocol/InputState.gd" id="2_6nmcj"]
 [ext_resource type="Script" uid="uid://4apytbitlx8x" path="res://scripts/game_logic/camera_shake.gd" id="3_pywmm"]
 [ext_resource type="Script" uid="uid://dox2qumu85jbb" path="res://scripts/game_logic/camera_recoil.gd" id="4_iv4wl"]
 [ext_resource type="PackedScene" uid="uid://cxnbwi6d6dutb" path="res://Models/Arma/ArmaPlaceholder.glb" id="5_hl74m"]

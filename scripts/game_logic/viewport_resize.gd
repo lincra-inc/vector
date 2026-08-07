@@ -5,7 +5,7 @@ extends SubViewportContainer
 @onready var viewport := $SubViewport
 
 func _ready():
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	#DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	await get_tree().process_frame
 	resize_game()
 	
