@@ -105,8 +105,8 @@ func _on_hit(hit: Dictionary) -> void:
 		damage
 	)
 	
-	#queue_free()
-	destroy_after_sound()
+	queue_free()
+	#destroy_after_sound()
 
 func destroy_after_sound() -> void:
 	waiting_remove = true;

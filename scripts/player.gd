@@ -216,13 +216,13 @@ func set_player_name(name: String):
 	network_state.player_name = name
 
 func _ready():
-	hurt_effect.material = hurt_effect.material.duplicate()
 	anim_tree.tree_root.resource_local_to_scene = true
 	anim_tree.set("parameters/StateMachine/conditions/dead", false)
 	anim_tree.set("parameters/StateMachine/conditions/not_dead", true)
-	fade_rect.modulate.a = 0
 	
 	if is_multiplayer_authority():
+		hurt_effect.material = hurt_effect.material.duplicate()
+		fade_rect.modulate.a = 0
 		#@NOTE(Liman1): World dependant initialization
 		var main_node = get_tree().current_scene
 		main_core = main_node as MainCore
@@ -306,7 +306,8 @@ func _process(delta):
 	
 	if hurt_alpha > 0.0:
 		hurt_alpha = hurt_alpha - (delta * hurt_fade_speed)
-	hurt_effect.material.set_shader_parameter("hurt_amount", hurt_alpha)
+	if hurt_effect and hurt_effect.material:
+		hurt_effect.material.set_shader_parameter("hurt_amount", hurt_alpha)
 	
 	if death_sequence:
 		death_timer += delta
@@ -341,6 +342,7 @@ func _process(delta):
 	elif death_phase == 1:
 		if fade_rect.modulate.a <= 0.01:
 			death_sequence = false
+			fade_rect.modulate.a = 0
 	#
 	#
 	#
@@ -458,6 +460,7 @@ func respawn_player():
 				hand.hide()
 				it.player_pov_model.hide()
 				camera.current = false
+				it.display_name.show()
 	
 	var spawn := Network._find_spawn_position(
 		main_core.spawns_pool,
@@ -478,6 +481,9 @@ func respawn_player():
 	yaw = randf_range(0.0, TAU)
 	pitch = 0
 	hurt_alpha = 0
+	
+	fading = false
+	fade_rect.modulate.a = 0
 	
 	player_model.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
 	player_model_weapon.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
@@ -507,8 +513,6 @@ func _physics_process(delta):
 		move_and_slide()
 		display_name.hide()
 		return
-	else:
-		display_name.show()
 	
 	if not is_dead:
 		var jumping := !is_on_floor()
@@ -843,65 +847,49 @@ func take_damage(killer: int, amount: float, hit_direction: Vector3) -> void:
 				network_state.kills -= 1
 			die(killer)
 	
-	if killer != -1:
-		hit_client.rpc_id(peer_id, hit_direction, amount)
+	hit_client.rpc_id(peer_id, hit_direction, amount)
 
 func show_damage_direction(hit_direction: Vector3):
-
 	var cam := $Head/Camera3D
-
+	
 	var incoming := hit_direction.normalized()
 	var forward : Vector3 = -cam.global_transform.basis.z.normalized()
-
+	
 	# 1 = viene de frente
 	# 0 = lateral
 	# -1 = detrás
 	var facing := forward.dot(incoming)
-
-
-	var shader := hurt_effect.material
-
-
-	# Siempre dejamos la mancha roja
-	shader.set_shader_parameter(
-		"intensity",
-		1.0
-	)
-
-
-	# Si viene de frente no mostrar flecha
-	var arrow := 1.0
-
-	if facing > 0.65:
-		arrow = 0.0
-
-
-	shader.set_shader_parameter(
-		"arrow_visibility",
-		arrow
-	)
 	
-
-
-	if arrow > 0.0:
-
-		var right : Vector3 = cam.global_transform.basis.x
-		var up : Vector3 = cam.global_transform.basis.y
-
-
-		var dir2d := Vector2(
-			incoming.dot(right),
-			-incoming.dot(up)
-		)
-
-
-		dir2d = dir2d.normalized()
-
-
+	if hurt_effect and hurt_effect.material:
+		var shader := hurt_effect.material
+		
+		# Siempre dejamos la mancha roja
 		shader.set_shader_parameter(
-			"damage_dir",
-			dir2d
+			"intensity",
+			1.0
 		)
+		
+		# Si viene de frente no mostrar flecha
+		var arrow := 1.0
+		
+		if facing > 0.65:
+			arrow = 0.0
+		
+		shader.set_shader_parameter("arrow_visibility", arrow)
+		
+		
+		if arrow > 0.0:
+			var right : Vector3 = cam.global_transform.basis.x
+			var up : Vector3 = cam.global_transform.basis.y
+			
+			var dir2d := Vector2(
+				incoming.dot(right),
+				-incoming.dot(up)
+			)
+			
+			dir2d = dir2d.normalized()
+			
+			shader.set_shader_parameter("damage_dir", dir2d)
 
 @rpc("any_peer", "call_local", "reliable")
 func hit_client(hit_position: Vector3, amount: int):
