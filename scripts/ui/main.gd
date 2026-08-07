@@ -8,11 +8,14 @@ class_name MainCore
 @export var hit_wall_scene: PackedScene
 @export var play_at_scene: PackedScene
 
+
 @onready var players     : Node3D = $SubViewportContainer/SubViewport/World/Players
 @onready var spawns_pool : Node3D = $SubViewportContainer/SubViewport/World/SpawnPools
 @onready var loots       : Node3D = $SubViewportContainer/SubViewport/World/Loots
 @onready var loots_pool  : Node3D = $SubViewportContainer/SubViewport/World/LootsPools
+@onready var special_loots_pool : Node3D = $SubViewportContainer/SubViewport/World/SpecialPools
 @onready var scoreboard  : PanelContainer = $CanvasLayer/Scoreboard
+@onready var pause_menu  : PauseMenu = $CanvasLayer/Pause
 
 @onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
 @onready var spawner_loots: MultiplayerSpawner = $MultiplayerSpawnerLoots
@@ -111,10 +114,11 @@ func _physics_process(_delta):
 		Network.process_loot_spawn(
 			_delta,
 			loots_pool,
+			special_loots_pool,
 			loots
 		)
 	
-	Network.process_player_actions(players, loots)
+	Network.process_player_actions(players, loots, _delta)
 
 func _spawn_entity(data: Dictionary) -> Node:
 	var scene: PackedScene = entity_scenes.get(data["type"])
@@ -129,36 +133,40 @@ func _spawn_entity(data: Dictionary) -> Node:
 		"player":
 			entity.name = str(data["id"])
 			entity.position = data["position"]
-			var mesh := entity.find_child("QuakeGuy_002", true, false) as MeshInstance3D
 			
-			if mesh:
-				var material := mesh.get_active_material(0) as ShaderMaterial
+			var player_color = data["color"]
+			
+			if DisplayServer.get_name() != "headless":
+				var mesh_pov := entity.find_child("QuakeGuy_002", true, false) as MeshInstance3D
+				var mesh_model := entity.find_child("QuakeGuy_001", true, false) as MeshInstance3D
 				
+				var material := mesh_pov.get_active_material(0) as ShaderMaterial
 				var unique_material := material.duplicate() as ShaderMaterial
-				mesh.set_surface_override_material(0, unique_material)
+				mesh_pov.set_surface_override_material(0, unique_material)
 				if unique_material:
-					unique_material.set_shader_parameter("ColorParameter", Color(
-						randf(),
-						randf(),
-						randf(),
-						1.0
-					))
+					unique_material.set_shader_parameter("ColorParameter", player_color)
+					
+				var pov_material := mesh_model.get_active_material(0) as ShaderMaterial
+				var unique_pov_material := pov_material.duplicate() as ShaderMaterial
+				mesh_model.set_surface_override_material(0, unique_pov_material)
+				if unique_pov_material:
+					unique_pov_material.set_shader_parameter("ColorParameter", player_color)
 			
-			entity.setup(data["id"])
+			entity.setup(data["color"], data["id"])
 		"projectile":
 			entity.position = data["position"]
-			entity.setup(data["direction"], data["id"]
-			, data["damage"], data["speed"], data["lifetime"])
+			entity.setup(data["direction"], data["color"], data["id"]
+			, data["damage"], data["speed"], data["lifetime"], data["size"])
 		"damage_number":
 			entity.position = data["position"]
 			entity.setup(data["damage"])
 		"hit_wall":
 			entity.position = data["position"]
-			entity.setup(data["damage"])
+			entity.setup(data["color"], data["damage"])
 		"play_at":
 			entity.position = data["position"]
 			entity.setup(data["path"])
 		"loot_modifier":
 			entity.position = data["position"]
-			entity.setup(data["modifier_type"])
+			entity.setup(data["is_static"], data["modifier_type"])
 	return entity

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://coa1r3hdsbaxm" path="res://scripts/game_logic/loot_modifier.gd" id="1_6ovk1"]
 [ext_resource type="Shader" uid="uid://0ukq5l2q34fe" path="res://scenes/Power_Up/PowerUpShader.tres" id="2_4jdix"]
+[ext_resource type="FontFile" uid="uid://cm7dibp6efayt" path="res://assets/UI/Fuentes/3x5 MT Pixel.ttf" id="2_yv41p"]
 [ext_resource type="Shader" uid="uid://d4j1bh41iat1" path="res://Shaders/fuego.tres" id="3_qx2c5"]
 [ext_resource type="AudioStream" uid="uid://iv01m3bht3qp" path="res://sounds/flight_sound.mp3" id="3_rutay"]
 [ext_resource type="AudioStream" uid="uid://dat7vrd2u235a" path="res://sounds/explosion_2.wav" id="4_4jdix"]
@@ -74,11 +75,12 @@ script = ExtResource("1_6ovk1")
 [node name="PowerUp" type="Node3D" parent="." unique_id=1221827739]
 
 [node name="Label3D" type="Label3D" parent="PowerUp" unique_id=215054137]
-billboard = 2
+billboard = 1
 modulate = Color(3.207, 0.53, 0, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "G"
-font_size = 80
+font = ExtResource("2_yv41p")
+font_size = 100
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PowerUp" unique_id=1570539048]
 cast_shadow = 0

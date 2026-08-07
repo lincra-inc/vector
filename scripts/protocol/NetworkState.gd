@@ -5,12 +5,14 @@ class_name NetworkState
 ## Identidad
 @export var peer_id: int = 1
 @export var player_name: String = ""
+@export var player_color: Color
 
 ## Estado
 @export var dead := false
 @export var max_health : float = 100.0
 @export var health : float = 100.0
 @export var armor: int = 0
+@export var regeneration : float = 0.0
 
 ## Equipo
 @export var team: int = 0

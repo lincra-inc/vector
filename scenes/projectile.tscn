@@ -7,20 +7,6 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_gyb6n"]
 size = Vector3(0.28307343, 0.09185791, 0.098638535)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_6aapk"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-properties/2/path = NodePath(".:scale")
-properties/2/spawn = true
-properties/2/replication_mode = 1
-properties/3/path = NodePath("Node3D:visible")
-properties/3/spawn = true
-properties/3/replication_mode = 1
-
 [sub_resource type="Gradient" id="Gradient_softn"]
 offsets = PackedFloat32Array(0.2990762, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -64,9 +50,6 @@ audio_stream_list = Array[AudioStream]([ExtResource("3_softn")])
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=530302572]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.0034985542, 0.0013122559, -0.002578959)
 shape = SubResource("BoxShape3D_gyb6n")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=63644933]
-replication_config = SubResource("SceneReplicationConfig_6aapk")
 
 [node name="Node3D" type="Node3D" parent="." unique_id=461995765]
 transform = Transform3D(-4.371139e-09, 0, -0.1, 0, 0.1, 0, 0.1, 0, -4.371139e-09, 0, 0, 0)

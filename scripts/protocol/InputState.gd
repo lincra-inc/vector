@@ -7,5 +7,7 @@ class_name InputState
 
 @export var footstep_sequence : int = 0
 @export var jump_sequence     : int = 0
+@export var damage_sequence   : int = 0
+@export var apply_damage      : float = 0
 
 @export var respawn_request   : bool = false

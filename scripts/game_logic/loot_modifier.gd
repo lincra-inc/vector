@@ -1,5 +1,9 @@
-extends Node
+extends Node3D
 class_name LootModifier
+
+@export_group("Boost")
+@export var jump_boost: float = 0.0
+@export var health_boost: float = 0.0
 
 @export_group("Atributos")
 @export var speed: float = 0.0
@@ -19,6 +23,8 @@ class_name LootModifier
 @export_group("Proyectil")
 @export var projectile_speed: float = 0.0
 @export var projectile_lifetime: float = 0.0
+@export var projectile_size: float = 0.0
+@export var projectile_per_shoot: int = 0
 
 @export_group("Energía")
 @export var max_energy: float = 0.0
@@ -32,13 +38,15 @@ class_name LootModifier
 @export_group("Efectos")
 @export var camera_shake: float = 0.0
 
-func setup(modifier_type: int) -> void:
-	var material := $PowerUp/MeshInstance3D.get_active_material(0) as ShaderMaterial
-	var material2 := $PowerUp/MeshInstance3D/MeshInstance3D2.get_active_material(0) as ShaderMaterial
+var color : Color
+var text : String
 
-	var color : Color
-	var text : String
+var is_static : bool = true
+
+func setup(is_static: bool, modifier_type: int) -> void:
+	self.is_static = is_static
 	
+	color = Color(1.0, 0.825, 1.0)
 	if modifier_type == 0:
 		health = randf_range(10, 20)
 		color = Color(0.0, 1.825, 0.0)
@@ -109,8 +117,32 @@ func setup(modifier_type: int) -> void:
 		color = Color(2.8, 0.672, 0.0)
 		text = str("%.2f" % camera_shake)
 
+	elif modifier_type == 15:
+		color = Color(1.596, 0.473, 1.743, 1.0)
+		health_boost = randf_range(30.0, 60.0)
+		text = str("%.2f" % health_boost)
+	elif modifier_type == 16:
+		projectile_size = randf_range(0.1, 0.5)
+		color = Color(0.0, 1.193, 1.943)
+		text = "+" + str(int(projectile_size))
+	elif modifier_type == 17:
+		projectile_per_shoot = 1
+		color = Color(0.0, 1.193, 1.943)
+		text = "+" + str(int(projectile_size))
+
+	else:
+		color = Color(1.593, 1.592, 1.743, 1.0)
+		text = str("<>")
+		jump_boost = 10.0
+
+	if DisplayServer.get_name() == "headless":
+		return
+	
+	var material := $PowerUp/MeshInstance3D.get_active_material(0) as ShaderMaterial
+	var material2 := $PowerUp/MeshInstance3D/MeshInstance3D2.get_active_material(0) as ShaderMaterial
+	
 	if material:
-		$PowerUp/Label3D.text = text
+		$PowerUp/Label3D.text = "+"
 		$PowerUp/Label3D.modulate = color
 		
 		var unique_material := material.duplicate() as ShaderMaterial
@@ -124,3 +156,64 @@ func setup(modifier_type: int) -> void:
 		$PowerUp/MeshInstance3D/MeshInstance3D2.set_surface_override_material(0, unique_material)
 		if unique_material:
 			unique_material.set_shader_parameter("ColorParameter", color)
+	
+	if not is_static:
+		start_spawn_jump()
+
+var hover_time := randf() * TAU
+var base_y := 0.0
+var jump_distance : float = 0.8
+var jump_height : float = 1.5
+var gravity : float = 6.
+var target_position : Vector3 = Vector3.ZERO
+var velocity : Vector3 = Vector3.ZERO
+var landed : bool = false
+var hover_height : float = 1.0
+
+func start_spawn_jump():
+	var angle := randf() * TAU
+	var distance := randf_range(0.5, jump_distance)
+
+	target_position = global_position + Vector3(
+		cos(angle) * distance,
+		0,
+		sin(angle) * distance
+	)
+
+	velocity.x = (target_position.x - global_position.x) * 2.0
+	velocity.z = (target_position.z - global_position.z) * 2.0
+
+	# velocidad inicial para el salto
+	velocity.y = sqrt(2.0 * gravity * jump_height)
+
+func _physics_process(delta):
+	if is_static:
+		return
+	
+	if landed:
+		hover_time += delta * 2.0
+		global_position.y = base_y + sin(hover_time) * 0.08
+		rotate_y(delta)
+		return
+
+	velocity.y -= gravity * delta
+	global_position += velocity * delta
+
+	# Buscar el suelo
+	var space := get_world_3d().direct_space_state
+
+	var query := PhysicsRayQueryParameters3D.create(
+		global_position + Vector3.UP,
+		global_position + Vector3.DOWN * 10.0
+	)
+
+	var hit := space.intersect_ray(query)
+
+	if !hit.is_empty():
+		var floor_y : float = hit.position.y + hover_height
+
+		if global_position.y <= floor_y:
+			global_position.y = floor_y
+			velocity = Vector3.ZERO
+			base_y = global_position.y
+			landed = true

@@ -10,6 +10,7 @@ func _ready():
 
 
 func show_scoreboard():
+	#player_template.hide() # @HACK: Idk why i cannot put it in the _ready
 	show()
 	refresh()
 

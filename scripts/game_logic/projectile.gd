@@ -6,14 +6,27 @@ var weapon: WeaponData
 var speed: float = 80.0
 var lifetime: float = 3.0
 var damage: float = 1.0
+var size: float = 1.0
 
 var owner_peer_id: int
+var owner_color: Color
 var direction: Vector3
 var waiting_remove: bool = false
 
+var lifetime_timer := 0.0
+var destroy_when_sound_ends := false
+
 @export var audio_stream_list: Array[AudioStream]
 
-func setup(start_direction: Vector3, shooter: int, damage: float, projectile_speed: float, projectile_lifetime: float) -> void:
+func setup(start_direction: Vector3, color: Color, shooter: int, damage: float, projectile_speed: float, projectile_lifetime: float, projectile_size: float) -> void:
+	size = projectile_size
+	
+	var gradient := Gradient.new()
+	gradient.colors = PackedColorArray([color])
+	$Node3D/CPUParticles3D.color = color
+	$Node3D/CPUParticles3D.color_ramp = gradient
+	owner_color = color
+	
 	direction = start_direction.normalized()
 	owner_peer_id = shooter
 	
@@ -26,25 +39,16 @@ func setup(start_direction: Vector3, shooter: int, damage: float, projectile_spe
 		
 		$AudioStreamPlayer3D.stream = audio_stream_list[index]
 
-func _ready() -> void:
+func _ready():
+	$Node3D/CPUParticles3D.scale_amount_max = size
 	look_at(global_position + direction, Vector3.UP)
-	if multiplayer.is_server():
-		await get_tree().create_timer(lifetime).timeout
+	lifetime_timer = lifetime
+
+func _physics_process(delta):
+	lifetime_timer -= delta
+	if lifetime_timer <= 0.0:
 		queue_free()
-
-	if multiplayer.is_server():
-		await get_tree().create_timer(lifetime).timeout
-
-		if is_inside_tree():
-			queue_free()
-
-func _physics_process(delta: float) -> void:
-	if waiting_remove:
-		return
-
-	if !multiplayer.is_server():
-		return
-
+	
 	var remaining_distance : float = speed * delta
 	var step_size : float = 0.5 # Distancia máxima recorrida por comprobación
 
@@ -79,7 +83,12 @@ func _on_hit(hit: Dictionary) -> void:
 	
 	var player := collider.get_parent() as Player
 	
-	if player:
+	var loot := collider.get_parent() as LootModifier
+	
+	if loot:
+		if loot.landed or loot.is_static:
+			queue_free()
+	elif player:
 		if player.network_state.dead or player.network_state.health <= 0:
 			return
 		
@@ -99,21 +108,23 @@ func _on_hit(hit: Dictionary) -> void:
 			final_damage,
 			player.peer_id
 		)
+		queue_free()
+	else:
+		queue_free()
 	
 	Network.spawn_hit_wall(
 		hit["position"],
+		owner_color,
 		damage
 	)
 	
-	queue_free()
 	#destroy_after_sound()
 
-func destroy_after_sound() -> void:
-	waiting_remove = true;
+func destroy_after_sound():
+	waiting_remove = true
 	$Node3D.visible = false
-	
-	var audio := $AudioStreamPlayer3D
-	if audio.playing:
-		await audio.finished
-	
-	queue_free()
+
+	if $AudioStreamPlayer3D.playing:
+		destroy_when_sound_ends = true
+	else:
+		queue_free()

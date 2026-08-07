@@ -6,15 +6,24 @@ class_name Player
 #
 #   PLAYER SETTINGS - CONFIG
 #
-@export var gamepad_look_sensitivity := 3.0
+#@export var gamepad_look_sensitivity := 3.0
+#@export var mouse_look_sensitivity   := 0.003
 @export var gamepad_deadzone         := 0.15
-@export var mouse_look_sensitivity   := 0.003
 
 @export var hurt_fade_speed := 0.5
 @export var hurt_hit_strength := 1.5
 var hurt_alpha := 0.0
 
+@export var jump_buffer_time := 0.15
+var jump_buffer_timer := 0.0
 
+@export_group("Fall Damage")
+@export var fall_damage_min_speed := 16.0      # velocidad mínima para recibir daño
+@export var fall_damage_multiplier := 3.0      # daño por unidad de velocidad
+@export var fall_damage_max := 100.0
+
+var was_on_floor := true
+var max_fall_speed := 0.0
 
 #
 #   GAMEPLAY-MOVEMENT-SETTINGS 
@@ -91,6 +100,7 @@ var yaw   := 0.0
 @onready var camera_recoil : CameraRecoil = $Head/CameraRecoil
 @onready var anim_tree     : AnimationTree = $Body/Character2/AnimationTree
 
+@onready var visual_model        : MeshInstance3D =  $Head/WeaponPivot/Weapon/ArmaPlaceholder/QuakeGuy_002
 @onready var player_model        : MeshInstance3D =  $Body/Character2/Armature_003/Skeleton3D/QuakeGuy_001
 @onready var player_model_weapon : MeshInstance3D =  $Body/Character2/Armature_003/Skeleton3D/BoneAttachment3D/Weapon
 @onready var player_pov_model    : Node3D =  $Head/WeaponPivot/Weapon/ArmaPlaceholder
@@ -120,6 +130,7 @@ var main_core : MainCore
 #
 @onready var display_name: Label3D = $Name
 var peer_id : int = 0
+var player_color : Color = Color.WHITE
 
 # @NOTE(Liman1): This is use for the online-animations, when stopper_timer is <= 0 the animation is set to idle.
 #                Cause we do not share animations states, we build it on the fly based on the motion and position on world.
@@ -203,8 +214,9 @@ var run_template    := ""
 func _enter_tree():
 	pass
 
-func setup(id: int) -> void:
+func setup(color: Color, id: int) -> void:
 	peer_id = id;
+	player_color = color;
 	set_multiplayer_authority(peer_id)
 	$InputState.set_multiplayer_authority(peer_id)
 	$InputState/MultiplayerSynchronizer.set_multiplayer_authority(peer_id)
@@ -212,8 +224,9 @@ func setup(id: int) -> void:
 	$NetworkState/MultiplayerSynchronizer.set_multiplayer_authority(1)
 
 @rpc("any_peer", "reliable")
-func set_player_name(name: String):
-	network_state.player_name = name
+func set_player_name_and_color(name: String, color: Color):
+	network_state.player_name = name.to_upper()
+	network_state.player_color = color
 
 func _ready():
 	anim_tree.tree_root.resource_local_to_scene = true
@@ -228,7 +241,7 @@ func _ready():
 		main_core = main_node as MainCore
 		
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		set_player_name.rpc_id(1, Globals.player_name)
+		set_player_name_and_color.rpc_id(1, Globals.player_name, player_color)
 		display_name.text = Globals.player_name.to_upper()
 		
 		display_name.hide()
@@ -286,6 +299,14 @@ func _ready():
 
 
 func _process(delta):
+	#if visual_model:
+		#var material := visual_model.get_active_material(0) as ShaderMaterial
+		#
+		#var unique_material := material.duplicate() as ShaderMaterial
+		#visual_model.set_surface_override_material(0, unique_material)
+		#if unique_material:
+			#unique_material.set_shader_parameter("ColorParameter", player_color)
+	
 	if multiplayer.get_unique_id() != int(name):
 		return
 	
@@ -388,6 +409,10 @@ func _process(delta):
 	energy_shadow_bar.size.x = energy_width * (delayed_energy / weapon_data.max_energy)
 	
 	ui_health_text.text = str(int(network_state.health)) +"/"+ str(int(network_state.max_health))
+	if network_state.health > network_state.max_health:
+		health_bar.color = Color.GOLD
+	else:
+		health_bar.color = Color("5fbf00")
 	
 	ui_energy_text.text = str(int(weapon_data.energy)) +"/"+ str(int(weapon_data.max_energy))
 	
@@ -406,7 +431,7 @@ func _process(delta):
 	damage_label.text   = damage_template.replace("{DAMAGE}", str("%.1f" % weapon_data.damage))
 	headshot_label.text = headshot_template.replace("{HEADSHOT}", str("%.1f" % weapon_data.critical_multiplier))
 	firerate_label.text = firerate_template.replace("{VEL_ATTK}", str("%.1f" % weapon_data.fire_rate))
-	recoil_label.text   = recoil_template.replace("{RECOIL}", str("%.1f" % weapon_data.camera_shake))
+	recoil_label.text   = recoil_template.replace("{RECOIL}", str("%.1f" % (weapon_data.camera_shake + weapon_data.recoil_pitch + weapon_data.recoil_yaw)))
 	
 	#ui_health.add_theme_color_override("font_color", Color.GOLD)
 	
@@ -423,9 +448,11 @@ func _input(event):
 	if !is_multiplayer_authority():
 		return
 	
-	if event.is_action_pressed("ui_cancel"): 
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		#get_tree().quit()
+	if main_core.pause_menu.paused:
+		return
+	
+	if event.is_action_pressed("jump"):
+		jump_buffer_timer = jump_buffer_time
 	
 	if Input.is_action_pressed("scoreboard"):
 		main_core.scoreboard.show_scoreboard()
@@ -437,10 +464,10 @@ func _input(event):
 			request_respawn()
 	else:
 		if event is InputEventMouseMotion:
-			rotate_y(-event.relative.x * mouse_look_sensitivity)
+			rotate_y(-event.relative.x * Globals.mouse_look_sensitivity)
 			
-			yaw   -= event.relative.x * mouse_look_sensitivity
-			pitch -= event.relative.y * mouse_look_sensitivity
+			yaw   -= event.relative.x * Globals.mouse_look_sensitivity
+			pitch -= event.relative.y * Globals.mouse_look_sensitivity
 			pitch  = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
 
 func request_respawn():
@@ -472,7 +499,8 @@ func respawn_player():
 		spawn = spawn_position
 	
 	global_position = spawn
-	velocity = Vector3.DOWN
+	velocity = Vector3.ZERO
+	max_fall_speed = 0
 	
 	ui_player.show()
 	ui_info.hide()
@@ -501,6 +529,11 @@ func _physics_process(delta):
 		return
 	
 	var is_dead = network_state.dead
+	
+	if is_dead:
+		collision_layer &= ~(1 << 1)
+	else:
+		collision_layer |= (1 << 1)
 	
 	anim_tree.set("parameters/StateMachine/conditions/dead", is_dead)
 	anim_tree.set("parameters/StateMachine/conditions/not_dead", !is_dead)
@@ -566,8 +599,11 @@ func _physics_process(delta):
 	else:
 		coyote_timer = coyote_time_amount
 	
-	yaw   -= look.x * gamepad_look_sensitivity * delta
-	pitch -= look.y * gamepad_look_sensitivity * delta
+	if jump_buffer_timer > 0.0:
+		jump_buffer_timer -= delta
+	
+	yaw   -= look.x * Globals.gamepad_look_sensitivity * delta
+	pitch -= look.y * Globals.gamepad_look_sensitivity * delta
 	pitch  = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
 	
 	update_autoaim(delta)
@@ -575,6 +611,21 @@ func _physics_process(delta):
 	
 	update_footsteps(delta)
 	move_player(delta)
+	
+	# Mientras cae, guardar la máxima velocidad alcanzada
+	if !is_on_floor() and velocity.y < 0.0:
+		max_fall_speed = max(max_fall_speed, -velocity.y)
+	
+	# Acaba de aterrizar
+	if !was_on_floor and is_on_floor():
+		if max_fall_speed > fall_damage_min_speed:
+			var damage := (max_fall_speed - fall_damage_min_speed) * fall_damage_multiplier
+			damage = clamp(damage, 0.0, fall_damage_max)
+			input_state.apply_damage = damage
+			input_state.damage_sequence += 1
+		max_fall_speed = 0.0
+	
+	was_on_floor = is_on_floor()
 
 func update_footsteps(delta: float):
 	var input := Input.get_vector(
@@ -595,6 +646,9 @@ func move_player(delta):
 	if !is_multiplayer_authority():
 		return
 	
+	if main_core.pause_menu.paused:
+		return
+	
 	if network_state.dead:
 		return
 	
@@ -611,11 +665,11 @@ func move_player(delta):
 		else:
 			Input.action_release("run")
 	
-	if is_on_floor() or coyote_timer > 0:
-		if Input.is_action_just_pressed("jump"):
-			coyote_timer = 0
-			velocity.y = jump_force
-			input_state.jump_sequence += 1
+	if (is_on_floor() or coyote_timer > 0.0) and jump_buffer_timer > 0.0:
+		coyote_timer = 0.0
+		jump_buffer_timer = 0.0
+		velocity.y = jump_force
+		input_state.jump_sequence += 1
 	
 	var dir := (transform.basis.x * input.x - -transform.basis.z * input.y).normalized()
 	
@@ -709,6 +763,9 @@ func update_shoot_input():
 	if !is_multiplayer_authority():
 		return
 	
+	if main_core.pause_menu.paused:
+		return
+	
 	weapon_data.shoot_pressed = Input.is_action_pressed("shoot") or Input.is_action_pressed("aim_and_shoot")
 	if (!Input.is_action_pressed("shoot") and !Input.is_action_pressed("aim_and_shoot")) or Input.is_action_pressed("run"):
 		return
@@ -763,11 +820,16 @@ func die(killer_id: int) -> void:
 		"res://sounds/death.ogg"
 	)
 	
+	collision_layer &= ~(1 << 1)
+	
+	for i in range(network_state.score):
+		Network.spawn_loot_box(global_position + Vector3.UP, false, randi() % 20)
+	network_state.score = 0
+	
 	if killer_id != -1:
 		var killer := get_player_by_peer_id(killer_id)
 		if killer:
 			killer.network_state.kills += 1
-			#killer.add_kill.rpc()
 	
 	die_local.rpc_id(peer_id, killer_id)
 
@@ -794,6 +856,8 @@ func die_local(killer_id: int):
 		death_target = get_spectator_target(killer_id)
 	else:
 		death_target = null
+		#global_position = spawn_position
+		#global_position.y -= 2
 	fade_screen(1.0, 1)
 
 func get_player_by_peer_id(peer_id: int) -> Player:

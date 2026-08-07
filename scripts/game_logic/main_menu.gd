@@ -1,7 +1,7 @@
 extends Control
 
 @onready var player_name: LineEdit = $VBoxContainer/LineEdit
-@onready var start_button: Button = $VBoxContainer/Button
+#@onready var start_button: Button = $VBoxContainer/Button
 
 func _ready():
 	# player_name.grab_focus()
@@ -12,6 +12,8 @@ func _ready():
 			Globals.player_name = arg.trim_prefix("--playername=")
 			call_deferred("_load_world")
 			return
+	
+	$VBoxContainer/LineEdit.text = Globals.player_name
 	
 	if Network.DEDICATED_SERVER in args:
 		call_deferred("_load_world")
@@ -36,4 +38,8 @@ func _on_button_pressed() -> void:
 
 
 func _on_line_edit_text_submitted(new_text: String) -> void:
+	start_game()
+
+
+func _on_start_pressed() -> void:
 	start_game()

@@ -28,6 +28,9 @@ var _spawner_loots : MultiplayerSpawner
 var last_processed_shot: Dictionary = {}
 var last_footstep_sequence: Dictionary = {}
 var last_jump_sequence: Dictionary = {}
+var last_damage_sequence: Dictionary = {}
+
+var regen_timer := 0.0
 
 func _ready() -> void:
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -143,13 +146,14 @@ func spawn_damage_number(position: Vector3, damage: int, id: int) -> void:
 		"id": id
 	})
 
-func spawn_hit_wall(position: Vector3, damage: int) -> void:
+func spawn_hit_wall(position: Vector3, color: Color, damage: int) -> void:
 	if !is_server():
 		return
 	
 	_spawner.spawn({
 		"type": "hit_wall",
 		"position": position,
+		"color": color,
 		"damage": damage
 	})
 
@@ -163,7 +167,7 @@ func spawn_play_at(position: Vector3, path: String) -> void:
 		"path": path
 	})
 
-func spawn_loot_box(position: Vector3, modifier_type: int) -> void:
+func spawn_loot_box(position: Vector3, is_static: bool, modifier_type: int) -> void:
 	if !is_server():
 		return
 	
@@ -174,10 +178,11 @@ func spawn_loot_box(position: Vector3, modifier_type: int) -> void:
 	_spawner_loots.spawn({
 		"type": "loot_modifier",
 		"position": position,
+		"is_static": is_static,
 		"modifier_type": modifier_type
 	})
 
-func spawn_projectile(position: Vector3, direction: Vector3, shooter: int, weapon: WeaponData) -> void:
+func spawn_projectile(position: Vector3, direction: Vector3, color: Color, shooter: int, weapon: WeaponData) -> void:
 	if !is_server():
 		return
 	
@@ -191,33 +196,43 @@ func spawn_projectile(position: Vector3, direction: Vector3, shooter: int, weapo
 		"type": "projectile",
 		"position": position,
 		"direction": direction.normalized(),
+		"color": color,
 		"id": shooter,
 		"damage": final_damage,
 		"speed": weapon.projectile_speed,
-		"lifetime": weapon.projectile_lifetime
+		"lifetime": weapon.projectile_lifetime,
+		"size": weapon.projectile_size
 	})
 
-func process_player_actions(players: Node, loots: Node) -> void:
+func process_player_actions(players: Node, loots: Node, delta: float) -> void:
 	if !is_server():
 		return
 	
 	for loot in loots.get_children():
 		for player in players.get_children():
+			var _player := player as Player
+			
+			if _player == null or _player.network_state.dead or _player.network_state.health <= 0:
+				continue
+			
 			if loot.global_position.distance_to(player.global_position) > 2.0:
 				continue
 			
+			Network.spawn_hit_wall(
+				loot.position,
+				loot.color,
+				0
+			)
+			
 			spawn_play_at(loot.position, "res://sounds/1up.mp3")
 			loot.queue_free()
-			
-			var _player := player as Player
-			
-			if _player == null:
-				continue
 			
 			var modifier := loot as LootModifier
 			
 			if modifier != null:
 				_player.weapon_data.apply_modifier(modifier)
+				if modifier.jump_boost <= 0:
+					_player.network_state.score += 1
 	
 	for node: Node in players.get_children():
 		var player := node as Player
@@ -228,7 +243,15 @@ func process_player_actions(players: Node, loots: Node) -> void:
 		if player.input_state == null:
 			continue
 		
+		update_regeneration(player, delta)
+		
 		var input := player.input_state
+		
+		var dmg := player.input_state.damage_sequence
+		var last_dmg : int = last_damage_sequence.get(player.peer_id, 0)
+		if dmg != last_dmg:
+			last_damage_sequence[player.peer_id] = dmg
+			player.take_damage(-1, player.input_state.apply_damage, Vector3(randf(), randf(), randf()))
 		
 		var jump := player.input_state.jump_sequence
 		var last_jump : int = last_jump_sequence.get(player.peer_id, 0)
@@ -249,12 +272,26 @@ func process_player_actions(players: Node, loots: Node) -> void:
 		
 		last_processed_shot[player.name] = input.shoot_sequence
 		
-		spawn_projectile(
-			input.shoot_position,
-			input.shoot_direction,
-			player.peer_id,
-			player.weapon_data
-		)
+		for i in range(player.weapon_data.projectile_per_shoot):
+			var direction := input.shoot_direction
+			if i > 0:
+				direction = direction.rotated(
+					Vector3.UP,
+					deg_to_rad(randf_range(-2.0, 2.0))
+				)
+				direction = direction.rotated(
+					player.head.global_transform.basis.x,
+					deg_to_rad(randf_range(-2.0, 2.0))
+				)
+				direction = direction.normalized()
+			
+			spawn_projectile(
+				input.shoot_position,
+				direction,
+				player.player_color,
+				player.peer_id,
+				player.weapon_data
+			)
 
 
 func process_player_spawn(player_spawn_area: Area3D, players: Node, id: int) -> void:
@@ -270,35 +307,42 @@ func process_player_spawn(player_spawn_area: Area3D, players: Node, id: int) -> 
 	if position == Vector3.INF:
 		position = Vector3.ZERO
 	
+	var player_color : Color = Color(randf(), randf(), randf(), 1.0)
 	_spawner.spawn({
 		"type": "player",
 		"id": id,
+		"color": player_color,
 		"position": position
 	})
 
-func process_loot_spawn(delta: float, loot_spawn_area: Area3D, loots: Node) -> void:
+func process_loot_spawn(delta: float, loot_spawn_area: Area3D, special_loot_spawn_area: Area3D, loots: Node) -> void:
 	if !is_server():
 		return
 	
 	loot_spawn_timer -= delta
-	
 	if loot_spawn_timer > 0.0:
 		return
 	
-	loot_spawn_timer = loot_spawn_interval
+	var loot_index : int = randi() % 20
+	var pool = loot_spawn_area
+	if loot_index > 17: # TEMP!
+		pool = special_loot_spawn_area
 	
 	var position := _find_spawn_position(
-		loot_spawn_area,
+		pool,
 		loots,
-		loot_min_distance
+		loot_min_distance,
 	)
 	
 	if position == Vector3.INF:
 		return
 	
+	loot_spawn_timer = loot_spawn_interval
+	
 	spawn_loot_box(
 		position,
-		randi() % 16
+		true,
+		loot_index
 	)
 
 func _find_spawn_position(area_pool: Area3D, parent_pool: Node, min_distance: float) -> Vector3:
@@ -347,3 +391,18 @@ func get_random_player_spawn(player_spawn_area: Area3D, players: Node) -> Vector
 		players,
 		5.0
 	)
+
+func update_regeneration(player: Player, delta: float):
+	if player.network_state.regeneration > 0.0:
+		regen_timer += delta
+		
+		if regen_timer >= 1.0:
+			regen_timer -= 1.0
+			
+			player.network_state.regeneration -= 5.0
+			if player.network_state.regeneration < 0.0:
+				player.network_state.regeneration = 0.0
+			
+			player.network_state.health += 5.0
+	else:
+		regen_timer = 0.0

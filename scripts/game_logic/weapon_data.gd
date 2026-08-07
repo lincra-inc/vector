@@ -17,7 +17,7 @@ class_name WeaponData
 @export var projectile_speed:    float = 80.0
 @export var projectile_lifetime: float = 3.0
 @export var projectile_per_shoot: int = 1
-@export var projectile_size: float = 1.5
+@export var projectile_size: float = 1.0
 
 @export_group("Energía")
 @export var max_energy:     float = 100.0
@@ -61,11 +61,15 @@ func try_fire() -> bool:
 	if cooldown > 0.0:
 		return false
 	
-	if energy < energy_cost:
+	if energy < (energy_cost * projectile_per_shoot):
 		return false
 	
 	cooldown = fire_rate
-	energy -= energy_cost
+	energy -= energy_cost * projectile_per_shoot
+	
+	if energy < 0:
+		energy = 0
+	
 	return true
 
 func apply_modifier(modifier: LootModifier) -> void:
@@ -82,6 +86,8 @@ func apply_modifier(modifier: LootModifier) -> void:
 	# Proyectil
 	projectile_speed += modifier.projectile_speed
 	projectile_lifetime += modifier.projectile_lifetime
+	projectile_size += modifier.projectile_size
+	projectile_per_shoot += modifier.projectile_per_shoot
 
 	# Energía
 	max_energy += modifier.max_energy
@@ -107,6 +113,7 @@ func apply_modifier(modifier: LootModifier) -> void:
 	if player_state:
 		player_state.max_health = player_state.max_health + modifier.health
 		player_state.health    += modifier.health
+		player_state.regeneration += modifier.health_boost
 		
 		# player_state.set_health.rpc(player_state.health)
 		# player_state.set_max_health.rpc(player_state.max_health)
@@ -114,6 +121,9 @@ func apply_modifier(modifier: LootModifier) -> void:
 	if player:
 		sync_stats.rpc_id(
 			player.peer_id,
+			
+			#@NOTE(Liman1): Special Boosts!
+			modifier.jump_boost,
 			
 			speed,
 			speed_multiplier,
@@ -123,6 +133,8 @@ func apply_modifier(modifier: LootModifier) -> void:
 			fire_rate,
 			projectile_speed,
 			projectile_lifetime,
+			projectile_size,
+			projectile_per_shoot,
 			max_energy,
 			energy,
 			energy_cost,
@@ -134,6 +146,8 @@ func apply_modifier(modifier: LootModifier) -> void:
 
 @rpc("any_peer", "call_remote", "reliable")
 func sync_stats(
+	p_jump_boost: float,
+	
 	p_speed: float,
 	p_speed_multiplier: float,
 	p_jump_force: float,
@@ -143,6 +157,8 @@ func sync_stats(
 	p_fire_rate: float,
 	p_projectile_speed: float,
 	p_projectile_lifetime: float,
+	p_projectile_size: float,
+	p_projectile_per_shoot: int,
 	p_max_energy: float,
 	p_energy: float,
 	p_energy_cost: float,
@@ -151,6 +167,7 @@ func sync_stats(
 	p_recoil_yaw: float,
 	p_camera_shake: float
 ) -> void:
+	
 	damage = p_damage
 	critical_multiplier = p_critical_multiplier
 
@@ -158,6 +175,8 @@ func sync_stats(
 
 	projectile_speed = p_projectile_speed
 	projectile_lifetime = p_projectile_lifetime
+	projectile_size = p_projectile_size
+	projectile_per_shoot = p_projectile_per_shoot
 
 	max_energy = p_max_energy
 	energy = p_energy
@@ -170,6 +189,9 @@ func sync_stats(
 	camera_shake = p_camera_shake
 	
 	var player := get_parent().get_parent() as Player
+	
+	player.velocity.y += p_jump_boost
+	
 	player.move_speed     += p_speed
 	player.run_multiplier += p_speed_multiplier
 	player.jump_force     += p_jump_force
