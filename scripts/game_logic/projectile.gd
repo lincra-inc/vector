@@ -87,7 +87,12 @@ func _on_hit(hit: Dictionary) -> void:
 	
 	if loot:
 		if loot.landed or loot.is_static:
-			queue_free()
+			Network.spawn_hit_wall(
+				hit["position"],
+				loot.color,
+				damage
+			)
+			loot.queue_free()
 	elif player:
 		if player.network_state.dead or player.network_state.health <= 0:
 			return
@@ -108,15 +113,22 @@ func _on_hit(hit: Dictionary) -> void:
 			final_damage,
 			player.peer_id
 		)
+		
+		Network.spawn_hit_wall(
+			hit["position"],
+			owner_color,
+			damage
+		)
 		queue_free()
 	else:
-		queue_free()
+		Network.spawn_hit_wall(
+			hit["position"],
+			owner_color,
+			damage
+		)
+		if is_instance_valid(self):
+			queue_free()
 	
-	Network.spawn_hit_wall(
-		hit["position"],
-		owner_color,
-		damage
-	)
 	
 	#destroy_after_sound()
 

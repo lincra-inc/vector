@@ -2950,12 +2950,12 @@ shape = SubResource("BoxShape3D_60dou")
 debug_color = Color(1, 0.61960787, 0.58431375, 0.94509804)
 
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/World/SpawnPools" unique_id=240604993]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.875114, 0.8712003, 34.008526)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.875114, 1.3928173, 34.008526)
 shape = SubResource("BoxShape3D_w5m0k")
 debug_color = Color(1, 0.61960787, 0.58431375, 0.94509804)
 
 [node name="CollisionShape3D9" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/World/SpawnPools" unique_id=2133697942]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.849665, 0.8712003, 34.008526)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.849665, 1.8574188, 34.008526)
 shape = SubResource("BoxShape3D_w5m0k")
 debug_color = Color(1, 0.61960787, 0.58431375, 0.94509804)
 
@@ -2970,12 +2970,12 @@ shape = SubResource("BoxShape3D_w5m0k")
 debug_color = Color(1, 0.61960787, 0.58431375, 0.94509804)
 
 [node name="CollisionShape3D5" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/World/SpawnPools" unique_id=578257084]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.149675, 1.478013, 27.574263)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.149675, 1.7326713, 27.574263)
 shape = SubResource("BoxShape3D_rjw76")
 debug_color = Color(1, 0.61960787, 0.58431375, 0.94509804)
 
 [node name="CollisionShape3D8" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/World/SpawnPools" unique_id=470392645]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.179314, 1.478013, 37.878437)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.179314, 1.7372677, 37.878437)
 shape = SubResource("BoxShape3D_rjw76")
 debug_color = Color(1, 0.61960787, 0.58431375, 0.94509804)
 
@@ -3523,6 +3523,26 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.248713, 1.4560089, 3.29331
 shape = SubResource("BoxShape3D_sowr8")
 debug_color = Color(0.90295035, 0.0001515156, 0.7563416, 0.41960785)
 
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="killboxes/Fuegos" unique_id=309833043]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.369316, 11.603109, 4.597982)
+shape = SubResource("BoxShape3D_sowr8")
+debug_color = Color(0.90295035, 0.0001515156, 0.7563416, 0.41960785)
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="killboxes/Fuegos" unique_id=2101984804]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.456104, 5.6396594, 22.398588)
+shape = SubResource("BoxShape3D_sowr8")
+debug_color = Color(0.90295035, 0.0001515156, 0.7563416, 0.41960785)
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="killboxes/Fuegos" unique_id=2102463063]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.20437, 2.4615133, 37.684155)
+shape = SubResource("BoxShape3D_sowr8")
+debug_color = Color(0.90295035, 0.0001515156, 0.7563416, 0.41960785)
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="killboxes/Fuegos" unique_id=488440899]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.357073, 6.811713, -9.348011)
+shape = SubResource("BoxShape3D_sowr8")
+debug_color = Color(0.90295035, 0.0001515156, 0.7563416, 0.41960785)
+
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="killboxes/Fuegos" unique_id=1420796137]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.165206, 6.3554177, 62.347443)
 shape = SubResource("BoxShape3D_sowr8")
@@ -3767,7 +3787,7 @@ transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
 script = ExtResource("53_k6r0t")
 rotation_speed = 4.0
 
-[node name="Cubo" parent="Visualfx/nubes" index="0" unique_id=511753728]
+[node name="Cubo" parent="Visualfx/nubes" index="0" unique_id=794413855]
 transform = Transform3D(3.5238218, 0, 0, 0, 1.7367721, 0, 0, 0, 3.127591, -5.1472793, 3.805583, 0)
 surface_material_override/0 = SubResource("StandardMaterial3D_3av4s")
 
@@ -3776,7 +3796,7 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 9.472485, 0)
 script = ExtResource("53_k6r0t")
 rotation_speed = 3.0
 
-[node name="Cubo" parent="Visualfx/nubes3" index="0" unique_id=511753728]
+[node name="Cubo" parent="Visualfx/nubes3" index="0" unique_id=794413855]
 transform = Transform3D(3.5238218, 0, 0, 0, 1.7367721, 0, 0, 0, 3.127591, 0, 3.805583, -4.116743)
 surface_material_override/0 = SubResource("StandardMaterial3D_3av4s")
 
@@ -3786,7 +3806,7 @@ script = ExtResource("53_k6r0t")
 rotation_speed = 2.0
 rotation_axis = Vector3(0, -1, 0)
 
-[node name="Cubo" parent="Visualfx/nubes2" index="0" unique_id=511753728]
+[node name="Cubo" parent="Visualfx/nubes2" index="0" unique_id=794413855]
 transform = Transform3D(3.5238218, 0, 0, 0, 1.7367721, 0, 0, 0, 3.127591, 0, 3.805583, 2.9866965)
 surface_material_override/0 = SubResource("StandardMaterial3D_3av4s")
 

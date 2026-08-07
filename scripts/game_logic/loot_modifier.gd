@@ -42,9 +42,33 @@ var color : Color
 var text : String
 
 var is_static : bool = true
+var despawn_timer: float = 5.0
+
+func _ready() -> void:
+	var angle := randf() * TAU
+	var distance := randf_range(0.1, 1.25)
+
+	target_position = global_position + Vector3(
+		cos(angle) * distance,
+		0,
+		sin(angle) * distance
+	)
+	
+	start_position = target_position
+	global_position = start_position
 
 func setup(is_static: bool, modifier_type: int) -> void:
 	self.is_static = is_static
+	$PowerUp.visible = false
+	$vida.visible = false
+	$salto.visible = false
+	
+	if modifier_type < 15:
+		$PowerUp.visible = true
+	elif modifier_type == 15:
+		$vida.visible = true
+	else:
+		$salto.visible = true
 	
 	color = Color(1.0, 0.825, 1.0)
 	if modifier_type == 0:
@@ -68,12 +92,12 @@ func setup(is_static: bool, modifier_type: int) -> void:
 		text = "+" + str(int(recharge_speed))
 
 	elif modifier_type == 4:
-		fire_rate = randf_range(0.01, 0.03)
+		fire_rate = randf_range(0.0025, 0.0075)
 		color = Color(2.8, 0.672, 0.0)
 		text = "-" + str("%.2f" % fire_rate)
 
 	elif modifier_type == 5:
-		speed = randf_range(0.5, 2.0)
+		speed = randf_range(0.1, 0.5)
 		color = Color(0.0, 1.825, 0.0)
 		text = "+" + str("%.1f" % speed)
 
@@ -98,7 +122,7 @@ func setup(is_static: bool, modifier_type: int) -> void:
 		text = "+" + str(int(projectile_speed))
 
 	elif modifier_type == 10:
-		energy_cost = -randf_range(1, 5)
+		energy_cost = -randf_range(0.5, 1.5)
 		color = Color(1.825, 1.825, 0.0)
 		text = str(int(energy_cost))
 
@@ -135,6 +159,9 @@ func setup(is_static: bool, modifier_type: int) -> void:
 		text = str("<>")
 		jump_boost = 10.0
 
+	if not is_static:
+		despawn_timer = 5.0
+	
 	if DisplayServer.get_name() == "headless":
 		return
 	
@@ -156,64 +183,28 @@ func setup(is_static: bool, modifier_type: int) -> void:
 		$PowerUp/MeshInstance3D/MeshInstance3D2.set_surface_override_material(0, unique_material)
 		if unique_material:
 			unique_material.set_shader_parameter("ColorParameter", color)
-	
-	if not is_static:
-		start_spawn_jump()
 
-var hover_time := randf() * TAU
-var base_y := 0.0
-var jump_distance : float = 0.8
-var jump_height : float = 1.5
-var gravity : float = 6.
-var target_position : Vector3 = Vector3.ZERO
-var velocity : Vector3 = Vector3.ZERO
 var landed : bool = false
+var hover_time := randf() * TAU
+var target_position : Vector3 = Vector3.ZERO
 var hover_height : float = 1.0
-
-func start_spawn_jump():
-	var angle := randf() * TAU
-	var distance := randf_range(0.5, jump_distance)
-
-	target_position = global_position + Vector3(
-		cos(angle) * distance,
-		0,
-		sin(angle) * distance
-	)
-
-	velocity.x = (target_position.x - global_position.x) * 2.0
-	velocity.z = (target_position.z - global_position.z) * 2.0
-
-	# velocidad inicial para el salto
-	velocity.y = sqrt(2.0 * gravity * jump_height)
+var start_position: Vector3
+var float_height := 0.15
+var float_speed := 2.0
 
 func _physics_process(delta):
 	if is_static:
 		return
-	
-	if landed:
-		hover_time += delta * 2.0
-		global_position.y = base_y + sin(hover_time) * 0.08
-		rotate_y(delta)
+
+	despawn_timer -= delta
+	if despawn_timer <= 0.0:
+		queue_free()
 		return
 
-	velocity.y -= gravity * delta
-	global_position += velocity * delta
+	# Flotar en el lugar
+	hover_time += delta * float_speed
 
-	# Buscar el suelo
-	var space := get_world_3d().direct_space_state
+	global_position.y = start_position.y + sin(hover_time) * float_height
 
-	var query := PhysicsRayQueryParameters3D.create(
-		global_position + Vector3.UP,
-		global_position + Vector3.DOWN * 10.0
-	)
-
-	var hit := space.intersect_ray(query)
-
-	if !hit.is_empty():
-		var floor_y : float = hit.position.y + hover_height
-
-		if global_position.y <= floor_y:
-			global_position.y = floor_y
-			velocity = Vector3.ZERO
-			base_y = global_position.y
-			landed = true
+	# Rotación suave
+	rotate_y(delta)

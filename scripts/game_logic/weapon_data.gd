@@ -106,6 +106,18 @@ func apply_modifier(modifier: LootModifier) -> void:
 	# Efectos
 	camera_shake -= modifier.camera_shake
 	
+	if recoil_pitch < 0:
+		recoil_pitch = 0
+	if recoil_yaw < 0:
+		recoil_yaw = 0
+	if camera_shake < 0:
+		camera_shake = 0
+	
+	#Motion
+	speed = modifier.speed
+	jump_force = modifier.jump
+	speed_multiplier = modifier.run_speed
+	
 	var player := get_parent().get_parent() as Player
 	
 	# Vida
@@ -187,8 +199,8 @@ func sync_stats(
 	recoil_yaw = p_recoil_yaw
 
 	camera_shake = p_camera_shake
-	
 	var player := get_parent().get_parent() as Player
+	player.camera_shake.add_shake(0.75)
 	
 	player.velocity.y += p_jump_boost
 	

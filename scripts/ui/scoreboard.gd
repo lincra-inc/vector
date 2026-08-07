@@ -40,5 +40,5 @@ func refresh():
 			player.network_state.player_name,
 			player.network_state.kills,
 			player.network_state.deaths]
-		
+		label.modulate = player.player_color
 		players_list.add_child(rect)

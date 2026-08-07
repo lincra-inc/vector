@@ -8,7 +8,6 @@ class_name MainCore
 @export var hit_wall_scene: PackedScene
 @export var play_at_scene: PackedScene
 
-
 @onready var players     : Node3D = $SubViewportContainer/SubViewport/World/Players
 @onready var spawns_pool : Node3D = $SubViewportContainer/SubViewport/World/SpawnPools
 @onready var loots       : Node3D = $SubViewportContainer/SubViewport/World/Loots
@@ -25,6 +24,7 @@ var entity_scenes: Dictionary = {}
 @onready var fps_label : Label = $CanvasLayer/FPS
 
 func _ready() -> void:
+	fps_label.hide()
 	#DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	players = $SubViewportContainer/SubViewport/World/Players
 	

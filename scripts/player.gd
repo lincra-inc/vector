@@ -203,9 +203,11 @@ var size_template   := ""
 @onready var health_label : Label = $CanvasLayer/UI/HBoxContainer/hero_container/HEALTH
 @onready var jump_label   : Label = $CanvasLayer/UI/HBoxContainer/hero_container/JUMP
 @onready var run_label    : Label = $CanvasLayer/UI/HBoxContainer/hero_container/RUN
+@onready var speed_label    : Label = $CanvasLayer/UI/HBoxContainer/hero_container/SPEED
 var health_template := ""
 var jump_template   := ""
 var run_template    := ""
+var speed_template    := ""
 
 #
 # CODE STARTS HERE :)
@@ -244,6 +246,10 @@ func _ready():
 		set_player_name_and_color.rpc_id(1, Globals.player_name, player_color)
 		display_name.text = Globals.player_name.to_upper()
 		
+		var material := $CanvasLayer/UI/cara.material as ShaderMaterial
+		if material:
+			material.set_shader_parameter("ColorParameter", player_color)
+			
 		display_name.hide()
 		ui_player.show()
 		ui_info.hide()
@@ -283,6 +289,7 @@ func _ready():
 		health_template = health_label.text
 		jump_template   = jump_label.text
 		run_template    = run_label.text
+		speed_template  = speed_label.text
 		
 		delayed_health = network_state.health
 		delayed_energy = weapon_data.energy
@@ -408,7 +415,7 @@ func _process(delta):
 		energy_timer = 0.0
 	energy_shadow_bar.size.x = energy_width * (delayed_energy / weapon_data.max_energy)
 	
-	ui_health_text.text = str(int(network_state.health)) +"/"+ str(int(network_state.max_health))
+	ui_health_text.text = str(int(ceil(network_state.health))) +"/"+ str(int(network_state.max_health))
 	if network_state.health > network_state.max_health:
 		health_bar.color = Color("00fbffff")
 	else:
@@ -419,6 +426,7 @@ func _process(delta):
 	health_label.text = health_template.replace("{HEALTH}", str("+", (int)(network_state.max_health-100.0)))
 	jump_label.text   = jump_template.replace("{JUMP}", str("%.1f" % jump_force))
 	run_label.text    = run_template.replace("{RUN}", str("%.1f" % run_multiplier))
+	speed_label.text  = speed_template.replace("{SPEED}", str("%.1f" % move_speed))
 	
 	extra_label.text  = extra_template.replace("{EXTRA}", str("+", (int)(weapon_data.max_energy-100.0)))
 	cost_label.text   = cost_template.replace("{COST}", str("%.1f" % weapon_data.energy_cost))
@@ -430,7 +438,7 @@ func _process(delta):
 	
 	damage_label.text   = damage_template.replace("{DAMAGE}", str("%.1f" % weapon_data.damage))
 	headshot_label.text = headshot_template.replace("{HEADSHOT}", str("%.1f" % weapon_data.critical_multiplier))
-	firerate_label.text = firerate_template.replace("{VEL_ATTK}", str("%.1f" % weapon_data.fire_rate))
+	firerate_label.text = firerate_template.replace("{VEL_ATTK}", str("%.1f" % (16.0 - (weapon_data.fire_rate * 100.0))))
 	recoil_label.text   = recoil_template.replace("{RECOIL}", str("%.1f" % (weapon_data.camera_shake + weapon_data.recoil_pitch + weapon_data.recoil_yaw)))
 	
 	#ui_health.add_theme_color_override("font_color", Color.GOLD)
@@ -536,6 +544,8 @@ func _physics_process(delta):
 		collision_layer |= (1 << 1)
 	
 	anim_tree.set("parameters/StateMachine/conditions/dead", is_dead)
+	anim_tree.set("parameters/StateMachine/conditions/fly_dead", is_dead)
+	anim_tree.set("parameters/StateMachine/conditions/walk_dead", is_dead)
 	anim_tree.set("parameters/StateMachine/conditions/not_dead", !is_dead)
 	
 	# @TODO: REFACTOR ALL THIS CODE.

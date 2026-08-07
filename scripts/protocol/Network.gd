@@ -1,6 +1,8 @@
 extends Node
 
-@export var loot_spawn_interval := 5.0
+const MAX_LOOT_MODIFIERS := 10
+
+@export var loot_spawn_interval := 0.1 # 5.0
 @export var loot_min_distance := 5.0
 
 var loot_spawn_timer := 0.0
@@ -9,7 +11,7 @@ const DEDICATED_SERVER:    String = "--server"
 const DEFAULT_PORT:        int = 7770
 const DEFAULT_MAX_CLIENTS: int = 32
 
-const DEBUG_IN_LOCAL: bool = false
+const DEBUG_IN_LOCAL: bool = true
 
 signal server_started(port: int)
 signal server_stopped()
@@ -215,7 +217,7 @@ func process_player_actions(players: Node, loots: Node, delta: float) -> void:
 			if _player == null or _player.network_state.dead or _player.network_state.health <= 0:
 				continue
 			
-			if loot.global_position.distance_to(player.global_position) > 2.0:
+			if loot.get_child(1).global_position.distance_to(player.global_position) > 2.0:
 				continue
 			
 			Network.spawn_hit_wall(
@@ -231,6 +233,7 @@ func process_player_actions(players: Node, loots: Node, delta: float) -> void:
 			
 			if modifier != null:
 				_player.weapon_data.apply_modifier(modifier)
+				
 				if modifier.jump_boost <= 0:
 					_player.network_state.score += 1
 	
@@ -323,9 +326,19 @@ func process_loot_spawn(delta: float, loot_spawn_area: Area3D, special_loot_spaw
 	if loot_spawn_timer > 0.0:
 		return
 	
+	
+	var loot_count := 0
+	
+	for child in loots.get_children():
+		if child is LootModifier:
+			loot_count += 1
+	
+	if loot_count >= MAX_LOOT_MODIFIERS:
+		return
+	
 	var loot_index : int = randi() % 20
 	var pool = loot_spawn_area
-	if loot_index > 17: # TEMP!
+	if loot_index > 17: # TEMP: This is the max handled indices.
 		pool = special_loot_spawn_area
 	
 	var position := _find_spawn_position(
@@ -397,12 +410,17 @@ func update_regeneration(player: Player, delta: float):
 		regen_timer += delta
 		
 		if regen_timer >= 1.0:
-			regen_timer -= 1.0
+			regen_timer -= 0.1
 			
-			player.network_state.regeneration -= 5.0
+			player.network_state.regeneration -= 1.0
 			if player.network_state.regeneration < 0.0:
 				player.network_state.regeneration = 0.0
 			
-			player.network_state.health += 5.0
+			player.network_state.health += 1.0
 	else:
-		regen_timer = 0.0
+		regen_timer += delta
+		
+		if regen_timer >= 1.0:
+			regen_timer -= 0.25
+			if player.network_state.health > player.network_state.max_health:
+				player.network_state.health -= 1.0
