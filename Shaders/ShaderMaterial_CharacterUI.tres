@@ -1,12 +1,7 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://dxrjygiwxyrnf"]
 
-[ext_resource type="Shader" uid="uid://lq4u5twvy0pv" path="res://Shaders/Character_ColorUI.tres" id="1_gy6l4"]
-[ext_resource type="Texture2D" uid="uid://t1lerkuaitt8" path="res://Models/Character/CharacterV2_RunnerGuy_Emissive_256.png" id="2_b1h73"]
-[ext_resource type="Texture2D" uid="uid://moid1fqik8ft" path="res://Models/Character/CharacterV2_RunnerGuy_BaseColor_256.png" id="3_1mvut"]
+[ext_resource type="Shader" uid="uid://s3hd6hbfkbx" path="res://assets/cabeza.tres" id="1_b3i4k"]
 
 [resource]
-render_priority = 0
-shader = ExtResource("1_gy6l4")
-shader_parameter/Texture2DParameter = ExtResource("3_1mvut")
+shader = ExtResource("1_b3i4k")
 shader_parameter/ColorParameter = Color(0.642163, 0.630141, 0, 1)
-shader_parameter/EMISSIONtEXTURE = ExtResource("2_b1h73")

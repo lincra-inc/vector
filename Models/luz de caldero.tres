@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bewjvhjvl6ggb"]
+
+[ext_resource type="Shader" uid="uid://clkmf1no0k1hc" path="res://Models/fresnel.tres" id="1_rh5ts"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_rh5ts")
+shader_parameter/ColorParameter = Color(0.468936, 0.21558383, 0, 1)
+shader_parameter/DistanceFade2 = 1.0
+shader_parameter/DistanceFade = 5.0

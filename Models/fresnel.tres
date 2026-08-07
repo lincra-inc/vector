@@ -1,0 +1,91 @@
+[gd_resource type="VisualShader" format=3 uid="uid://clkmf1no0k1hc"]
+
+[sub_resource type="VisualShaderNodeSmoothStep" id="VisualShaderNodeSmoothStep_b05ul"]
+default_input_values = [0, 0.1, 1, 1.0, 2, 0.5]
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_wy3u1"]
+parameter_name = "ColorParameter"
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_3av4s"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFresnel" id="VisualShaderNodeFresnel_3av4s"]
+default_input_values = [2, true, 3, 4.0]
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_wy3u1"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeDistanceFade" id="VisualShaderNodeDistanceFade_3av4s"]
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_wy3u1"]
+parameter_name = "DistanceFade"
+default_value_enabled = true
+default_value = 1.0
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_2hu30"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_b05ul"]
+parameter_name = "Texture2DParameter"
+
+[sub_resource type="VisualShaderNodeProximityFade" id="VisualShaderNodeProximityFade_3av4s"]
+default_input_values = [0, 3.0]
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_5ouur"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeDistanceFade" id="VisualShaderNodeDistanceFade_wy3u1"]
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_5ouur"]
+parameter_name = "DistanceFade2"
+default_value_enabled = true
+default_value = 40.0
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_ssd6u"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_epy26"]
+function = 31
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_qhr55"]
+source = 5
+
+[resource]
+modes/blend = 1
+modes/diffuse = 3
+modes/specular = 2
+flags/fog_disabled = true
+nodes/fragment/0/position = Vector2(1568, 96)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture2DParameter_b05ul")
+nodes/fragment/2/position = Vector2(-288, 80)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_qhr55")
+nodes/fragment/3/position = Vector2(48, 272)
+nodes/fragment/10/node = SubResource("VisualShaderNodeSmoothStep_b05ul")
+nodes/fragment/10/position = Vector2(640, 144)
+nodes/fragment/12/node = SubResource("VisualShaderNodeColorParameter_wy3u1")
+nodes/fragment/12/position = Vector2(96, -128)
+nodes/fragment/13/node = SubResource("VisualShaderNodeVectorOp_3av4s")
+nodes/fragment/13/position = Vector2(1152, -16)
+nodes/fragment/14/node = SubResource("VisualShaderNodeFresnel_3av4s")
+nodes/fragment/14/position = Vector2(64, 64)
+nodes/fragment/15/node = SubResource("VisualShaderNodeFloatOp_wy3u1")
+nodes/fragment/15/position = Vector2(368, 224)
+nodes/fragment/16/node = SubResource("VisualShaderNodeDistanceFade_3av4s")
+nodes/fragment/16/position = Vector2(-176, 736)
+nodes/fragment/17/node = SubResource("VisualShaderNodeFloatParameter_wy3u1")
+nodes/fragment/17/position = Vector2(-624, 816)
+nodes/fragment/19/node = SubResource("VisualShaderNodeFloatOp_2hu30")
+nodes/fragment/19/position = Vector2(960, 288)
+nodes/fragment/20/node = SubResource("VisualShaderNodeProximityFade_3av4s")
+nodes/fragment/20/position = Vector2(416, 704)
+nodes/fragment/21/node = SubResource("VisualShaderNodeFloatOp_5ouur")
+nodes/fragment/21/position = Vector2(688, 480)
+nodes/fragment/22/node = SubResource("VisualShaderNodeDistanceFade_wy3u1")
+nodes/fragment/22/position = Vector2(-496, 512)
+nodes/fragment/23/node = SubResource("VisualShaderNodeFloatParameter_5ouur")
+nodes/fragment/23/position = Vector2(-944, 752)
+nodes/fragment/24/node = SubResource("VisualShaderNodeFloatOp_ssd6u")
+nodes/fragment/24/position = Vector2(224, 544)
+nodes/fragment/25/node = SubResource("VisualShaderNodeFloatFunc_epy26")
+nodes/fragment/25/position = Vector2(-304, 432)
+nodes/fragment/connections = PackedInt32Array(2, 0, 3, 2, 12, 0, 13, 0, 14, 0, 15, 0, 3, 0, 15, 1, 15, 0, 10, 2, 17, 0, 16, 1, 10, 0, 19, 0, 19, 0, 13, 1, 13, 0, 0, 0, 20, 0, 21, 0, 21, 0, 19, 1, 23, 0, 22, 1, 22, 0, 25, 0, 25, 0, 24, 0, 16, 0, 24, 1, 24, 0, 21, 1, 13, 0, 0, 5)

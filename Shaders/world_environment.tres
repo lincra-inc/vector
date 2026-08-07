@@ -4,7 +4,7 @@
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ohaju"]
 panorama = ExtResource("1_ohaju")
-energy_multiplier = 2.1
+energy_multiplier = 2.0
 
 [sub_resource type="Sky" id="Sky_f3pgp"]
 sky_material = SubResource("PanoramaSkyMaterial_ohaju")
@@ -28,9 +28,7 @@ glow_blend_mode = 0
 glow_hdr_threshold = 0.55
 glow_hdr_luminance_cap = 0.6
 fog_enabled = true
-fog_mode = 1
 fog_light_color = Color(0.11550001, 0.18700005, 0.33, 1)
-fog_density = 0.143
 fog_sky_affect = 0.0
 fog_height_density = 0.02
 fog_depth_curve = 0.45062515

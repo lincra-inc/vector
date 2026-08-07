@@ -31,8 +31,6 @@ region_rect = Rect2(0.031848907, 0.15196753, 255.68825, 31.404345)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4tynv"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5dd4i"]
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rcqid"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_svtp6"]
@@ -43,8 +41,6 @@ expand_margin_top = 20.0
 expand_margin_bottom = 20.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qywvv"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3wgol"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_wfv3s"]
 size = Vector2(1.19, 0.85)
@@ -396,7 +392,7 @@ theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("3_5dd4i")
 theme_override_font_sizes/font_size = 84
 theme_override_styles/normal = SubResource("StyleBoxEmpty_4tynv")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_5dd4i")
+theme_override_styles/pressed = ExtResource("5_5dd4i")
 theme_override_styles/hover = ExtResource("5_5dd4i")
 toggle_mode = true
 text = "START"
@@ -425,7 +421,7 @@ theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("3_5dd4i")
 theme_override_font_sizes/font_size = 60
 theme_override_styles/normal = SubResource("StyleBoxEmpty_rcqid")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_5dd4i")
+theme_override_styles/pressed = ExtResource("5_5dd4i")
 theme_override_styles/hover = ExtResource("5_5dd4i")
 text = "OPTIONS"
 alignment = 0
@@ -453,7 +449,7 @@ theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("3_5dd4i")
 theme_override_font_sizes/font_size = 60
 theme_override_styles/normal = SubResource("StyleBoxEmpty_rcqid")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_5dd4i")
+theme_override_styles/pressed = ExtResource("5_5dd4i")
 theme_override_styles/hover = ExtResource("5_5dd4i")
 toggle_mode = true
 text = "QUIT"
@@ -481,6 +477,7 @@ label_settings = ExtResource("4_jk1qb")
 vertical_alignment = 1
 
 [node name="ControlContainer" type="Control" parent="." unique_id=2044766172]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -638,7 +635,7 @@ theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("3_5dd4i")
 theme_override_font_sizes/font_size = 60
 theme_override_styles/normal = SubResource("StyleBoxEmpty_qywvv")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_3wgol")
+theme_override_styles/pressed = ExtResource("9_j7ex8")
 theme_override_styles/hover = ExtResource("9_j7ex8")
 text = "CONFIRM"
 
