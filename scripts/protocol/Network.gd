@@ -11,7 +11,7 @@ const DEDICATED_SERVER:    String = "--server"
 const DEFAULT_PORT:        int = 7770
 const DEFAULT_MAX_CLIENTS: int = 32
 
-const DEBUG_IN_LOCAL: bool = true
+const DEBUG_IN_LOCAL: bool = false
 
 signal server_started(port: int)
 signal server_stopped()
