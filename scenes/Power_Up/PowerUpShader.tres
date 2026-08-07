@@ -68,6 +68,9 @@ operator = 2
 
 [resource]
 modes/cull = 1
+modes/specular = 2
+flags/shadows_disabled = true
+flags/ambient_light_disabled = true
 nodes/fragment/0/position = Vector2(1408, 208)
 nodes/fragment/2/node = SubResource("VisualShaderNodeFresnel_x8pe5")
 nodes/fragment/2/position = Vector2(-1152, 96)

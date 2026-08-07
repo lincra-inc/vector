@@ -34,78 +34,79 @@ class_name LootModifier
 
 func setup(modifier_type: int) -> void:
 	var material := $PowerUp/MeshInstance3D.get_active_material(0) as ShaderMaterial
-	
+	var material2 := $PowerUp/MeshInstance3D/MeshInstance3D2.get_active_material(0) as ShaderMaterial
+
 	var color : Color
 	var text : String
 	
 	if modifier_type == 0:
 		health = randf_range(10, 20)
-		color = Color.GREEN
+		color = Color(0.0, 1.825, 0.0)
 		text = "+" + str(int(health))
 
 	elif modifier_type == 1:
 		damage = randf_range(2, 6)
-		color = Color.ORANGE
+		color = Color(2.8, 0.672, 0.0)
 		text = "+" + str(int(damage))
 
 	elif modifier_type == 2:
 		max_energy = randf_range(5, 10)
-		color = Color.SKY_BLUE
+		color = Color(1.825, 1.825, 0.0)
 		text = "+" + str(int(max_energy))
 
 	elif modifier_type == 3:
 		recharge_speed = randf_range(5, 10)
-		color = Color.BLUE_VIOLET
+		color = Color(1.825, 1.825, 0.0)
 		text = "+" + str(int(recharge_speed))
 
 	elif modifier_type == 4:
 		fire_rate = randf_range(0.01, 0.03)
-		color = Color.YELLOW
+		color = Color(2.8, 0.672, 0.0)
 		text = "-" + str("%.2f" % fire_rate)
 
 	elif modifier_type == 5:
 		speed = randf_range(0.5, 2.0)
-		color = Color.ALICE_BLUE
+		color = Color(0.0, 1.825, 0.0)
 		text = "+" + str("%.1f" % speed)
 
 	elif modifier_type == 6:
 		jump = randf_range(0.5, 2.0)
-		color = Color.GREEN_YELLOW
+		color = Color(0.0, 1.825, 0.0)
 		text = "+" + str("%.1f" % jump)
 
 	elif modifier_type == 7:
 		run_speed = randf_range(0.1, 0.5)
-		color = Color.AQUAMARINE
+		color = Color(0.0, 1.825, 0.0)
 		text = "+" + str("%.1f" % run_speed)
 
 	elif modifier_type == 8:
 		critical_multiplier = randf_range(0.05, 0.20)
-		color = Color.GOLD
+		color = Color(2.8, 0.672, 0.0)
 		text = "+" + str("%.2f" % critical_multiplier)
 
 	elif modifier_type == 9:
 		projectile_speed = randf_range(5, 15)
-		color = Color.CYAN
+		color = Color(0.0, 1.193, 1.943)
 		text = "+" + str(int(projectile_speed))
 
 	elif modifier_type == 10:
 		energy_cost = -randf_range(1, 5)
-		color = Color.PALE_GREEN
+		color = Color(1.825, 1.825, 0.0)
 		text = str(int(energy_cost))
 
 	elif modifier_type == 11:
 		recoil_pitch = randf_range(0.5, 2.0)
-		color = Color.SALMON
+		color = Color(2.8, 0.672, 0.0)
 		text = str("%.1f" % recoil_pitch)
 
 	elif modifier_type == 12:
 		recoil_yaw = randf_range(0.5, 2.0)
-		color = Color.LIGHT_CORAL
+		color = Color(2.8, 0.672, 0.0)
 		text = str("%.1f" % recoil_yaw)
 
 	elif modifier_type == 14:
 		camera_shake = randf_range(0.02, 0.10)
-		color = Color.LIGHT_PINK
+		color = Color(2.8, 0.672, 0.0)
 		text = str("%.2f" % camera_shake)
 
 	if material:
@@ -114,5 +115,12 @@ func setup(modifier_type: int) -> void:
 		
 		var unique_material := material.duplicate() as ShaderMaterial
 		$PowerUp/MeshInstance3D.set_surface_override_material(0, unique_material)
+		if unique_material:
+			unique_material.set_shader_parameter("ColorParameter", color)
+	
+	if material2:
+		
+		var unique_material := material2.duplicate() as ShaderMaterial
+		$PowerUp/MeshInstance3D/MeshInstance3D2.set_surface_override_material(0, unique_material)
 		if unique_material:
 			unique_material.set_shader_parameter("ColorParameter", color)

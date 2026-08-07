@@ -2,19 +2,71 @@
 
 [ext_resource type="Script" uid="uid://coa1r3hdsbaxm" path="res://scripts/game_logic/loot_modifier.gd" id="1_6ovk1"]
 [ext_resource type="Shader" uid="uid://0ukq5l2q34fe" path="res://scenes/Power_Up/PowerUpShader.tres" id="2_4jdix"]
+[ext_resource type="Shader" uid="uid://d4j1bh41iat1" path="res://Shaders/fuego.tres" id="3_qx2c5"]
 [ext_resource type="AudioStream" uid="uid://iv01m3bht3qp" path="res://sounds/flight_sound.mp3" id="3_rutay"]
 [ext_resource type="AudioStream" uid="uid://dat7vrd2u235a" path="res://sounds/explosion_2.wav" id="4_4jdix"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s6sty"]
 render_priority = 0
 shader = ExtResource("2_4jdix")
-shader_parameter/ColorParameter = Color(3.2944162, 0, 0, 1)
+shader_parameter/ColorParameter = Color(3.2072647, 0.53047085, 0, 1)
 shader_parameter/FloatParameter = 0.03
 
 [sub_resource type="SphereMesh" id="SphereMesh_wfv3s"]
 material = SubResource("ShaderMaterial_s6sty")
 radial_segments = 8
 rings = 4
+
+[sub_resource type="QuadMesh" id="QuadMesh_yv41p"]
+
+[sub_resource type="Gradient" id="Gradient_6i352"]
+offsets = PackedFloat32Array(0.22876447, 0.51833975, 0.7094595, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0.46, 0.46, 0.46, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0iyhh"]
+gradient = SubResource("Gradient_6i352")
+fill = 1
+fill_from = Vector2(0.49317408, 0.50341296)
+fill_to = Vector2(0.49317408, 0.9129693)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1qnd0"]
+noise_type = 0
+frequency = 0.1303
+fractal_weighted_strength = 0.74
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_86ti1"]
+width = 32
+height = 32
+noise = SubResource("FastNoiseLite_1qnd0")
+seamless = true
+seamless_blend_skirt = 0.267
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_yymgx"]
+noise_type = 2
+frequency = 0.181
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ipnpr"]
+width = 32
+height = 32
+noise = SubResource("FastNoiseLite_yymgx")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2gept"]
+render_priority = 0
+shader = ExtResource("3_qx2c5")
+shader_parameter/smoothstep_0 = 0.415
+shader_parameter/smoothstep_1 = 1.345
+shader_parameter/direccionimagen2 = Vector2(0.08, 0.16)
+shader_parameter/velocidad = 3.0
+shader_parameter/textura1 = SubResource("NoiseTexture2D_86ti1")
+shader_parameter/direccionimagen1 = Vector2(0.19, 0.34)
+shader_parameter/textura2 = SubResource("NoiseTexture2D_ipnpr")
+shader_parameter/mascara = SubResource("GradientTexture2D_0iyhh")
+shader_parameter/maskpower = 0.65
+shader_parameter/smothstepcentro0 = 0.935
+shader_parameter/smothstepcentro1 = 1.0
+shader_parameter/ColorParameter = Color(2.8, 0.672, 0, 1)
 
 [node name="LootModifier" type="Node3D" unique_id=338254868]
 script = ExtResource("1_6ovk1")
@@ -23,7 +75,7 @@ script = ExtResource("1_6ovk1")
 
 [node name="Label3D" type="Label3D" parent="PowerUp" unique_id=215054137]
 billboard = 2
-modulate = Color(1, 0, 0.015686275, 1)
+modulate = Color(3.207, 0.53, 0, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "G"
 font_size = 80
@@ -31,6 +83,12 @@ font_size = 80
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PowerUp" unique_id=1570539048]
 cast_shadow = 0
 mesh = SubResource("SphereMesh_wfv3s")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="PowerUp/MeshInstance3D" unique_id=648919420]
+transform = Transform3D(1.9972194, 0, -0.062846996, 0, 2.5528698, 0, 1.3619428, 0, 0.092161916, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("QuadMesh_yv41p")
+surface_material_override/0 = SubResource("ShaderMaterial_2gept")
 
 [node name="AudioPick" type="AudioStreamPlayer3D" parent="." unique_id=269851800]
 stream = ExtResource("3_rutay")
