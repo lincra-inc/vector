@@ -7,7 +7,7 @@
 [ext_resource type="Material" uid="uid://bdv25ty3mqddg" path="res://Shaders/ShaderMaterial_Character.tres" id="3_wu84c"]
 [ext_resource type="LabelSettings" uid="uid://cndnd13l6wnky" path="res://assets/UI/Fuentes/Type_minus_bar.tres" id="4_jk1qb"]
 [ext_resource type="Shader" uid="uid://d4j1bh41iat1" path="res://Shaders/fuego.tres" id="4_wu84c"]
-[ext_resource type="Texture2D" uid="uid://ce05yl8b3k8rt" path="res://assets/UI/BACKGROUND.png" id="8_tbmy8"]
+[ext_resource type="Texture2D" uid="uid://d0r6xi5wucs0t" path="res://assets/UI/BACKGROUND2.png" id="6_tbmy8"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wfv3s"]
 
@@ -18,6 +18,98 @@ texture = ExtResource("3_tbmy8")
 texture_margin_left = 65.0
 texture_margin_top = 62.0
 texture_margin_bottom = 4.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_wfv3s"]
+size = Vector2(1.19, 0.85)
+
+[sub_resource type="Gradient" id="Gradient_3wjnx"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_p2jh1"]
+gradient = SubResource("Gradient_3wjnx")
+fill = 2
+fill_from = Vector2(0.52047783, 0.52047783)
+fill_to = Vector2(0.6194539, 0.96416384)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_r1h6l"]
+noise_type = 0
+frequency = 0.1768
+fractal_weighted_strength = 0.74
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_86ti1"]
+width = 103
+height = 32
+noise = SubResource("FastNoiseLite_r1h6l")
+seamless = true
+seamless_blend_skirt = 0.267
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_nd41b"]
+noise_type = 2
+frequency = 0.406
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ipnpr"]
+width = 126
+height = 32
+noise = SubResource("FastNoiseLite_nd41b")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oa1go"]
+render_priority = 0
+shader = ExtResource("4_wu84c")
+shader_parameter/smoothstep_0 = 0.595
+shader_parameter/smoothstep_1 = 1.13
+shader_parameter/direccionimagen2 = Vector2(0, 0.16)
+shader_parameter/velocidad = 0.555
+shader_parameter/textura1 = SubResource("NoiseTexture2D_86ti1")
+shader_parameter/direccionimagen1 = Vector2(0, 0.34)
+shader_parameter/textura2 = SubResource("NoiseTexture2D_ipnpr")
+shader_parameter/mascara = SubResource("GradientTexture2D_p2jh1")
+shader_parameter/maskpower = 0.59
+shader_parameter/smothstepcentro0 = 0.96
+shader_parameter/smothstepcentro1 = 1.01
+shader_parameter/ColorParameter = Color(0.18393853, 0, 1.1702192, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbmy8"]
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 2
+albedo_color = Color(1.003, 1.003, 1.003, 1)
+albedo_texture = ExtResource("6_tbmy8")
+stencil_flags = 2
+
+[sub_resource type="Gradient" id="Gradient_tbmy8"]
+colors = PackedColorArray(0, 0, 0, 1, 0.3, 0.3, 0.3, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jk1qb"]
+gradient = SubResource("Gradient_tbmy8")
+fill_from = Vector2(1, 0.20989761)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jk1qb"]
+blend_mode = 1
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 2
+albedo_color = Color(0.2540438, 0, 2.0087502, 1)
+albedo_texture = SubResource("GradientTexture2D_jk1qb")
+stencil_flags = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8ln24"]
+render_priority = 0
+shader = ExtResource("4_wu84c")
+shader_parameter/smoothstep_0 = 0.51
+shader_parameter/smoothstep_1 = 1.505
+shader_parameter/direccionimagen2 = Vector2(0, 0.16)
+shader_parameter/velocidad = 1.535
+shader_parameter/textura1 = SubResource("NoiseTexture2D_86ti1")
+shader_parameter/direccionimagen1 = Vector2(0, 0.34)
+shader_parameter/textura2 = SubResource("NoiseTexture2D_ipnpr")
+shader_parameter/mascara = SubResource("GradientTexture2D_p2jh1")
+shader_parameter/maskpower = 1.005
+shader_parameter/smothstepcentro0 = 0.96
+shader_parameter/smothstepcentro1 = 1.03
+shader_parameter/ColorParameter = Color(0.3768953, 0.6627318, 1.6019075, 1)
 
 [sub_resource type="Environment" id="Environment_wfv3s"]
 
@@ -205,80 +297,6 @@ bind/40/name = &"mixamorig_RightHandThumb4"
 bind/40/bone = -1
 bind/40/pose = Transform3D(0.5909318, 0.13267176, -0.795737, 0.58619165, -0.7482866, 0.310558, -0.55423725, -0.64997315, -0.51995766, 0.29192123, 0.3846139, 0.83287525)
 
-[sub_resource type="QuadMesh" id="QuadMesh_wfv3s"]
-
-[sub_resource type="Gradient" id="Gradient_3wjnx"]
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_p2jh1"]
-gradient = SubResource("Gradient_3wjnx")
-fill = 2
-fill_from = Vector2(0.52047783, 0.52047783)
-fill_to = Vector2(0.6194539, 0.96416384)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_r1h6l"]
-noise_type = 0
-frequency = 0.1768
-fractal_weighted_strength = 0.74
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_86ti1"]
-width = 103
-height = 32
-noise = SubResource("FastNoiseLite_r1h6l")
-seamless = true
-seamless_blend_skirt = 0.267
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_nd41b"]
-noise_type = 2
-frequency = 0.406
-fractal_type = 0
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ipnpr"]
-width = 126
-height = 32
-noise = SubResource("FastNoiseLite_nd41b")
-seamless = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_oa1go"]
-render_priority = 0
-shader = ExtResource("4_wu84c")
-shader_parameter/smoothstep_0 = 0.595
-shader_parameter/smoothstep_1 = 1.13
-shader_parameter/direccionimagen2 = Vector2(0, 0.16)
-shader_parameter/velocidad = 0.555
-shader_parameter/textura1 = SubResource("NoiseTexture2D_86ti1")
-shader_parameter/direccionimagen1 = Vector2(0, 0.34)
-shader_parameter/textura2 = SubResource("NoiseTexture2D_ipnpr")
-shader_parameter/mascara = SubResource("GradientTexture2D_p2jh1")
-shader_parameter/maskpower = 0.59
-shader_parameter/smothstepcentro0 = 0.96
-shader_parameter/smothstepcentro1 = 1.01
-shader_parameter/ColorParameter = Color(0, 0.6948564, 1.6023782, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbmy8"]
-shading_mode = 0
-diffuse_mode = 3
-specular_mode = 2
-albedo_color = Color(0.7127916, 0.7707372, 1.0025201, 1)
-albedo_texture = ExtResource("8_tbmy8")
-uv1_scale = Vector3(2, 2, 2)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8ln24"]
-render_priority = 0
-shader = ExtResource("4_wu84c")
-shader_parameter/smoothstep_0 = 0.51
-shader_parameter/smoothstep_1 = 1.505
-shader_parameter/direccionimagen2 = Vector2(0, 0.16)
-shader_parameter/velocidad = 1.5350000000000001
-shader_parameter/textura1 = SubResource("NoiseTexture2D_86ti1")
-shader_parameter/direccionimagen1 = Vector2(0, 0.34)
-shader_parameter/textura2 = SubResource("NoiseTexture2D_ipnpr")
-shader_parameter/mascara = SubResource("GradientTexture2D_p2jh1")
-shader_parameter/maskpower = 1.005
-shader_parameter/smothstepcentro0 = 0.96
-shader_parameter/smothstepcentro1 = 1.03
-shader_parameter/ColorParameter = Color(0, 0.6948564, 1.6023782, 1)
-
 [node name="MainMenu" type="Control" unique_id=1211363165]
 texture_filter = 1
 layout_mode = 3
@@ -289,25 +307,21 @@ script = ExtResource("1_l6cm7")
 follow_viewport_enabled = true
 follow_viewport_scale = 0.001
 
-[node name="Label" type="TextureRect" parent="." unique_id=1336832087]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2110209007]
+layout_mode = 0
+offset_left = 58.0
+offset_top = 19.0
+offset_right = 818.0
+offset_bottom = 640.0
+alignment = 1
+
+[node name="Label" type="TextureRect" parent="VBoxContainer" unique_id=1336832087]
 texture_filter = 1
 custom_minimum_size = Vector2(0, 180)
-layout_mode = 1
-offset_left = 256.0
-offset_top = 32.735
-offset_right = 897.0
-offset_bottom = 212.735
+layout_mode = 2
 texture = ExtResource("2_oa1go")
 expand_mode = 1
 stretch_mode = 5
-
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2110209007]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 19.0
-offset_right = 661.0
-offset_bottom = 640.0
-alignment = 1
 
 [node name="VSeparator2" type="VSeparator" parent="VBoxContainer" unique_id=353055575]
 custom_minimum_size = Vector2(40, 40)
@@ -359,8 +373,53 @@ vertical_alignment = 1
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1178070014]
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=672296015]
+transform = Transform3D(6.665532, 0, 0, 0, 2.1917663, 0, 0, 0, 1.7260559, -0.11743296, 0.7271426, 0.92118007)
+mesh = SubResource("QuadMesh_wfv3s")
+surface_material_override/0 = SubResource("ShaderMaterial_oa1go")
+
+[node name="fondo" type="MeshInstance3D" parent="Node3D" unique_id=2694121]
+transform = Transform3D(-5.025487, 0, -1.508966e-07, 0, 2.9224448, 0, 4.39342e-07, 0, -1.7260559, -0.121503375, 0.50437224, 1.8961415)
+mesh = SubResource("QuadMesh_wfv3s")
+surface_material_override/0 = SubResource("StandardMaterial3D_tbmy8")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Node3D" unique_id=868067032]
+transform = Transform3D(-4.734585, 0, -1.508966e-07, 0, 2.7583122, 0, 4.139105e-07, 0, -1.7260559, -0.121503375, 0.6589422, 1.5383724)
+mesh = SubResource("QuadMesh_wfv3s")
+surface_material_override/0 = SubResource("StandardMaterial3D_jk1qb")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=341754344]
+transform = Transform3D(7.1634526, 0, 0, 0, 2.5645823, 0, 0, 0, 1.7260559, -0.12150324, 0.059242576, 0.3604827)
+mesh = SubResource("QuadMesh_wfv3s")
+surface_material_override/0 = SubResource("ShaderMaterial_8ln24")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Node3D" unique_id=1105182679]
+transform = Transform3D(9.305714, 0, 0, 0, 2.5455642, 0, 0, 0, 1.7260559, -0.12150324, 0.23089549, 1.4932792)
+mesh = SubResource("QuadMesh_wfv3s")
+surface_material_override/0 = SubResource("ShaderMaterial_8ln24")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Node3D" unique_id=289468758]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.012856364, -0.88745594)
+light_color = Color(0.36078432, 0.64705884, 1, 1)
+light_energy = 1.12
+light_specular = 0.0
+omni_range = 2.904
+
+[node name="OmniLight3D2" type="SpotLight3D" parent="Node3D" unique_id=1313101887]
+transform = Transform3D(0.97039425, 0.13935287, 0.19727081, 0, 0.81676716, -0.57696754, -0.24152638, 0.559886, 0.79258615, 0.39131534, -0.17838985, 1.3433492)
+light_color = Color(0.03529412, 0.56078434, 1, 1)
+light_energy = 54.812
+light_specular = 0.0
+shadow_enabled = true
+
+[node name="OmniLight3D3" type="SpotLight3D" parent="Node3D" unique_id=1283576853]
+transform = Transform3D(0.9679378, -0.1449285, -0.20516379, 3.1953107e-11, 0.81676716, -0.5769675, 0.25119007, 0.55846864, 0.7905798, -1.0044901, -0.17838985, 1.3433492)
+light_color = Color(0.03529412, 0.56078434, 1, 1)
+light_energy = 54.812
+shadow_enabled = true
+
 [node name="Camera3D" type="Camera3D" parent="Node3D" unique_id=1277773298]
-transform = Transform3D(-0.9856522, 5.507761e-09, 0.16878885, 0.026434401, 0.98766017, 0.15436521, -0.16670601, 0.15661223, -0.97348946, 0.6369769, 1.3091556, -2.0228581)
+transform = Transform3D(-0.98565227, 8.531148e-09, 0.16878882, -0.0046287104, 0.99962395, -0.027029676, -0.16872536, -0.027423136, -0.9852815, 0.5407936, 0.8362652, -1.8116972)
 environment = SubResource("Environment_wfv3s")
 fov = 20.0
 
@@ -686,41 +745,6 @@ skin = SubResource("Skin_1536k")
 skeleton = NodePath("..")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Node3D/Player" unique_id=884271565]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=672296015]
-transform = Transform3D(6.398774, 0, 0, 0, 2.9224448, 0, 0, 0, 1.7260559, -0.11743296, 0.1858139, 0.3729146)
-mesh = SubResource("QuadMesh_wfv3s")
-surface_material_override/0 = SubResource("ShaderMaterial_oa1go")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=2694121]
-transform = Transform3D(-6.398774, 0, -1.508966e-07, 0, 2.9224448, 0, 5.593986e-07, 0, -1.7260559, -0.121503375, 0.50437224, 1.8961415)
-mesh = SubResource("QuadMesh_wfv3s")
-surface_material_override/0 = SubResource("StandardMaterial3D_tbmy8")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=341754344]
-transform = Transform3D(13.8579855, 0, 0, 0, 2.33962, 0, 0, 0, 1.7260559, -0.12150324, 0.0017214715, 1.4689758)
-mesh = SubResource("QuadMesh_wfv3s")
-surface_material_override/0 = SubResource("ShaderMaterial_8ln24")
-
-[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=289468758]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.012856364, -0.88745594)
-light_color = Color(0.36078432, 0.64705884, 1, 1)
-light_energy = 1.12
-light_specular = 0.0
-omni_range = 2.904
-
-[node name="OmniLight3D2" type="SpotLight3D" parent="." unique_id=1313101887]
-transform = Transform3D(0.97039425, 0.13935287, 0.19727081, 0, 0.81676716, -0.57696754, -0.24152638, 0.559886, 0.79258615, 0.39131534, -0.17838985, 1.3433492)
-light_color = Color(0.03529412, 0.56078434, 1, 1)
-light_energy = 54.812
-light_specular = 0.0
-shadow_enabled = true
-
-[node name="OmniLight3D3" type="SpotLight3D" parent="." unique_id=1283576853]
-transform = Transform3D(0.9679378, -0.1449285, -0.20516379, 3.1953107e-11, 0.81676716, -0.5769675, 0.25119007, 0.55846864, 0.7905798, -1.0044901, -0.17838985, 1.3433492)
-light_color = Color(0.03529412, 0.56078434, 1, 1)
-light_energy = 54.812
-shadow_enabled = true
 
 [connection signal="text_submitted" from="VBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]

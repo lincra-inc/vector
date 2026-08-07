@@ -1,47 +1,41 @@
 [gd_resource type="Environment" format=3 uid="uid://dx0qvwfaoxq62"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5m1m8"]
-load_path = "res://.godot/imported/skybox.png-6dff24d8298d47592074d68af5e961d0.s3tc.ctex"
+[ext_resource type="Texture2D" uid="uid://bqc1f1yiruvbv" path="res://Models/Fondo/skyboxNoche.png" id="1_ohaju"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ohaju"]
-panorama = SubResource("CompressedTexture2D_5m1m8")
+panorama = ExtResource("1_ohaju")
+energy_multiplier = 2.1
 
 [sub_resource type="Sky" id="Sky_f3pgp"]
 sky_material = SubResource("PanoramaSkyMaterial_ohaju")
 
 [resource]
 background_mode = 2
-background_color = Color(1, 0.81949997, 0.43, 1)
 background_energy_multiplier = 1.04
 sky = SubResource("Sky_f3pgp")
 ambient_light_source = 2
-ambient_light_color = Color(0.24871272, 0.41264912, 0.4796887, 1)
+ambient_light_color = Color(0.1746664, 0.37320137, 0.6886903, 1)
 ambient_light_sky_contribution = 0.0
 ambient_light_energy = 0.38
 reflected_light_source = 1
-ssao_enabled = true
 ssao_intensity = 1.0
 ssao_sharpness = 1.0
-ssil_radius = 0.41
-ssil_intensity = 2.77
-ssil_sharpness = 1.0
-ssil_normal_rejection = 0.37
-sdfgi_read_sky_light = false
-sdfgi_bounce_feedback = 0.87
-sdfgi_energy = 4.21
 glow_enabled = true
-glow_bloom = 0.53
-glow_blend_mode = 2
+glow_intensity = 4.8
+glow_strength = 0.83
+glow_bloom = 0.15
+glow_blend_mode = 0
+glow_hdr_threshold = 0.55
+glow_hdr_luminance_cap = 0.6
 fog_enabled = true
 fog_mode = 1
-fog_light_color = Color(0.5272633, 0.8336441, 0.98683465, 1)
-fog_light_energy = 0.44
-fog_density = 0.4095
+fog_light_color = Color(0.11550001, 0.18700005, 0.33, 1)
+fog_density = 0.143
 fog_sky_affect = 0.0
-fog_height = -17.36
-fog_height_density = 0.04
-fog_depth_curve = 6.2766595
+fog_height_density = 0.02
+fog_depth_curve = 0.45062515
 fog_depth_begin = 0.0
 adjustment_enabled = true
+adjustment_brightness = 1.1
 adjustment_contrast = 1.1
-adjustment_saturation = 1.1
+adjustment_saturation = 0.9
