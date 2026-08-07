@@ -25,6 +25,10 @@ func _ready() -> void:
 	#DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	players = $SubViewportContainer/SubViewport/World/Players
 	
+	if not Globals.always_run: #@NOTE(Liman1): Witch means is mobile.
+		for child in $CanvasLayer.get_children():
+			child.hide()
+	
 	spawner.spawn_function = _spawn_entity
 	spawner_loots.spawn_function = _spawn_entity
 	Network._spawner = spawner
