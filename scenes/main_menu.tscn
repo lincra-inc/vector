@@ -37,8 +37,8 @@ frequency = 0.1768
 fractal_weighted_strength = 0.74
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_86ti1"]
-width = 103
-height = 32
+width = 209
+height = 68
 noise = SubResource("FastNoiseLite_r1h6l")
 seamless = true
 seamless_blend_skirt = 0.267
@@ -309,10 +309,10 @@ follow_viewport_scale = 0.001
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2110209007]
 layout_mode = 0
-offset_left = 58.0
+offset_left = 133.0
 offset_top = 19.0
-offset_right = 818.0
-offset_bottom = 640.0
+offset_right = 935.0
+offset_bottom = 1044.0
 alignment = 1
 
 [node name="Label" type="TextureRect" parent="VBoxContainer" unique_id=1336832087]
@@ -374,7 +374,7 @@ vertical_alignment = 1
 [node name="Node3D" type="Node3D" parent="." unique_id=1178070014]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=672296015]
-transform = Transform3D(6.665532, 0, 0, 0, 2.1917663, 0, 0, 0, 1.7260559, -0.11743296, 0.7271426, 0.92118007)
+transform = Transform3D(2.846773, 0, 0, 0, 1.3947697, 0, 0, 0, 1.7260559, 0.24588457, 0.40051275, 0.15105712)
 mesh = SubResource("QuadMesh_wfv3s")
 surface_material_override/0 = SubResource("ShaderMaterial_oa1go")
 
@@ -389,12 +389,7 @@ mesh = SubResource("QuadMesh_wfv3s")
 surface_material_override/0 = SubResource("StandardMaterial3D_jk1qb")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D" unique_id=341754344]
-transform = Transform3D(7.1634526, 0, 0, 0, 2.5645823, 0, 0, 0, 1.7260559, -0.12150324, 0.059242576, 0.3604827)
-mesh = SubResource("QuadMesh_wfv3s")
-surface_material_override/0 = SubResource("ShaderMaterial_8ln24")
-
-[node name="MeshInstance3D5" type="MeshInstance3D" parent="Node3D" unique_id=1105182679]
-transform = Transform3D(9.305714, 0, 0, 0, 2.5455642, 0, 0, 0, 1.7260559, -0.12150324, 0.23089549, 1.4932792)
+transform = Transform3D(3.0331936, 0, 0, 0, 1.7844977, 0, 0, 0, 1.7260559, 0.102007344, 0.3906371, 0.8801155)
 mesh = SubResource("QuadMesh_wfv3s")
 surface_material_override/0 = SubResource("ShaderMaterial_8ln24")
 
@@ -424,7 +419,7 @@ environment = SubResource("Environment_wfv3s")
 fov = 20.0
 
 [node name="Player" type="CharacterBody3D" parent="Node3D" unique_id=986923867]
-transform = Transform3D(0.9416219, 0, -0.336672, 0, 1, 0, 0.336672, 0, 0.9416219, -0.25289336, -0.06921178, 0.73691773)
+transform = Transform3D(0.9416219, 8.682271e-10, -0.33667204, 0.03626953, 0.9941802, 0.10144052, 0.33471268, -0.10772957, 0.9361419, -0.25289336, -0.06921178, 0.73691773)
 collision_layer = 2
 wall_min_slide_angle = 1.4835298
 
